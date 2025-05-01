@@ -1,86 +1,70 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Servicios Logísticos con AppSheet</title>
   <style>
     body {
-      font-family: 'Segoe UI', sans-serif;
+      font-family: Arial, sans-serif;
       background-color: #f4f4f4;
       margin: 0;
       padding: 0;
-      color: #333;
     }
-
     header {
       background-color: #2b6777;
       color: white;
+      padding: 20px 0;
       text-align: center;
-      padding: 30px 15px;
     }
-
     header img {
-      max-width: 300px;
-      margin-bottom: 10px;
+      max-width: 200px;
+      height: auto;
+      margin-bottom: 15px;
     }
-
+    header h1 {
+      margin: 0;
+      color: white;
+    }
     section {
-      padding: 30px 20px;
-      max-width: 1000px;
+      padding: 30px;
+      max-width: 900px;
       margin: auto;
       background: white;
       margin-bottom: 20px;
-      border-radius: 10px;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
     }
-
-    h1, h2 {
+    h2 {
       color: #2b6777;
     }
-
     ul {
       line-height: 1.8;
-      padding-left: 20px;
     }
-
     .btn-whatsapp, .btn-pago {
       display: inline-block;
-      padding: 12px 24px;
-      margin: 15px 10px 5px 0;
+      padding: 10px 20px;
+      margin: 10px 5px;
+      color: white;
+      text-decoration: none;
       border-radius: 5px;
       font-weight: bold;
-      text-decoration: none;
-      transition: background 0.3s ease;
     }
-
-    .btn-whatsapp {
-      background-color: #25D366;
-      color: white;
-    }
-
-    .btn-pago {
-      background-color: #0070ba;
-      color: white;
-    }
-
+    .btn-whatsapp { background-color: #25D366; }
+    .btn-pago { background-color: #0070ba; }
     form input, form textarea {
       width: 100%;
-      padding: 12px;
+      padding: 10px;
       margin: 10px 0;
       border: 1px solid #ccc;
       border-radius: 5px;
     }
-
     form button {
       background-color: #2b6777;
       color: white;
-      padding: 12px 24px;
+      padding: 10px 20px;
       border: none;
       border-radius: 5px;
       cursor: pointer;
     }
-
     footer {
       text-align: center;
       padding: 20px;
@@ -89,21 +73,49 @@
     }
 
     /* Carrusel */
-    .slider-container {
+    .carousel {
+      display: flex;
       overflow-x: auto;
-      white-space: nowrap;
-      scroll-snap-type: x mandatory;
-      -webkit-overflow-scrolling: touch;
-      margin-top: 20px;
+      gap: 10px;
+      padding: 10px 0;
+    }
+    .carousel img {
+      max-height: 200px;
+      cursor: pointer;
+      border-radius: 10px;
+      transition: transform 0.3s;
+    }
+    .carousel img:hover {
+      transform: scale(1.05);
     }
 
-    .slider-container img {
-      width: 300px;
-      height: auto;
-      margin-right: 15px;
-      border-radius: 10px;
-      scroll-snap-align: start;
-      display: inline-block;
+    /* Modal */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      padding-top: 60px;
+      left: 0; top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0,0,0,0.9);
+    }
+    .modal-content {
+      margin: auto;
+      display: block;
+      max-width: 90%;
+      max-height: 80vh;
+    }
+    .modal:hover .modal-content {
+      transform: scale(1.05);
+    }
+    .close {
+      position: absolute;
+      top: 20px;
+      right: 35px;
+      color: #fff;
+      font-size: 40px;
+      cursor: pointer;
     }
   </style>
 </head>
@@ -116,7 +128,7 @@
     <p style="color: white; margin-top: 10px;">Digitaliza tu inventario, pedidos y procesos logísticos con apps personalizadas</p>
   </div>
   </header>
-  
+
   <section>
     <h2>¿Qué ofrecemos?</h2>
     <ul>
@@ -129,12 +141,11 @@
   </section>
 
   <section>
-    <h2>Galería de aplicaciones</h2>
-    <div class="slider-container">
-      <!-- Reemplaza las URLs de las imágenes con las tuyas -->
-      <img src="https://via.placeholder.com/300x500.png?text=App+1" alt="App 1">
-      <img src="https://via.placeholder.com/300x500.png?text=App+2" alt="App 2">
-      <img src="https://via.placeholder.com/300x500.png?text=App+3" alt="App 3">
+    <h2>Galería de Apps</h2>
+    <div class="carousel">
+      <img src="img1.jpg" alt="App 1" onclick="openModal(this)">
+      <img src="img2.jpg" alt="App 2" onclick="openModal(this)">
+      <img src="img3.jpg" alt="App 3" onclick="openModal(this)">
     </div>
   </section>
 
@@ -158,5 +169,22 @@
     <p>&copy; 2025 - Servicios de logística y AppSheet | Desarrollado por Derwin Rojas</p>
   </footer>
 
+  <!-- Modal -->
+  <div id="modal" class="modal" onclick="closeModal()">
+    <span class="close">&times;</span>
+    <img class="modal-content" id="modal-img">
+  </div>
+
+  <!-- Script -->
+  <script>
+    function openModal(img) {
+      document.getElementById("modal").style.display = "block";
+      document.getElementById("modal-img").src = img.src;
+    }
+    function closeModal() {
+      document.getElementById("modal").style.display = "none";
+    }
+  </script>
+
 </body>
-        </html>
+</html>
