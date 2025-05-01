@@ -198,4 +198,47 @@ footer {
       <img src="https://i.imgur.com/NARKwW5.jpeg" alt="App 2" onclick="openImageModal(1)">
       <img src="https://i.imgur.com/GBTE1du.jpeg" alt="App 3" onclick="openImageModal(2)">
       <img src="https://i.imgur.com/qQ7qOS5.jpeg" alt="App 4" onclick="openImageModal(3)">
-      <img …
+      <img src="https://i.imgur.com/q5pdEms.jpeg" alt="App 5" onclick="openImageModal(4)">
+      <img src="https://i.imgur.com/7uyKN3R.jpeg" alt="App 6" onclick="openImageModal(5)">
+      <img src="https://i.imgur.com/9DUUOvq.jpeg" alt="App 7" onclick="openImageModal(6)">
+      <img src="https://i.imgur.com/49ZuN2b.jpeg" alt="App 8" onclick="openImageModal(7)">
+      <img src="https://i.imgur.com/46JD8Xm.jpeg" alt="App 9" onclick="openImageModal(8)">
+    </div>
+  </section>  <section>
+    <h2>Formulario de Contacto</h2>
+    <form action="mailto:derwinrojas351@gmail.com" method="post" enctype="text/plain">
+      <input type="text" name="nombre" placeholder="Nombre" required>
+      <input type="email" name="email" placeholder="Correo" required>
+      <textarea name="mensaje" rows="5" placeholder="¿Qué tipo de servicio necesitas?" required></textarea>
+      <button type="submit">Enviar mensaje</button>
+    </form>
+  </section>  <section>
+    <h2>Pagos y compras</h2>
+    <p>Puedes realizar tus pagos o compras digitales mediante el siguiente botón:</p>
+    <a href="https://www.paypal.com/paypalme/tuenlace" class="btn-pago">Pagar con PayPal</a>
+  </section>  <footer>
+    <p>&copy; 2025 - Servicios de logística y AppSheet | Desarrollado por Derwin Rojas</p>
+  </footer>  <div id="image-modal" class="modal">
+    <span class="close" onclick="closeImageModal()">&times;</span>
+    <span class="prev" onclick="changeImage(-1)">&#10094;</span>
+    <img id="modal-image" src="">
+    <span class="next" onclick="changeImage(1)">&#10095;</span>
+  </div>  <script>
+    let currentImageIndex = 0;
+    const images = Array.from(document.querySelectorAll("#image-carousel img"));
+
+    function openImageModal(index) {
+      currentImageIndex = index;
+      document.getElementById("modal-image").src = images[index].src;
+      document.getElementById("image-modal").style.display = "flex";
+    }
+
+    function closeImageModal() {
+      document.getElementById("image-modal").style.display = "none";
+    }
+
+    function changeImage(step) {
+      currentImageIndex = (currentImageIndex + step + images.length) % images.length;
+      document.getElementById("modal-image").src = images[currentImageIndex].src;
+    }
+  </script></body></html>
