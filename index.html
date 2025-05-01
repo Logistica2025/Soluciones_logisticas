@@ -1,209 +1,201 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
+<!DOCTYPE html><html lang="es"><head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Servicios Logísticos con AppSheet</title>
   <style>
     body {
-      font-family: Arial, sans-serif;
-      background-color: #f4f4f4;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       margin: 0;
       padding: 0;
-    }
-    header {
-      background-color: #2b6777;
-      color: white;
-      padding: 20px 0;
-      text-align: center;
-    }
-    header img {
-      max-width: 200px;
-      height: auto;
-      margin-bottom: 15px;
-    }
-    header h1 {
-      margin: 0;
-      color: white;
-    }
-    section {
-      padding: 30px;
-      max-width: 900px;
-      margin: auto;
-      background: white;
-      margin-bottom: 20px;
-    }
-    h2 {
-      color: #2b6777;
-    }
-    ul {
-      line-height: 1.8;
-    }
-    .btn-whatsapp, .btn-pago {
-      display: inline-block;
-      padding: 10px 20px;
-      margin: 10px 5px;
-      color: white;
-      text-decoration: none;
-      border-radius: 5px;
-      font-weight: bold;
-    }
-    .btn-whatsapp { background-color: #25D366; }
-    .btn-pago { background-color: #0070ba; }
-    form input, form textarea {
-      width: 100%;
-      padding: 10px;
-      margin: 10px 0;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-    }
-    form button {
-      background-color: #2b6777;
-      color: white;
-      padding: 10px 20px;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-    }
-    footer {
-      text-align: center;
-      padding: 20px;
-      color: #666;
-      font-size: 14px;
-    }
+      background-color: #f4f4f4;
+      color: #333;
+    }header {
+  background-color: #2b6777;
+  color: white;
+  text-align: center;
+  padding: 20px;
+}
 
-    /* Carrusel */
-    .carousel {
-      display: flex;
-      overflow-x: auto;
-      gap: 10px;
-      padding: 10px 0;
-    }
-    .carousel img {
-      max-height: 200px;
-      cursor: pointer;
-      border-radius: 10px;
-      transition: transform 0.3s;
-    }
-    .carousel img:hover {
-      transform: scale(1.05);
-    }
+header img {
+  max-width: 200px;
+  height: auto;
+  margin-bottom: 10px;
+}
 
-    /* Modal */
-    .modal {
-      display: none;
-      position: fixed;
-      z-index: 1000;
-      padding-top: 60px;
-      left: 0; top: 0;
-      width: 100%;
-      height: 100%;
-      background-color: rgba(0,0,0,0.9);
-    }
-    .modal-content {
-      margin: auto;
-      display: block;
-      max-width: 90%;
-      max-height: 80vh;
-    }
-    .modal:hover .modal-content {
-      transform: scale(1.05);
-    }
-    .close {
-      position: absolute;
-      top: 20px;
-      right: 35px;
-      color: #fff;
-      font-size: 40px;
-      cursor: pointer;
-    }
+h1 {
+  margin: 10px 0 5px;
+  font-size: 28px;
+}
+
+p {
+  margin-top: 5px;
+  font-size: 16px;
+}
+
+section {
+  padding: 30px 20px;
+  max-width: 1000px;
+  margin: auto;
+  background: white;
+  margin-bottom: 20px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+  color: #2b6777;
+  margin-bottom: 15px;
+}
+
+ul {
+  padding-left: 20px;
+}
+
+ul li {
+  margin-bottom: 10px;
+}
+
+.btn-whatsapp, .btn-pago {
+  display: inline-block;
+  padding: 12px 20px;
+  margin-top: 10px;
+  color: white;
+  text-decoration: none;
+  border-radius: 6px;
+  font-weight: bold;
+}
+
+.btn-whatsapp {
+  background-color: #25D366;
+}
+
+.btn-pago {
+  background-color: #0070ba;
+}
+
+form input, form textarea {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
+form button {
+  background-color: #2b6777;
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+footer {
+  text-align: center;
+  padding: 20px;
+  color: #666;
+  font-size: 14px;
+}
+
+.carousel {
+  display: flex;
+  overflow-x: auto;
+  gap: 10px;
+  scroll-snap-type: x mandatory;
+  padding: 10px 0;
+}
+
+.carousel img {
+  height: 160px;
+  border-radius: 10px;
+  cursor: pointer;
+  scroll-snap-align: center;
+  transition: transform 0.3s ease;
+}
+
+.carousel img:hover {
+  transform: scale(1.05);
+}
+
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.9);
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.modal img {
+  max-width: 90%;
+  max-height: 80vh;
+  border-radius: 10px;
+}
+
+.modal .close {
+  position: absolute;
+  top: 20px;
+  right: 30px;
+  font-size: 40px;
+  color: white;
+  cursor: pointer;
+}
+
+.modal .prev, .modal .next {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 40px;
+  color: white;
+  background: rgba(0, 0, 0, 0.5);
+  padding: 10px;
+  cursor: pointer;
+  border-radius: 50%;
+}
+
+.modal .prev {
+  left: 10px;
+}
+
+.modal .next {
+  right: 10px;
+}
+
+@media (max-width: 600px) {
+  header h1 {
+    font-size: 22px;
+  }
+
+  .carousel img {
+    height: 120px;
+  }
+}
+
   </style>
-</head>
-<body>
-
+</head><body>
   <header>
-  <div style="display: flex; flex-direction: column; align-items: center;">
-    <img src="https://i.imgur.com/MwG2HNZ.png" alt="Logo" style="max-width: 200px; height: auto; margin-bottom: 20px;">
-    <h1 style="color: white; margin: 0;">Soluciones Logísticas con AppSheet</h1>
-    <p style="color: white; margin-top: 10px;">Digitaliza tu inventario, pedidos y procesos logísticos con apps personalizadas</p>
-  </div>
-  </header>
-
-  <section>
+    <img src="https://i.imgur.com/MwG2HNZ.png" alt="Logo">
+    <h1>Soluciones Logísticas con AppSheet</h1>
+    <p>Digitaliza tu inventario, pedidos y procesos logísticos con apps personalizadas</p>
+  </header>  <section>
     <h2>¿Qué ofrecemos?</h2>
     <ul>
-      <li>Creación de aplicaciones en AppSheet para toma de pedidos, inventarios y control de despachos</li>
-      <li>Formatos inteligentes para solicitud de pedidos según estadísticas de ventas</li>
-      <li>Asesorías, cursos y talleres sobre logística, inventario y AppSheet</li>
-      <li>Atención personalizada y soporte vía WhatsApp</li>
+      <li>Aplicaciones personalizadas en AppSheet para pedidos, inventarios y logística</li>
+      <li>Formatos inteligentes de pedidos según estadísticas</li>
+      <li>Asesorías, cursos y talleres prácticos</li>
+      <li>Atención directa y soporte continuo</li>
     </ul>
     <a href="https://wa.me/584129915255" class="btn-whatsapp">Contáctanos por WhatsApp</a>
-  </section>
-
-  <section>
+  </section>  <section>
     <h2>Galería</h2>
-    <div class="carousel">
-      <img src="https://i.imgur.com/HCvMoxc.jpeg" alt="App 1" onclick="openModal(this)">
-      <img src="https://i.imgur.com/NARKwW5.jpeg" alt="App 2" onclick="openModal(this)">
-      <img src="https://i.imgur.com/GBTE1du.jpeg" alt="App 3" onclick="openModal(this)">
-      <img src="https://i.imgur.com/qHCahW8.jpeg" alt="App 3" onclick="openModal(this)">
-      <img src="https://i.imgur.com/HCvMoxc.jpeg" alt="App 1" onclick="openModal(this)">
-      <img src="https://i.imgur.com/3EkSgO5.jpeg" alt="App 1" onclick="openModal(this)">
-      <img src="https://i.imgur.com/rpmhZ8l.jpeg" alt="App 2" onclick="openModal(this)">
-      <img src="https://i.imgur.com/OHYgvLz.jpeg" alt="App 3" onclick="openModal(this)">
-      <img src="https://i.imgur.com/1C8Yh26.jpeg" alt="App 1" onclick="openModal(this)">
-      <img src="https://i.imgur.com/I9NgNV3.jpeg" alt="App 2" onclick="openModal(this)">
-      <img src="https://i.imgur.com/v62UYRL.jpeg" alt="App 3" onclick="openModal(this)">
-      <img src="https://i.imgur.com/m3Ch12S.jpeg" alt="App 1" onclick="openModal(this)">
-      <img src="https://i.imgur.com/CtKBHp5.jpeg" alt="App 1" onclick="openModal(this)">
-      <img src="https://i.imgur.com/09wbV6m.jpeg" alt="App 1" onclick="openModal(this)">
-      <img src="https://i.imgur.com/baXVfxq.jpeg" alt="App 1" onclick="openModal(this)">
-      <img src="https://i.imgur.com/eZwHUpO.jpeg" alt="App 1" onclick="openModal(this)">
-      <img src="https://i.imgur.com/CwUCM6I.jpeg" alt="App 1" onclick="openModal(this)">
-      <img src="https://i.imgur.com/8Xm9joz.jpeg" alt="App 1" onclick="openModal(this)">
-      <img src="https://i.imgur.com/Lm54SbX.jpeg" alt="App 1" onclick="openModal(this)">
-      <img src="https://i.imgur.com/FIaoIwe.jpeg" alt="App 1" onclick="openModal(this)">
-      <img src="https://i.imgur.com/XZWFiq9.jpeg" alt="App 1" onclick="openModal(this)">
-
-       </div>
-  </section>
-
-  <section>
-    <h2>Formulario de Contacto</h2>
-    <form action="mailto:derwinrojas351@gmail.com" method="post" enctype="text/plain">
-      <input type="text" name="nombre" placeholder="Nombre" required>
-      <input type="email" name="email" placeholder="Correo" required>
-      <textarea name="mensaje" rows="5" placeholder="¿Qué tipo de servicio necesitas?" required></textarea>
-      <button type="submit">Enviar mensaje</button>
-    </form>
-  </section>
-
-  <section>
-    <h2>Pagos y compras</h2>
-    <p>Puedes realizar tus pagos o compras digitales mediante el siguiente botón:</p>
-    <a href="https://www.paypal.com/paypalme/tuenlace" class="btn-pago">Pagar con PayPal</a>
-  </section>
-
-  <footer>
-    <p>&copy; 2025 - Servicios de logística y AppSheet | Desarrollado por Derwin Rojas</p>
-  </footer>
-
-  <!-- Modal -->
-  <div id="modal" class="modal" onclick="closeModal()">
-    <span class="close">&times;</span>
-    <img class="modal-content" id="modal-img">
-  </div>
-
-  <!-- Script -->
-  <script>
-    function openModal(img) {
-      document.getElementById("modal").style.display = "block";
-      document.getElementById("modal-img").src = img.src;
-    }
-    function closeModal() {
-      document.getElementById("modal").style.display = "none";
-    }
-  </script>
-
-</body>
-</html>
+    <div class="carousel" id="image-carousel">
+      <img src="https://i.imgur.com/HCvMoxc.jpeg" alt="App 1" onclick="openImageModal(0)">
+      <img src="https://i.imgur.com/NARKwW5.jpeg" alt="App 2" onclick="openImageModal(1)">
+      <img src="https://i.imgur.com/GBTE1du.jpeg" alt="App 3" onclick="openImageModal(2)">
+      <img src="https://i.imgur.com/qQ7qOS5.jpeg" alt="App 4" onclick="openImageModal(3)">
+      <img …
