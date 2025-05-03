@@ -1,83 +1,231 @@
-<!DOCTYPE html>
-<html lang="es">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Portafolio de Apps</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-  </head>
-  <body class="flex flex-col min-h-screen bg-gray-100 text-gray-800">
-    <header class="bg-green-600 text-white text-center py-6 shadow-lg">
-      <h1 class="text-3xl font-bold">Portafolio de Aplicaciones AppSheet</h1>
-    </header>
+<!DOCTYPE html><html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Servicios Logísticos con AppSheet</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }body {
+  font-family: 'Roboto', sans-serif;
+  background-color: #f4f6f8;
+  color: #333;
+  line-height: 1.6;
+}
 
-    <main class="flex-1 container mx-auto px-4 py-8">
-      <div class="mb-6 text-center">
-        <label for="categoria" class="block text-lg font-medium mb-2">Filtrar por categoría:</label>
-        <select
-          id="categoria"
-          onchange="filtrarPorCategoria()"
-          class="rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring focus:ring-green-200"
-        >
-          <option value="todas">Todas</option>
-          <option value="inventario">Inventario</option>
-          <option value="ventas">Ventas</option>
-          <option value="despachos">Despachos</option>
-        </select>
-      </div>
+nav {
+  position: sticky;
+  top: 0;
+  background-color: #2c3e50;
+  padding: 10px 20px;
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 100;
+}
 
-      <div id="galeria" class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-        <!-- Tarjeta 1 -->
-        <div
-          class="tarjeta transition-all duration-300 transform hover:scale-105 bg-white rounded-xl shadow-md overflow-hidden"
-          data-categoria="inventario"
-        >
-          <img src="captura-inventario.jpg" alt="App de Inventario" class="w-full h-48 object-cover">
-          <div class="p-4">
-            <h3 class="text-xl font-semibold mb-2">App de Inventario</h3>
-            <p class="text-sm text-gray-600">Control de stock, registros de entradas y salidas.</p>
-          </div>
-        </div>
+nav h1 {
+  font-size: 1.4rem;
+}
 
-        <!-- Tarjeta 2 -->
-        <div
-          class="tarjeta transition-all duration-300 transform hover:scale-105 bg-white rounded-xl shadow-md overflow-hidden"
-          data-categoria="ventas"
-        >
-          <img src="captura-ventas.jpg" alt="App de Ventas" class="w-full h-48 object-cover">
-          <div class="p-4">
-            <h3 class="text-xl font-semibold mb-2">App de Ventas</h3>
-            <p class="text-sm text-gray-600">Registro de pedidos y generación de reportes de venta.</p>
-          </div>
-        </div>
+nav a {
+  color: white;
+  margin-left: 20px;
+  text-decoration: none;
+  font-weight: bold;
+  transition: color 0.3s;
+}
 
-        <!-- Tarjeta 3 -->
-        <div
-          class="tarjeta transition-all duration-300 transform hover:scale-105 bg-white rounded-xl shadow-md overflow-hidden"
-          data-categoria="despachos"
-        >
-          <img src="captura-despachos.jpg" alt="App de Despachos" class="w-full h-48 object-cover">
-          <div class="p-4">
-            <h3 class="text-xl font-semibold mb-2">App de Despachos</h3>
-            <p class="text-sm text-gray-600">Seguimiento de entregas y generación de guías.</p>
-          </div>
-        </div>
-      </div>
-    </main>
+nav a:hover {
+  color: #25D366;
+}
 
-    <footer class="bg-gray-800 text-white text-center py-4 mt-auto">
-      <p>&copy; 2025 Soluciones AppSheet | Contacto vía WhatsApp o Email</p>
-    </footer>
+header {
+  background-color: #2c3e50;
+  color: white;
+  text-align: center;
+  padding: 40px 20px;
+}
 
-    <script>
-      function filtrarPorCategoria() {
-        const seleccion = document.getElementById('categoria').value;
-        const tarjetas = document.querySelectorAll('.tarjeta');
-        tarjetas.forEach((tarjeta) => {
-          const categoria = tarjeta.getAttribute('data-categoria');
-          tarjeta.style.display = (seleccion === 'todas' || categoria === seleccion) ? 'block' : 'none';
-        });
-      }
-    </script>
-  </body>
-</html>
+header img {
+  max-width: 180px;
+  height: auto;
+  margin-bottom: 15px;
+}
+
+section {
+  padding: 30px 20px;
+  max-width: 1000px;
+  margin: 30px auto;
+  background: white;
+  margin-bottom: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  animation: fadeIn 1s ease forwards;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+h2 {
+  color: #2c3e50;
+  margin-bottom: 15px;
+  font-size: 1.8rem;
+}
+
+ul {
+  list-style: disc;
+  padding-left: 20px;
+}
+
+ul li {
+  margin-bottom: 10px;
+  font-size: 1rem;
+  color: #555;
+}
+
+.btn {
+  display: inline-block;
+  padding: 12px 20px;
+  margin-top: 10px;
+  color: white;
+  text-decoration: none;
+  border-radius: 6px;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+.btn-whatsapp { background-color: #25D366; }
+.btn-whatsapp:hover { background-color: #128C7E; }
+
+.btn-pago { background-color: #007bff; }
+.btn-pago:hover { background-color: #0056b3; }
+
+form input, form textarea {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
+form button {
+  background-color: #2c3e50;
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+form button:hover {
+  background-color: #1a252f;
+}
+
+.carousel {
+  display: flex;
+  overflow-x: auto;
+  gap: 10px;
+  scroll-snap-type: x mandatory;
+  padding: 10px 0;
+}
+
+.carousel img {
+  height: 160px;
+  border-radius: 10px;
+  cursor: pointer;
+  scroll-snap-align: center;
+  transition: transform 0.3s ease;
+}
+
+.carousel img:hover {
+  transform: scale(1.05);
+}
+
+.video-gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+iframe {
+  width: 100%;
+  height: 200px;
+  border-radius: 10px;
+}
+
+footer {
+  text-align: center;
+  padding: 20px;
+  color: #777;
+  font-size: 0.9rem;
+  border-top: 1px solid #eee;
+}
+
+@media (max-width: 600px) {
+  nav h1 { font-size: 1rem; }
+  .carousel img { height: 120px; }
+}
+
+  </style>
+</head>
+<body>
+  <nav>
+    <h1>Logística AppSheet</h1>
+    <div>
+      <a href="#servicios">Servicios</a>
+      <a href="#galeria">Galería</a>
+      <a href="#contacto">Contacto</a>
+    </div>
+  </nav>  <header>
+    <img src="https://i.imgur.com/MwG2HNZ.png" alt="Logo">
+    <h1>Soluciones Logísticas con AppSheet</h1>
+    <p>Digitaliza tu inventario, pedidos y procesos logísticos con apps personalizadas</p>
+  </header>  <section id="servicios">
+    <h2>¿Qué ofrecemos?</h2>
+    <ul>
+      <li>Aplicaciones personalizadas en AppSheet para pedidos, inventarios y logística</li>
+      <li>Formatos inteligentes de pedidos según estadísticas</li>
+      <li>Asesorías, cursos y talleres prácticos</li>
+      <li>Atención directa y soporte continuo</li>
+    </ul>
+    <a href="https://wa.me/584129915255" class="btn btn-whatsapp">Contáctanos por WhatsApp</a>
+  </section>  <section id="galeria">
+    <h2>Galería</h2>
+    <div class="carousel">
+      <img src="https://i.imgur.com/LjIIjE6.jpeg">
+      <img src="https://i.imgur.com/AM6llSu.jpeg">
+      <img src="https://i.imgur.com/d5cA0wu.jpeg">
+      <img src="https://i.imgur.com/k0lLKjm.jpeg">
+      <img src="https://i.imgur.com/h5m43Mr.jpeg">
+      <img src="https://i.imgur.com/BmL48po.jpeg">
+    </div>
+  </section>  <section>
+    <h2>Videos</h2>
+    <div class="video-gallery">
+      <iframe src="https://www.youtube.com/embed/your_video_id" allowfullscreen></iframe>
+    </div>
+  </section>  <section id="contacto">
+    <h2>Formulario de Contacto</h2>
+    <form action="mailto:derwinrojas351@gmail.com" method="post" enctype="text/plain">
+      <input type="text" name="nombre" placeholder="Nombre" required>
+      <input type="email" name="email" placeholder="Correo" required>
+      <textarea name="mensaje" rows="5" placeholder="¿Qué tipo de servicio necesitas?" required></textarea>
+      <button type="submit">Enviar mensaje</button>
+    </form>
+  </section>  <section>
+    <h2>Pagos y compras</h2>
+    <p>Puedes realizar tus pagos o compras digitales mediante el siguiente botón:</p>
+    <a href="https://www.paypal.com/paypalme/tuenlace" class="btn btn-pago">Pagar con PayPal</a>
+  </section>  <footer>
+    <p>© 2025 - Servicios de logística y AppSheet | Desarrollado por Derwin Rojas</p>
+  </footer>
+</body>
+      </html>
