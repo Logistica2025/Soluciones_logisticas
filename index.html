@@ -5,7 +5,224 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Servicios Logísticos con AppSheet</title>
   <style>
-    /* ... (Tu CSS anterior - lo mantendremos y agregaremos estilos específicos) ... */
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f4f6f8; /* Gris claro moderno */
+      color: #333; /* Texto oscuro para mejor contraste */
+      line-height: 1.6;
+    }
+
+    header {
+      background-color: #2c3e50; /* Azul oscuro corporativo */
+      color: white;
+      text-align: center;
+      padding: 30px 20px;
+    }
+
+    header img {
+      max-width: 180px;
+      height: auto;
+      margin-bottom: 15px;
+    }
+
+    h1 {
+      margin: 10px 0 5px;
+      font-size: 2.2rem; /* Tamaño de fuente más grande */
+      font-weight: bold;
+    }
+
+    p {
+      margin-top: 5px;
+      font-size: 1.1rem;
+      color: #ddd; /* Texto un poco más claro en el header */
+    }
+
+    section {
+      padding: 30px 20px;
+      max-width: 1000px;
+      margin: 30px auto; /* Más espacio vertical */
+      background: white;
+      margin-bottom: 20px;
+      border-radius: 8px; /* Bordes ligeramente redondeados */
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05); /* Sombra sutil */
+    }
+
+    h2 {
+      color: #2c3e50; /* Azul oscuro corporativo */
+      margin-bottom: 15px;
+      font-size: 1.8rem;
+    }
+
+    ul {
+      padding-left: 20px;
+      list-style-type: disc;
+    }
+
+    ul li {
+      margin-bottom: 10px;
+      font-size: 1rem;
+      color: #555; /* Texto un poco más claro en las listas */
+    }
+
+    .btn-whatsapp, .btn-pago {
+      display: inline-block;
+      padding: 12px 20px;
+      margin-top: 10px;
+      color: white;
+      text-decoration: none;
+      border-radius: 6px;
+      font-weight: bold;
+      transition: background-color 0.3s ease; /* Transición suave al pasar el ratón */
+    }
+
+    .btn-whatsapp {
+      background-color: #25D366;
+    }
+
+    .btn-whatsapp:hover {
+      background-color: #128C7E; /* Oscurecer al pasar el ratón */
+    }
+
+    .btn-pago {
+      background-color: #007bff; /* Azul más moderno para el botón de pago */
+    }
+
+    .btn-pago:hover {
+      background-color: #0056b3; /* Oscurecer al pasar el ratón */
+    }
+
+    form input, form textarea {
+      width: calc(100% - 24px); /* Ajuste para el padding */
+      padding: 12px;
+      margin-bottom: 10px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      box-sizing: border-box; /* Importante para el ancho */
+    }
+
+    form button {
+      background-color: #2c3e50; /* Azul oscuro corporativo */
+      color: white;
+      border: none;
+      padding: 12px 20px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background-color 0.3s ease; /* Transición suave al pasar el ratón */
+    }
+
+    form button:hover {
+      background-color: #1a252f; /* Oscurecer al pasar el ratón */
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      color: #777;
+      font-size: 0.9rem; /* Tamaño de fuente un poco más pequeño */
+      border-top: 1px solid #eee; /* Línea divisoria sutil */
+    }
+
+    .carousel {
+      display: flex;
+      overflow-x: auto;
+      gap: 10px;
+      scroll-snap-type: x mandatory;
+      padding: 10px 0;
+    }
+
+    .carousel img {
+      height: 160px;
+      border-radius: 10px;
+      cursor: pointer;
+      scroll-snap-align: center;
+      transition: transform 0.3s ease;
+    }
+
+    .carousel img:hover {
+      transform: scale(1.05);
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      left: 0;
+      top: 0;
+      width: 100vw;
+      height: 100vh;
+      background-color: rgba(0, 0, 0, 0.9);
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+    }
+
+    .modal img {
+      max-width: 90%;
+      max-height: 80vh;
+      border-radius: 10px;
+      cursor: grab; /* Cambiar el cursor para indicar que se puede desplazar */
+    }
+
+    .modal .close {
+      position: absolute;
+      top: 20px;
+      right: 30px;
+      font-size: 40px;
+      color: white;
+      cursor: pointer;
+      opacity: 0.8; /* Ligeramente transparente */
+    }
+
+    .modal .close:hover {
+      opacity: 1;
+    }
+
+    .modal .prev, .modal .next {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 40px;
+      color: white;
+      background: rgba(0, 0, 0, 0.5);
+      padding: 10px;
+      cursor: pointer;
+      border-radius: 50%;
+      user-select: none; /* Evitar la selección de texto al hacer clic */
+    }
+
+    .modal .prev {
+      left: 10px;
+    }
+
+    .modal .next {
+      right: 10px;
+    }
+
+    .video-gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px;
+    }
+
+    iframe {
+      width: 100%;
+      height: 200px;
+      border-radius: 10px;
+      border: none; /* Eliminar el borde predeterminado del iframe */
+    }
+
+    @media (max-width: 600px) {
+      header h1 {
+        font-size: 1.8rem;
+      }
+
+      .carousel img {
+        height: 120px;
+      }
+    }
 
     /* Estilos para la sección "Nuestras Soluciones" */
     .soluciones-grid {
@@ -199,101 +416,5 @@
       </div>
       <div class="portafolio-item" data-type="industria-retail">
         <img src="https://via.placeholder.com/300x200/ffc107/333?Text=Retail%201" alt="Industria Retail">
-        <div class="portafolio-item-details">
-          <h4>App Retail Logística</h4>
-          <p>Gestión de pedidos y stock.</p>
-        </div>
-      </div>
-      <div class="portafolio-item" data-type="gestion-flotas">
-        <img src="https://via.placeholder.com/300x200/2c3e50/fff?Text=Flota%202" alt="Gestión de Flotas">
-        <div class="portafolio-item-details">
-          <h4>App Flota Avanzada</h4>
-          <p>Mantenimiento y reportes.</p>
-        </div>
-      </div>
-      <div class="portafolio-item" data-type="seguimiento-envios">
-        <img src="https://via.placeholder.com/300x200/007bff/fff?Text=Envío%202" alt="Seguimiento de Envíos">
-        <div class="portafolio-item-details">
-          <h4>App Envíos Inteligentes</h4>
-          <p>Notificaciones y seguimiento GPS.</p>
-        </div>
-      </div>
-      <div class="portafolio-item" data-type="gestion-almacenes">
-        <img src="https://via.placeholder.com/300x200/28a745/fff?Text=Almacén%202" alt="Gestión de Almacenes">
-        <div class="portafolio-item-details">
-          <h4>App Almacén Pro</h4>
-          <p>Optimización de picking.</p>
-        </div>
-      </div>
-      <div class="portafolio-item" data-type="industria-manufactura">
-        <img src="https://via.placeholder.com/300x200/dc3545/fff?Text=Manufactura%201" alt="Industria Manufactura">
-        <div class="portafolio-item-details">
-          <h4>App Logística Fabril</h4>
-          <p>Gestión de inventario y producción.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section>
-    <div class="video-gallery">
-      <iframe src="https://www.youtube.com/embed/your_video_id" allowfullscreen></iframe>
-      </div>
-  </section>
-
-  <section>
-    <h2>Formulario de Contacto</h2>
-    <form action="mailto:derwinrojas351@gmail.com" method="post" enctype="text/plain">
-      <input type="text" name="nombre" placeholder="Nombre" required>
-      <input type="email" name="email" placeholder="Correo" required>
-      <textarea name="mensaje" rows="5" placeholder="¿Qué tipo de servicio necesitas?" required></textarea>
-      <button type="submit">Enviar mensaje</button>
-    </form>
-  </section>
-
-  <section>
-    <h2>Pagos y compras</h2>
-    <p>Puedes realizar tus pagos o compras digitales mediante el siguiente botón:</p>
-    <a href="https://www.paypal.com/paypalme/tuenlace" class="btn-pago">Pagar con PayPal</a>
-  </section>
-
-  <footer>
-    <p>© 2025 - Servicios de logística y AppSheet | Desarrollado por Derwin Rojas</p>
-  </footer>
-
-  <div id="image-modal" class="modal">
-    <span class="close" onclick="closeImageModal()">×</span>
-    <span class="prev" onclick="changeImage(-1)">❮</span>
-    <img id="modal-image" src="" onclick="toggleZoom(this)">
-    <span class="next" onclick="changeImage(1)">❯</span>
-  </div>
-
-  <script>
-    /* ... (Tu JavaScript anterior para la galería de imágenes) ... */
-
-    // JavaScript para el Portafolio Interactivo
-    const filterButtons = document.querySelectorAll('.filter-button');
-    const portafolioItems = document.querySelectorAll('.portafolio-item');
-
-    filterButtons.forEach(button => {
-      button.addEventListener('click', function() {
-        const filter = this.dataset.filter;
-
-        // Desactivar el botón activo anterior
-        document.querySelector('.filter-button.active').classList.remove('active');
-        // Activar el botón actual
-        this.classList.add('active');
-
-        portafolioItems.forEach(item => {
-          if (filter === 'all' || item.dataset.type.includes(filter)) {
-            item.style.display = 'block';
-          } else {
-            item.style.display = 'none';
-          }
-        });
-      });
-    });
-  </script>
-</body>
-  </html>
-          
+        <div class="port
+        
