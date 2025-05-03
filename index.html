@@ -2,124 +2,426 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Portafolio de Apps</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Servicios Logísticos con AppSheet</title>
   <style>
     body {
-      font-family: Arial, sans-serif;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       margin: 0;
-      display: flex;
-      flex-direction: column;
-      min-height: 100vh;
+      padding: 0;
+      background-color: #f4f6f8; /* Gris claro moderno */
+      color: #333; /* Texto oscuro para mejor contraste */
+      line-height: 1.6;
     }
 
     header {
-      background-color: #4CAF50;
+      background-color: #2c3e50; /* Azul oscuro corporativo */
       color: white;
-      padding: 1rem;
       text-align: center;
+      padding: 30px 20px;
     }
 
-    main {
-      flex: 1;
-      padding: 1rem;
-    }
-
-    .filtro {
-      margin-bottom: 1rem;
-      text-align: center;
-    }
-
-    .galeria {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 1rem;
-    }
-
-    .tarjeta {
-      border: 1px solid #ccc;
-      border-radius: 8px;
-      width: 280px;
-      padding: 1rem;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-      text-align: center;
-    }
-
-    .tarjeta img {
-      width: 100%;
+    header img {
+      max-width: 180px;
       height: auto;
-      border-radius: 6px;
+      margin-bottom: 15px;
     }
 
-    .tarjeta h3 {
-      margin-top: 0.5rem;
+    h1 {
+      margin: 10px 0 5px;
+      font-size: 2.2rem; /* Tamaño de fuente más grande */
+      font-weight: bold;
+    }
+
+    p {
+      margin-top: 5px;
+      font-size: 1.1rem;
+      color: #ddd; /* Texto un poco más claro en el header */
+    }
+
+    section {
+      padding: 30px 20px;
+      max-width: 1000px;
+      margin: 30px auto; /* Más espacio vertical */
+      background: white;
+      margin-bottom: 20px;
+      border-radius: 8px; /* Bordes ligeramente redondeados */
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05); /* Sombra sutil */
+    }
+
+    h2 {
+      color: #2c3e50; /* Azul oscuro corporativo */
+      margin-bottom: 15px;
+      font-size: 1.8rem;
+    }
+
+    ul {
+      padding-left: 20px;
+      list-style-type: disc;
+    }
+
+    ul li {
+      margin-bottom: 10px;
+      font-size: 1rem;
+      color: #555; /* Texto un poco más claro en las listas */
+    }
+
+    .btn-whatsapp, .btn-pago {
+      display: inline-block;
+      padding: 12px 20px;
+      margin-top: 10px;
+      color: white;
+      text-decoration: none;
+      border-radius: 6px;
+      font-weight: bold;
+      transition: background-color 0.3s ease; /* Transición suave al pasar el ratón */
+    }
+
+    .btn-whatsapp {
+      background-color: #25D366;
+    }
+
+    .btn-whatsapp:hover {
+      background-color: #128C7E; /* Oscurecer al pasar el ratón */
+    }
+
+    .btn-pago {
+      background-color: #007bff; /* Azul más moderno para el botón de pago */
+    }
+
+    .btn-pago:hover {
+      background-color: #0056b3; /* Oscurecer al pasar el ratón */
+    }
+
+    form input, form textarea {
+      width: calc(100% - 24px); /* Ajuste para el padding */
+      padding: 12px;
+      margin-bottom: 10px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      box-sizing: border-box; /* Importante para el ancho */
+    }
+
+    form button {
+      background-color: #2c3e50; /* Azul oscuro corporativo */
+      color: white;
+      border: none;
+      padding: 12px 20px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background-color 0.3s ease; /* Transición suave al pasar el ratón */
+    }
+
+    form button:hover {
+      background-color: #1a252f; /* Oscurecer al pasar el ratón */
     }
 
     footer {
-      background-color: #333;
-      color: white;
       text-align: center;
-      padding: 1rem;
+      padding: 20px;
+      color: #777;
+      font-size: 0.9rem; /* Tamaño de fuente un poco más pequeño */
+      border-top: 1px solid #eee; /* Línea divisoria sutil */
+    }
+
+    .carousel {
+      display: flex;
+      overflow-x: auto;
+      gap: 10px;
+      scroll-snap-type: x mandatory;
+      padding: 10px 0;
+    }
+
+    .carousel img {
+      height: 160px;
+      border-radius: 10px;
+      cursor: pointer;
+      scroll-snap-align: center;
+      transition: transform 0.3s ease;
+    }
+
+    .carousel img:hover {
+      transform: scale(1.05);
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      left: 0;
+      top: 0;
+      width: 100vw;
+      height: 100vh;
+      background-color: rgba(0, 0, 0, 0.9);
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+    }
+
+    .modal img {
+      max-width: 90%;
+      max-height: 80vh;
+      border-radius: 10px;
+      cursor: grab; /* Cambiar el cursor para indicar que se puede desplazar */
+    }
+
+    .modal .close {
+      position: absolute;
+      top: 20px;
+      right: 30px;
+      font-size: 40px;
+      color: white;
+      cursor: pointer;
+      opacity: 0.8; /* Ligeramente transparente */
+    }
+
+    .modal .close:hover {
+      opacity: 1;
+    }
+
+    .modal .prev, .modal .next {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 40px;
+      color: white;
+      background: rgba(0, 0, 0, 0.5);
+      padding: 10px;
+      cursor: pointer;
+      border-radius: 50%;
+      user-select: none; /* Evitar la selección de texto al hacer clic */
+    }
+
+    .modal .prev {
+      left: 10px;
+    }
+
+    .modal .next {
+      right: 10px;
+    }
+
+    .video-gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px;
+    }
+
+    iframe {
+      width: 100%;
+      height: 200px;
+      border-radius: 10px;
+      border: none; /* Eliminar el borde predeterminado del iframe */
+    }
+
+    @media (max-width: 600px) {
+      header h1 {
+        font-size: 1.8rem;
+      }
+
+      .carousel img {
+        height: 120px;
+      }
+    }
+
+    /* Estilos para la sección "Nuestras Soluciones" */
+    .soluciones-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 25px;
+      margin-top: 20px;
+    }
+
+    .solucion-card {
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+      border: 1px solid #eee;
+      transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+    }
+
+    .solucion-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    .solucion-card h3 {
+      color: #2c3e50;
+      margin-top: 0;
+      margin-bottom: 10px;
+      font-size: 1.3rem;
+    }
+
+    .solucion-card p {
+      color: #555;
+      font-size: 1rem;
+      line-height: 1.5;
+    }
+
+    /* Estilos para el "Portafolio Interactivo" */
+    .portafolio-filters {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
+      overflow-x: auto; /* Para que los filtros no se rompan en pantallas pequeñas */
+    }
+
+    .filter-button {
+      background-color: #f0f0f0;
+      color: #333;
+      border: none;
+      padding: 8px 15px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 0.9rem;
+      transition: background-color 0.3s ease;
+    }
+
+    .filter-button.active {
+      background-color: #2c3e50;
+      color: white;
+    }
+
+    .filter-button:hover {
+      background-color: #ddd;
+    }
+
+    .portafolio-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 15px;
+    }
+
+    .portafolio-item {
+      overflow: hidden;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+    }
+
+    .portafolio-item img {
+      width: 100%;
+      height: auto;
+      display: block;
+      transition: transform 0.3s ease-in-out;
+    }
+
+    .portafolio-item:hover img {
+      transform: scale(1.05);
+    }
+
+    .portafolio-item-details {
+      padding: 15px;
+      background-color: #fff;
+      text-align: center;
+    }
+
+    .portafolio-item-details h4 {
+      margin-top: 0;
+      margin-bottom: 5px;
+      font-size: 1.1rem;
+      color: #2c3e50;
+    }
+
+    .portafolio-item-details p {
+      font-size: 0.9rem;
+      color: #777;
+      margin-bottom: 0;
+    }
+
+    .portafolio-item[data-type="gestion-flotas"],
+    .portafolio-item[data-type="seguimiento-envios"],
+    .portafolio-item[data-type="gestion-almacenes"],
+    .portafolio-item[data-type="gestion-pedidos"],
+    .portafolio-item[data-type="analisis-logistico"] {
+      /* Estilos específicos si los necesitas */
     }
   </style>
 </head>
 <body>
   <header>
-    <h1>Portafolio de Aplicaciones AppSheet</h1>
+    <img src="https://i.imgur.com/MwG2HNZ.png" alt="Logo">
+    <h1>Soluciones Logísticas con AppSheet</h1>
+    <p>Digitaliza tu inventario, pedidos y procesos logísticos con apps personalizadas</p>
   </header>
 
-  <main>
-    <div class="filtro">
-      <label for="categoria">Filtrar por categoría:</label>
-      <select id="categoria" onchange="filtrarPorCategoria()">
-        <option value="todas">Todas</option>
-        <option value="inventario">Inventario</option>
-        <option value="ventas">Ventas</option>
-        <option value="despachos">Despachos</option>
-      </select>
+  <section>
+    <h2>¿Qué ofrecemos?</h2>
+    <ul>
+      <li>Aplicaciones personalizadas en AppSheet para pedidos, inventarios y logística</li>
+      <li>Formatos inteligentes de pedidos según estadísticas</li>
+      <li>Asesorías, cursos y talleres prácticos</li>
+      <li>Atención directa y soporte continuo</li>
+    </ul>
+    <a href="https://wa.me/584129915255" class="btn-whatsapp">Contáctanos por WhatsApp</a>
+  </section>
+
+  <section>
+    <h2>Nuestras Soluciones</h2>
+    <div class="soluciones-grid">
+      <div class="solucion-card">
+        <h3>Gestión de Flotas</h3>
+        <p>Optimiza el rendimiento de tu flota vehicular con aplicaciones para el seguimiento en tiempo real, mantenimiento preventivo, gestión de rutas y análisis de costos operativos.</p>
+      </div>
+      <div class="solucion-card">
+        <h3>Seguimiento de Envíos</h3>
+        <p>Ofrece a tus clientes visibilidad total sobre sus envíos. Implementa sistemas de seguimiento en tiempo real, notificaciones automáticas y gestión de incidencias.</p>
+      </div>
+      <div class="solucion-card">
+        <h3>Gestión de Almacenes</h3>
+        <p>Digitaliza la gestión de tu inventario, optimiza el picking y packing, controla las entradas y salidas de mercancías y mejora la eficiencia operativa de tu almacén.</p>
+      </div>
+      <div class="solucion-card">
+        <h3>Gestión de Pedidos</h3>
+        <p>Agiliza el proceso de toma de pedidos, desde la solicitud del cliente hasta la entrega. Integra catálogos digitales, seguimiento de estado y gestión de facturación.</p>
+      </div>
+      <div class="solucion-card">
+        <h3>Análisis Logístico</h3>
+        <p>Desarrolla aplicaciones para recopilar y analizar datos clave de tus operaciones logísticas, permitiéndote identificar áreas de mejora, optimizar rutas y reducir costos.</p>
+      </div>
     </div>
+  </section>
 
-    <div class="galeria" id="galeria">
-      <!-- Tarjetas -->
-      <div class="tarjeta" data-categoria="inventario">
-        <img src="captura-inventario.jpg" alt="Inventario App">
-        <h3>App de Inventario</h3>
-        <p>Control de stock, registros de entradas y salidas.</p>
-      </div>
-
-      <div class="tarjeta" data-categoria="ventas">
-        <img src="captura-ventas.jpg" alt="Ventas App">
-        <h3>App de Ventas</h3>
-        <p>Registro de pedidos y generación de reportes de venta.</p>
-      </div>
-
-      <div class="tarjeta" data-categoria="despachos">
-        <img src="captura-despachos.jpg" alt="Despachos App">
-        <h3>App de Despachos</h3>
-        <p>Seguimiento de entregas y generación de guías.</p>
-      </div>
+  <section>
+    <h2>Galería</h2>
+    <div class="carousel" id="image-carousel">
+      <img src="https://i.imgur.com/LjIIjE6.jpeg" onclick="openImageModal(0)">
+      <img src="https://i.imgur.com/AM6llSu.jpeg" onclick="openImageModal(1)">
+      <img src="https://i.imgur.com/d5cA0wu.jpeg" onclick="openImageModal(2)">
+      <img src="https://i.imgur.com/k0lLKjm.jpeg" onclick="openImageModal(3)">
+      <img src="https://i.imgur.com/h5m43Mr.jpeg" onclick="openImageModal(4)">
+      <img src="https://i.imgur.com/BmL48po.jpeg" onclick="openImageModal(5)">
+      <img src="https://i.imgur.com/9vu2gSE.jpeg" onclick="openImageModal(6)">
+      <img src="https://i.imgur.com/lPqq6ao.jpeg" onclick="openImageModal(7)">
+      <img src="https://i.imgur.com/huXCgKI.jpeg" onclick="openImageModal(8)">
+      <img src="https://i.imgur.com/r4Z1L7C.jpeg" onclick="openImageModal(9)">
     </div>
-  </main>
+  </section>
 
-  <footer>
-    <p>&copy; 2025 Soluciones AppSheet | Contacto vía WhatsApp o Email</p>
-  </footer>
+  <section>
+    <div class="video-gallery">
+      <iframe src="https://www.youtube.com/embed/your_video_id" allowfullscreen></iframe>
+      </div>
+  </section>
 
-  <script>
-    function filtrarPorCategoria() {
-      const seleccion = document.getElementById('categoria').value;
-      const tarjetas = document.querySelectorAll('.tarjeta');
+  <section>
+    <h2>Formulario de Contacto</h2>
+    <form action="mailto:derwinrojas351@gmail.com" method="post" enctype="text/plain">
+      <input type="text" name="nombre" placeholder="Nombre" required>
+      <input type="email" name="email" placeholder="Correo" required>
+      <textarea name="mensaje" rows="5" placeholder="¿Qué tipo de servicio necesitas?" required></textarea>
+      <button type="submit">Enviar mensaje</button>
+    </form>
+  </section>
 
-      tarjetas.forEach(tarjeta => {
-        const categoria = tarjeta.getAttribute('data-categoria');
-        if (seleccion === 'todas' || categoria === seleccion) {
-          tarjeta.style.display = 'block';
-        } else {
-          tarjeta.style.display = 'none';
-        }
-      });
-    }
-  </script>
-</body>
-</html>
+  <section>
+    <h2>Pagos y compras</h2>
+    <p>Puedes realizar tus pagos o compras digitales mediante el siguiente botón:</p>
+    <a href="https://www.paypal.com/paypalme/tuenlace" class="btn-pago">Pagar con PayPal</a>
+  </section>
+
+  <section>
+    <h2>Portafolio de Aplicaciones</h2>
+    <div class="portafolio-filters">
+      <button class="filter-button active" data-filter="all">Todos</button>
+      <button class="filter-button" data-filter="gestion-flotas">Gestión
