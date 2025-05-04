@@ -1,5 +1,4 @@
-<!DOCTYPE html>
-<html lang="es">
+<!DOCTYPE html><html lang="es">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -58,6 +57,13 @@
       padding: 40px;
       border-radius: 12px;
       box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    section.visible {
+      opacity: 1;
+      transform: translateY(0);
     }
     h2 {
       margin-top: 0;
@@ -99,10 +105,6 @@
       overflow-x: auto;
       gap: 10px;
       scroll-snap-type: x mandatory;
-      padding: 10px;
-      border: 1px solid #ccc;
-      border-radius: 10px;
-      justify-content: center;
     }
     .carousel img {
       height: 160px;
@@ -113,18 +115,6 @@
     }
     .carousel img:hover {
       transform: scale(1.05);
-    }
-    .video-gallery {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 20px;
-      justify-content: center;
-    }
-    .video-gallery iframe {
-      width: 100%;
-      max-width: 480px;
-      height: 270px;
-      border-radius: 12px;
     }
     .form-group {
       margin-bottom: 20px;
@@ -208,6 +198,19 @@
       top: 50%;
       transform: translateY(-50%);
     }
+    .video-gallery {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-around;
+      gap: 20px;
+    }
+    .video-gallery iframe {
+      width: 100%;
+      max-width: 480px;
+      height: 270px;
+      border: none;
+      border-radius: 10px;
+    }
     @media(max-width: 768px) {
       header h1 {
         font-size: 1.8rem;
@@ -231,6 +234,7 @@
     <h1>Soluciones Logísticas con AppSheet</h1>
     <p>Digitaliza tu inventario, pedidos y procesos logísticos con apps personalizadas</p>
   </header>
+
   <section id="logistica">
     <h2>¿Qué ofrecemos?</h2>
     <ul>
@@ -241,6 +245,7 @@
     </ul>
     <a href="https://wa.me/584129915255" class="btn btn-whatsapp">Contáctanos por WhatsApp</a>
   </section>
+
   <section id="soluciones">
     <h2>Galería de Soluciones</h2>
     <div class="carousel" id="image-carousel">
@@ -256,17 +261,27 @@
       <img src="https://i.imgur.com/r4Z1L7C.jpeg" onclick="openImageModal(9)">
     </div>
   </section>
+
   <section>
+    <h2>Videos de Soluciones</h2>
     <div class="video-gallery">
-      <iframe src="https://www.youtube.com/embed/NoyvVXY8FFk" allowfullscreen></iframe>
-      <iframe src="https://www.youtube.com/embed/LtuZnWo06Po" allowfullscreen></iframe>
+      <div>
+        <h3>Inventario físico con AppSheet</h3>
+        <iframe src="https://www.youtube.com/embed/NoyvVXY8FFk" allowfullscreen></iframe>
+      </div>
+      <div>
+        <h3>Generación de reportes PDF</h3>
+        <iframe src="https://www.youtube.com/embed/LtuZnWo06Po" allowfullscreen></iframe>
+      </div>
     </div>
   </section>
+
   <section>
     <h2>Pagos y Compras</h2>
     <p>Puedes realizar pagos o compras digitales mediante el siguiente botón:</p>
     <a href="https://www.paypal.com/paypalme/tuenlace" class="btn btn-pago">Pagar con PayPal</a>
   </section>
+
   <section id="contacto">
     <h2>Contáctanos</h2>
     <form action="https://formspree.io/f/xnndpolz" method="POST">
@@ -282,22 +297,23 @@
       <button type="submit">Enviar mensaje</button>
     </form>
   </section>
+
   <footer>
     © 2025 - Servicios logísticos y AppSheet | Desarrollado por Derwin Rojas
   </footer>
+
   <div id="image-modal" class="modal">
     <span class="close" onclick="closeImageModal()">×</span>
     <span class="prev" onclick="changeImage(-1)">❮</span>
     <img id="modal-image" src="" onclick="toggleZoom(this)">
     <span class="next" onclick="changeImage(1)">❯</span>
   </div>
+
   <script>
     let currentImageIndex = 0;
     const images = Array.from(document.querySelectorAll("#image-carousel img"));
     const modal = document.getElementById("image-modal");
     const modalImage = document.getElementById("modal-image");
-    let isZoomed = false;
-    let startX, startY;
 
     function openImageModal(index) {
       currentImageIndex = index;
@@ -312,7 +328,6 @@
       modalImage.classList.remove('zoomed');
       modalImage.style.left = '0px';
       modalImage.style.top = '0px';
-      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
     function changeImage(step) {
@@ -323,48 +338,10 @@
     function updateModalImage() {
       modalImage.src = images[currentImageIndex].src;
       modalImage.classList.remove('zoomed');
-      modalImage.style.left = '0px';
-      modalImage.style.top = '0px';
     }
 
     function toggleZoom(img) {
-      isZoomed = !isZoomed;
-      if (isZoomed) {
-        img.classList.add('zoomed');
-      } else {
-        img.classList.remove('zoomed');
-        img.style.left = '0px';
-        img.style.top = '0px';
-      }
-    }
-
-    // Doble clic para zoom en móvil
-    let lastTouch = 0;
-    modalImage.addEventListener('touchstart', function (e) {
-      const now = new Date().getTime();
-      if (now - lastTouch <= 300) {
-        toggleZoom(modalImage);
-      }
-      lastTouch = now;
-    });
-
-    modalImage.addEventListener('mousedown', function(e) {
-      if (!modalImage.classList.contains('zoomed')) return;
-      startX = e.clientX - modalImage.offsetLeft;
-      startY = e.clientY - modalImage.offsetTop;
-      modalImage.style.cursor = 'grabbing';
-      document.addEventListener('mousemove', onMouseMove);
-    });
-
-    modalImage.addEventListener('mouseup', function() {
-      modalImage.style.cursor = 'grab';
-      document.removeEventListener('mousemove', onMouseMove);
-    });
-
-    function onMouseMove(e) {
-      if (!modalImage.classList.contains('zoomed')) return;
-      modalImage.style.left = `${e.clientX - startX}px`;
-      modalImage.style.top = `${e.clientY - startY}px`;
+      img.classList.toggle('zoomed');
     }
 
     document.addEventListener('keydown', function(e) {
@@ -374,6 +351,32 @@
         if (e.key === 'Escape') closeImageModal();
       }
     });
+
+    const form = document.querySelector("form");
+    form.addEventListener("submit", async function(e) {
+      e.preventDefault();
+      const formData = new FormData(form);
+      const response = await fetch(form.action, {
+        method: form.method,
+        body: formData,
+        headers: { 'Accept': 'application/json' }
+      });
+      if (response.ok) {
+        alert("Mensaje enviado correctamente.");
+        form.reset();
+      } else {
+        alert("Ocurrió un error. Intenta de nuevo.");
+      }
+    });
+
+    const sections = document.querySelectorAll("section");
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) entry.target.classList.add("visible");
+      });
+    }, { threshold: 0.1 });
+
+    sections.forEach(sec => observer.observe(sec));
   </script>
 </body>
   </html>
