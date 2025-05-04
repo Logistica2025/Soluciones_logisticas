@@ -1,4 +1,5 @@
-<!DOCTYPE html><html lang="es">
+<!DOCTYPE html>
+<html lang="es">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -98,6 +99,10 @@
       overflow-x: auto;
       gap: 10px;
       scroll-snap-type: x mandatory;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      justify-content: center;
     }
     .carousel img {
       height: 160px;
@@ -108,6 +113,18 @@
     }
     .carousel img:hover {
       transform: scale(1.05);
+    }
+    .video-gallery {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      justify-content: center;
+    }
+    .video-gallery iframe {
+      width: 100%;
+      max-width: 480px;
+      height: 270px;
+      border-radius: 12px;
     }
     .form-group {
       margin-bottom: 20px;
@@ -242,7 +259,7 @@
   <section>
     <div class="video-gallery">
       <iframe src="https://www.youtube.com/embed/NoyvVXY8FFk" allowfullscreen></iframe>
-       <iframe src="https://www.youtube.com/embed/LtuZnWo06Po" allowfullscreen></iframe>
+      <iframe src="https://www.youtube.com/embed/LtuZnWo06Po" allowfullscreen></iframe>
     </div>
   </section>
   <section>
@@ -320,6 +337,16 @@
         img.style.top = '0px';
       }
     }
+
+    // Doble clic para zoom en móvil
+    let lastTouch = 0;
+    modalImage.addEventListener('touchstart', function (e) {
+      const now = new Date().getTime();
+      if (now - lastTouch <= 300) {
+        toggleZoom(modalImage);
+      }
+      lastTouch = now;
+    });
 
     modalImage.addEventListener('mousedown', function(e) {
       if (!modalImage.classList.contains('zoomed')) return;
