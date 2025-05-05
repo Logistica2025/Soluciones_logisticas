@@ -1,4 +1,5 @@
-<!DOCTYPE html><html lang="es">
+<!DOCTYPE html>
+<html lang="es">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -6,6 +7,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
+    /* Estilos generales */
     * {
       box-sizing: border-box;
       scroll-behavior: smooth;
@@ -14,14 +16,42 @@
       font-family: 'Inter', sans-serif;
       margin: 0;
       padding: 0;
-      background-color: #f8f9fa;
-      color: #333;
-      transition: background-color 0.4s, color 0.4s;
+      background-color: var(--bg);
+      color: var(--text);
+      transition: background 0.3s, color 0.3s;
+    }
+    :root {
+      --bg: #f8f9fa;
+      --text: #333;
+      --bg-dark: #121212;
+      --text-dark: #f1f1f1;
     }
     body.dark-mode {
-      background-color: #121212;
-      color: #f1f1f1;
+      --bg: var(--bg-dark);
+      --text: var(--text-dark);
     }
+
+    /* Loader */
+    .loader {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: #5e56c6;
+      z-index: 3000;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .loader span {
+      color: white;
+      font-size: 1.5rem;
+      animation: blink 1s infinite alternate;
+    }
+    @keyframes blink {
+      from { opacity: 0.3; }
+      to { opacity: 1; }
+    }
+
+    /* Navegación */
     nav {
       position: fixed;
       top: 0;
@@ -37,21 +67,26 @@
       color: white;
       text-decoration: none;
       font-weight: 600;
+      transition: color 0.3s;
     }
     nav a:hover {
       color: #25D366;
     }
+
+    /* Botón de modo oscuro */
     .theme-toggle {
       position: fixed;
       right: 20px;
-      top: 20px;
+      top: 15px;
       background: none;
       border: none;
-      font-size: 20px;
       color: white;
+      font-size: 1.5rem;
       cursor: pointer;
       z-index: 1001;
     }
+
+    /* Encabezado */
     header {
       background-color: #5e56c6;
       color: white;
@@ -66,6 +101,8 @@
       margin: 10px 0 5px;
       font-size: 2.5rem;
     }
+
+    /* Secciones */
     section {
       max-width: 1000px;
       margin: 40px auto;
@@ -78,72 +115,71 @@
       transition: opacity 0.6s ease, transform 0.6s ease;
     }
     body.dark-mode section {
-      background-color: #1e1e1e;
+      background: #1e1e1e;
     }
     section.visible {
       opacity: 1;
       transform: translateY(0);
     }
     h2 {
+      margin-top: 0;
       color: #5e56c6;
       font-size: 1.8rem;
       border-left: 4px solid #25D366;
       padding-left: 10px;
     }
-    ul {
-      padding-left: 20px;
-    }
-    .btn {
-      display: inline-block;
-      padding: 12px 24px;
-      border-radius: 8px;
-      font-weight: bold;
-      color: white;
-      text-decoration: none;
-      margin-top: 20px;
-    }
-    .btn-whatsapp { background-color: #25D366; }
-    .btn-pago { background-color: #007bff; }
-    .btn-whatsapp:hover { background-color: #128C7E; }
-    .btn-pago:hover { background-color: #0056b3; }
-    .carousel img {
-      height: 160px;
-      border-radius: 10px;
-      cursor: pointer;
-    }
-    .gallery-filter {
+
+    /* Galería */
+    .filter-buttons {
       display: flex;
-      gap: 10px;
       flex-wrap: wrap;
+      gap: 10px;
       margin-bottom: 20px;
     }
-    .gallery-filter button {
+    .filter-buttons button {
       padding: 8px 16px;
       border: none;
-      background-color: #5e56c6;
+      background: #5e56c6;
       color: white;
       border-radius: 6px;
       cursor: pointer;
+      transition: background 0.3s;
+    }
+    .filter-buttons button:hover {
+      background: #4039a2;
     }
     .gallery {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-      gap: 15px;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 16px;
     }
-    .gallery img {
-      width: 100%;
-      border-radius: 10px;
+    .gallery-item {
       display: none;
     }
-    .gallery-item.active img {
+    .gallery-item.active {
       display: block;
     }
-    form input, form textarea {
+    .gallery-item img {
       width: 100%;
-      padding: 14px;
-      border: 1px solid #ccc;
       border-radius: 8px;
-      margin-bottom: 20px;
+    }
+
+    /* Formulario */
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    input, textarea {
+      padding: 14px;
+      font-size: 1rem;
+      border-radius: 8px;
+      border: 2px solid #ccc;
+      transition: border-color 0.3s;
+    }
+    input:focus, textarea:focus {
+      border-color: #5e56c6;
+      outline: none;
     }
     form button {
       background-color: #5e56c6;
@@ -154,27 +190,39 @@
       font-weight: bold;
       font-size: 1rem;
       cursor: pointer;
+      transition: background 0.3s;
     }
+    form button:hover {
+      background-color: #1a252f;
+    }
+
+    /* Pie de página */
     footer {
       text-align: center;
       padding: 20px;
       background: #5e56c6;
       color: #ccc;
+      font-size: 0.9rem;
     }
   </style>
 </head>
 <body>
-  <button class="theme-toggle" onclick="toggleTheme()"><i class="fas fa-moon"></i></button>
+  <div class="loader"><span>Cargando...</span></div>
   <nav>
     <a href="#logistica">Logística</a>
-    <a href="#soluciones">Soluciones</a>
+    <a href="#galeria">Soluciones</a>
     <a href="#contacto">Contacto</a>
   </nav>
+  <button class="theme-toggle" onclick="toggleTheme()">
+    <i class="fas fa-moon"></i>
+  </button>
   <header>
     <img src="https://i.imgur.com/MwG2HNZ.png" alt="Logo">
     <h1>Soluciones Logísticas con AppSheet</h1>
     <p>Digitaliza tu inventario, pedidos y procesos logísticos con apps personalizadas</p>
-  </header>  <section id="logistica">
+  </header>
+
+  <section id="logistica">
     <h2>¿Qué ofrecemos?</h2>
     <ul>
       <li>Apps en AppSheet para pedidos, inventarios y logística</li>
@@ -182,32 +230,26 @@
       <li>Asesorías, cursos y talleres prácticos</li>
       <li>Atención directa y soporte continuo</li>
     </ul>
-    <a href="https://wa.me/584129915255" class="btn btn-whatsapp">Contáctanos por WhatsApp</a>
-  </section>  <section id="soluciones">
+  </section>
+
+  <section id="galeria">
     <h2>Galería de Soluciones</h2>
-    <div class="gallery-filter">
-      <button onclick="filterGallery('all')">Todas</button>
-      <button onclick="filterGallery('inventario')">Inventario</button>
+    <div class="filter-buttons">
+      <button onclick="filterGallery('all')">Todos</button>
       <button onclick="filterGallery('pedidos')">Pedidos</button>
+      <button onclick="filterGallery('inventarios')">Inventarios</button>
+      <button onclick="filterGallery('logistica')">Logística</button>
       <button onclick="filterGallery('dashboard')">Dashboard</button>
     </div>
     <div class="gallery">
-      <div class="gallery-item inventario active"><img src="https://i.imgur.com/LjIIjE6.jpeg"></div>
-      <div class="gallery-item pedidos active"><img src="https://i.imgur.com/AM6llSu.jpeg"></div>
-      <div class="gallery-item inventario active"><img src="https://i.imgur.com/d5cA0wu.jpeg"></div>
-      <div class="gallery-item dashboard active"><img src="https://i.imgur.com/k0lLKjm.jpeg"></div>
-      <div class="gallery-item pedidos active"><img src="https://i.imgur.com/h5m43Mr.jpeg"></div>
-      <div class="gallery-item dashboard active"><img src="https://i.imgur.com/BmL48po.jpeg"></div>
-      <div class="gallery-item inventario active"><img src="https://i.imgur.com/9vu2gSE.jpeg"></div>
-      <div class="gallery-item pedidos active"><img src="https://i.imgur.com/lPqq6ao.jpeg"></div>
-      <div class="gallery-item dashboard active"><img src="https://i.imgur.com/huXCgKI.jpeg"></div>
-      <div class="gallery-item inventario active"><img src="https://i.imgur.com/r4Z1L7C.jpeg"></div>
+      <div class="gallery-item pedidos active"><img src="https://i.imgur.com/LjIIjE6.jpeg" alt="Pedidos"></div>
+      <div class="gallery-item inventarios active"><img src="https://i.imgur.com/AM6llSu.jpeg" alt="Inventarios"></div>
+      <div class="gallery-item logistica active"><img src="https://i.imgur.com/d5cA0wu.jpeg" alt="Logística"></div>
+      <div class="gallery-item dashboard active"><img src="https://i.imgur.com/k0lLKjm.jpeg" alt="Dashboard"></div>
     </div>
-  </section>  <section>
-    <h2>Pagos y Compras</h2>
-    <p>Puedes realizar pagos o compras digitales mediante el siguiente botón:</p>
-    <a href="https://www.paypal.com/paypalme/tuenlace" class="btn btn-pago">Pagar con PayPal</a>
-  </section>  <section id="contacto">
+  </section>
+
+  <section id="contacto">
     <h2>Contáctanos</h2>
     <form action="https://formspree.io/f/xnndpolz" method="POST">
       <input type="text" name="nombre" placeholder="Tu nombre" required>
@@ -215,27 +257,37 @@
       <textarea name="mensaje" rows="5" placeholder="¿Qué tipo de servicio necesitas?" required></textarea>
       <button type="submit">Enviar mensaje</button>
     </form>
-  </section>  <footer>
-    © 2025 - Servicios logísticos y AppSheet | Desarrollado por Derwin Rojas
-  </footer>  <script>
-    // Tema al cargar
-    document.addEventListener("DOMContentLoaded", () => {
-      if (localStorage.getItem("theme") === "dark") {
-        document.body.classList.add("dark-mode");
-        document.querySelector(".theme-toggle i").classList.replace("fa-moon", "fa-sun");
-      }
+  </section>
 
-      // Animaciones al hacer scroll
+  <footer>
+    © 2025 - Servicios logísticos y AppSheet | Desarrollado por Derwin Rojas
+  </footer>
+
+  <script>
+    // Animación de carga
+    window.addEventListener('DOMContentLoaded', () => {
+      setTimeout(() => document.querySelector('.loader').style.display = 'none', 1000);
+
+      // Modo oscuro automático
+      const savedTheme = localStorage.getItem('theme');
+      if ((savedTheme === 'dark') || (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        document.body.classList.add('dark-mode');
+        document.querySelector('.theme-toggle i').classList.replace('fa-moon', 'fa-sun');
+      }
+// Mostrar secciones al hacer scroll
       const sections = document.querySelectorAll("section");
       const observer = new IntersectionObserver(entries => {
         entries.forEach(entry => {
-          if (entry.isIntersecting) entry.target.classList.add("visible");
+          if (entry.isIntersecting) {
+            entry.target.classList.add("visible");
+          }
         });
       }, { threshold: 0.1 });
+
       sections.forEach(sec => observer.observe(sec));
     });
 
-    // Cambiar tema
+    // Alternar modo oscuro
     function toggleTheme() {
       const body = document.body;
       const icon = document.querySelector(".theme-toggle i");
@@ -249,7 +301,7 @@
       }
     }
 
-    // Filtrar galería
+    // Filtro de galería
     function filterGallery(category) {
       const items = document.querySelectorAll(".gallery-item");
       items.forEach(item => {
@@ -259,5 +311,6 @@
         }
       });
     }
-  </script></body>
+  </script>
+</body>
 </html>
