@@ -291,7 +291,55 @@
     window.onload = () => {
       document.getElementById("loader").style.display = "none";
     }
+<div id="image-modal" class="modal">
+    <span class="close" onclick="closeImageModal()">×</span>
+    <span class="prev" onclick="changeImage(-1)">❮</span>
+    <img id="modal-image" src="" onclick="toggleZoom(this)">
+    <span class="next" onclick="changeImage(1)">❯</span>
+  </div>
 
+  <script>
+    let currentImageIndex = 0;
+    const images = Array.from(document.querySelectorAll("#image-carousel img"));
+    const modal = document.getElementById("image-modal");
+    const modalImage = document.getElementById("modal-image");
+
+    function openImageModal(index) {
+      currentImageIndex = index;
+      updateModalImage();
+      modal.style.display = "flex";
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeImageModal() {
+      modal.style.display = "none";
+      document.body.style.overflow = 'auto';
+      modalImage.classList.remove('zoomed');
+      modalImage.style.left = '0px';
+      modalImage.style.top = '0px';
+    }
+
+    function changeImage(step) {
+      currentImageIndex = (currentImageIndex + step + images.length) % images.length;
+      updateModalImage();
+    }
+
+    function updateModalImage() {
+      modalImage.src = images[currentImageIndex].src;
+      modalImage.classList.remove('zoomed');
+    }
+
+    function toggleZoom(img) {
+      img.classList.toggle('zoomed');
+    }
+
+    document.addEventListener('keydown', function(e) {
+      if (modal.style.display === 'flex') {
+        if (e.key === 'ArrowLeft') changeImage(-1);
+        if (e.key === 'ArrowRight') changeImage(1);
+        if (e.key === 'Escape') closeImageModal();
+      }
+    });
     if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
       document.body.classList.add("dark-mode");
     }
