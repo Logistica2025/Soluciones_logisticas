@@ -6,181 +6,224 @@
   <title>Servicios Logísticos con AppSheet</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
   <style>
-    /* ... (todo tu CSS anterior sin cambios, ya está bien estructurado) ... */
+    :root {
+      --bg: #f8f9fa;
+      --text: #333;
+      --bg-dark: #121212;
+      --text-dark: #f1f1f1;
+      --accent: #5e56c6;
+    }
+
+    * {
+      box-sizing: border-box;
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: var(--bg);
+      color: var(--text);
+      transition: background 0.3s, color 0.3s;
+    }
+
+    body.dark-mode {
+      --bg: var(--bg-dark);
+      --text: var(--text-dark);
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 2rem;
+      background-color: var(--accent);
+      color: white;
+    }
+
+    .toggle-dark {
+      background: white;
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 20px;
+      cursor: pointer;
+      font-weight: bold;
+      color: var(--accent);
+    }
+
+    h2 {
+      padding: 1rem;
+    }
+
+    /* Galería horizontal */
+    .gallery-container {
+      position: relative;
+      overflow: hidden;
+      padding: 1rem;
+    }
+
+    .gallery {
+      display: flex;
+      overflow-x: auto;
+      scroll-behavior: smooth;
+      gap: 1rem;
+    }
+
+    .gallery::-webkit-scrollbar {
+      display: none;
+    }
+
+    .gallery img {
+      height: 200px;
+      border-radius: 12px;
+      cursor: pointer;
+      flex-shrink: 0;
+      transition: transform 0.2s ease;
+    }
+
+    .gallery img:hover {
+      transform: scale(1.03);
+    }
+
+    .arrow {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: var(--accent);
+      color: white;
+      border: none;
+      padding: 0.5rem 1rem;
+      cursor: pointer;
+      font-size: 1.5rem;
+      z-index: 2;
+      border-radius: 50%;
+    }
+
+    .arrow.left {
+      left: 10px;
+    }
+
+    .arrow.right {
+      right: 10px;
+    }
+
+    /* Lightbox */
+    .lightbox {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.9);
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+      flex-direction: column;
+    }
+
+    .lightbox img {
+      max-width: 90%;
+      max-height: 80%;
+    }
+
+    .lightbox-controls {
+      display: flex;
+      justify-content: space-between;
+      width: 100%;
+      max-width: 90%;
+      position: relative;
+    }
+
+    .lightbox-button {
+      background: none;
+      border: none;
+      color: white;
+      font-size: 2rem;
+      cursor: pointer;
+      padding: 0 1rem;
+    }
+
+    .close-lightbox {
+      position: absolute;
+      top: 20px;
+      right: 30px;
+      font-size: 2rem;
+      color: white;
+      text-decoration: none;
+      cursor: pointer;
+    }
   </style>
 </head>
 <body>
-  <div class="loader" id="loader">
-    <div class="spinner"></div>
-  </div>
-  <nav>
-    <a href="#logistica">Logística</a>
-    <a href="#soluciones">Soluciones</a>
-    <a href="#contacto">Contacto</a>
-  </nav>
-  <header>
-    <img src="https://i.imgur.com/MwG2HNZ.png" alt="Logo">
-    <h1>Soluciones Logísticas con AppSheet</h1>
-    <p>Digitaliza tu inventario, pedidos y procesos logísticos con apps personalizadas</p>
-  </header>
-  <section id="logistica">
-    <h2>¿Qué ofrecemos?</h2>
-    <ul>
-      <li>Apps en AppSheet para pedidos, inventarios y logística</li>
-      <li>Formatos inteligentes según estadísticas</li>
-      <li>Asesorías, cursos y talleres prácticos</li>
-      <li>Atención directa y soporte continuo</li>
-    </ul>
-    <a href="https://wa.me/584129915255" class="btn btn-whatsapp">Contáctanos por WhatsApp</a>
-  </section>
-  <section id="soluciones">
-    <h2>Galería de Soluciones</h2>
-    <div class="filter-buttons">
-      <button class="active" onclick="filterImages('all')">Todos</button>
-      <button onclick="filterImages('inventario')">Inventario</button>
-      <button onclick="filterImages('pedidos')">Flujo de materiales</button>
-      <button onclick="filterImages('dashboard')">Dashboard</button>
-    </div>
-    <div class="carousel" id="image-carousel">
-      <img src="https://i.imgur.com/LjIIjE6.jpeg" data-cat="inventario" class="show">
-      <img src="https://i.imgur.com/AM6llSu.jpeg" data-cat="inventario" class="show">
-      <img src="https://i.imgur.com/d5cA0wu.jpeg" data-cat="pedidos" class="show">
-      <img src="https://i.imgur.com/k0lLKjm.jpeg" data-cat="pedidos" class="show">
-      <img src="https://i.imgur.com/h5m43Mr.jpeg" data-cat="dashboard" class="show">
-      <img src="https://i.imgur.com/BmL48po.jpeg" data-cat="dashboard" class="show">
-    </div>
-  </section>
-  <section>
-    <h2>Videos</h2>
-    <div class="video-gallery">
-      <div>
-        <h3>Control logístico con AppSheet</h3>
-        <iframe src="https://www.youtube.com/embed/NoyvVXY8FFk" allowfullscreen></iframe>
-      </div>
-      <div>
-        <h3>Dashboard con gráficas interactivas</h3>
-        <iframe src="https://www.youtube.com/embed/xsAI0kGJV0A" allowfullscreen></iframe>
-      </div>
-    </div>
-  </section>
-  <section>
-    <h2>Pagos y Compras</h2>
-    <p>Puedes realizar pagos o compras digitales mediante el siguiente botón:</p>
-    <a href="https://www.paypal.com/paypalme/tuenlace" class="btn btn-pago">Pagar con PayPal</a>
-  </section>
-  <section id="contacto">
-    <h2>Contáctanos</h2>
-    <form action="https://formspree.io/f/xnndpolz" method="POST">
-      <div class="form-group">
-        <input type="text" name="nombre" placeholder="Nombre" required>
-      </div>
-      <div class="form-group">
-        <input type="email" name="email" placeholder="Correo electrónico" required>
-      </div>
-      <div class="form-group">
-        <textarea name="mensaje" rows="5" placeholder="¿Qué tipo de servicio necesitas?" required></textarea>
-      </div>
-      <button type="submit">Enviar mensaje</button>
-    </form>
-  </section>
-  <footer>
-    © 2025 - Servicios logísticos y AppSheet | Desarrollado por Derwin Rojas
-  </footer>
 
-  <!-- Modal -->
-  <div id="image-modal" class="modal" style="display:none; position:fixed; top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.8);justify-content:center;align-items:center;z-index:2000;">
-    <span class="close" onclick="closeImageModal()" style="position:absolute;top:20px;right:30px;font-size:30px;color:white;cursor:pointer;">×</span>
-    <span class="prev" onclick="changeImage(-1)" style="position:absolute;left:20px;top:50%;transform:translateY(-50%);font-size:40px;color:white;cursor:pointer;">❮</span>
-    <img id="modal-image" src="" onclick="toggleZoom(this)" style="max-height:80%;max-width:80%;cursor:zoom-in;">
-    <span class="next" onclick="changeImage(1)" style="position:absolute;right:20px;top:50%;transform:translateY(-50%);font-size:40px;color:white;cursor:pointer;">❯</span>
+  <header>
+    <h1>Soluciones AppSheet</h1>
+    <button class="toggle-dark" onclick="toggleDarkMode()">Modo Oscuro</button>
+  </header>
+
+  <!-- Galería -->
+  <section>
+    <h2>Galería de Soluciones</h2>
+    <div class="gallery-container">
+      <button class="arrow left" onclick="scrollGallery(-300)">&#10094;</button>
+      <div class="gallery" id="gallery">
+        <img src="https://via.placeholder.com/400x200?text=App+1" alt="App 1" onclick="openLightbox(0)" />
+        <img src="https://via.placeholder.com/400x200?text=App+2" alt="App 2" onclick="openLightbox(1)" />
+        <img src="https://via.placeholder.com/400x200?text=App+3" alt="App 3" onclick="openLightbox(2)" />
+        <img src="https://via.placeholder.com/400x200?text=App+4" alt="App 4" onclick="openLightbox(3)" />
+        <img src="https://via.placeholder.com/400x200?text=App+5" alt="App 5" onclick="openLightbox(4)" />
+      </div>
+      <button class="arrow right" onclick="scrollGallery(300)">&#10095;</button>
+    </div>
+  </section>
+
+  <!-- Lightbox con navegación -->
+  <div class="lightbox" id="lightbox">
+    <a class="close-lightbox" onclick="closeLightbox()">&times;</a>
+    <div class="lightbox-controls">
+      <button class="lightbox-button" onclick="changeImage(-1)">&#10094;</button>
+      <img id="lightbox-img" src="" alt="Imagen ampliada" />
+      <button class="lightbox-button" onclick="changeImage(1)">&#10095;</button>
+    </div>
   </div>
 
   <script>
-    // Ocultar loader al cargar la página
-    window.onload = () => {
-      document.getElementById("loader").style.display = "none";
+    const images = [
+      "https://via.placeholder.com/400x200?text=App+1",
+      "https://via.placeholder.com/400x200?text=App+2",
+      "https://via.placeholder.com/400x200?text=App+3",
+      "https://via.placeholder.com/400x200?text=App+4",
+      "https://via.placeholder.com/400x200?text=App+5"
+    ];
+    let currentIndex = 0;
+
+    function toggleDarkMode() {
+      document.body.classList.toggle("dark-mode");
     }
 
-    // Modal de imágenes
-    let currentImageIndex = 0;
-    const images = Array.from(document.querySelectorAll("#image-carousel img"));
-    const modal = document.getElementById("image-modal");
-    const modalImage = document.getElementById("modal-image");
-
-    images.forEach((img, index) => {
-      img.addEventListener("click", () => openImageModal(index));
-    });
-
-    function openImageModal(index) {
-      currentImageIndex = index;
-      updateModalImage();
-      modal.style.display = "flex";
-      document.body.style.overflow = 'hidden';
+    function openLightbox(index) {
+      currentIndex = index;
+      document.getElementById("lightbox-img").src = images[index];
+      document.getElementById("lightbox").style.display = "flex";
     }
 
-    function closeImageModal() {
-      modal.style.display = "none";
-      document.body.style.overflow = 'auto';
+    function closeLightbox() {
+      document.getElementById("lightbox").style.display = "none";
     }
 
-    function changeImage(step) {
-      currentImageIndex = (currentImageIndex + step + images.length) % images.length;
-      updateModalImage();
+    function changeImage(direction) {
+      currentIndex += direction;
+      if (currentIndex < 0) currentIndex = images.length - 1;
+      if (currentIndex >= images.length) currentIndex = 0;
+      document.getElementById("lightbox-img").src = images[currentIndex];
     }
 
-    function updateModalImage() {
-      modalImage.src = images[currentImageIndex].src;
-    }
-
-    function toggleZoom(img) {
-      img.classList.toggle('zoomed');
-    }
-
-    // Filtro de imágenes
-    function filterImages(cat) {
-      document.querySelectorAll('.filter-buttons button').forEach(btn => btn.classList.remove('active'));
-      event.target.classList.add('active');
-      images.forEach(img => {
-        if (cat === 'all' || img.dataset.cat === cat) {
-          img.classList.add('show');
-        } else {
-          img.classList.remove('show');
-        }
-      });
-    }
-
-    // Formulario AJAX
-    document.querySelector("form").addEventListener("submit", async function(e) {
-      e.preventDefault();
-      const form = e.target;
-      const formData = new FormData(form);
-      const response = await fetch(form.action, {
-        method: form.method,
-        body: formData,
-        headers: { 'Accept': 'application/json' }
-      });
-      if (response.ok) {
-        alert("Mensaje enviado correctamente.");
-        form.reset();
-      } else {
-        alert("Ocurrió un error. Intenta de nuevo.");
-      }
-    });
-
-    // Animaciones de scroll
-    const sections = document.querySelectorAll("section");
-    const observer = new IntersectionObserver(entries => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) entry.target.classList.add("visible");
-      });
-    }, { threshold: 0.1 });
-
-    sections.forEach(sec => observer.observe(sec));
-
-    // Activar modo oscuro automático si el sistema lo tiene
-    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-      document.body.classList.add("dark-mode");
+    function scrollGallery(distance) {
+      const container = document.getElementById('gallery');
+      container.scrollBy({ left: distance, behavior: 'smooth' });
     }
   </script>
+
 </body>
 </html>
