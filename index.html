@@ -5,225 +5,329 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Servicios Logísticos con AppSheet</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
-    :root {
-      --bg: #f8f9fa;
-      --text: #333;
-      --bg-dark: #121212;
-      --text-dark: #f1f1f1;
-      --accent: #5e56c6;
-    }
-
     * {
       box-sizing: border-box;
       scroll-behavior: smooth;
     }
-
     body {
       font-family: 'Inter', sans-serif;
       margin: 0;
       padding: 0;
-      background-color: var(--bg);
-      color: var(--text);
-      transition: background 0.3s, color 0.3s;
+      background-color: #f8f9fa;
+      color: #333;
+      transition: background-color 0.4s, color 0.4s;
     }
-
     body.dark-mode {
-      --bg: var(--bg-dark);
-      --text: var(--text-dark);
+      background-color: #121212;
+      color: #f1f1f1;
     }
-
-    header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 1rem 2rem;
-      background-color: var(--accent);
-      color: white;
-    }
-
-    .toggle-dark {
-      background: white;
-      border: none;
-      padding: 0.5rem 1rem;
-      border-radius: 20px;
-      cursor: pointer;
-      font-weight: bold;
-      color: var(--accent);
-    }
-
-    h2 {
-      padding: 1rem;
-    }
-
-    /* Galería horizontal */
-    .gallery-container {
-      position: relative;
-      overflow: hidden;
-      padding: 1rem;
-    }
-
-    .gallery {
-      display: flex;
-      overflow-x: auto;
-      scroll-behavior: smooth;
-      gap: 1rem;
-    }
-
-    .gallery::-webkit-scrollbar {
-      display: none;
-    }
-
-    .gallery img {
-      height: 200px;
-      border-radius: 12px;
-      cursor: pointer;
-      flex-shrink: 0;
-      transition: transform 0.2s ease;
-    }
-
-    .gallery img:hover {
-      transform: scale(1.03);
-    }
-
-    .arrow {
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      background: var(--accent);
-      color: white;
-      border: none;
-      padding: 0.5rem 1rem;
-      cursor: pointer;
-      font-size: 1.5rem;
-      z-index: 2;
-      border-radius: 50%;
-    }
-
-    .arrow.left {
-      left: 10px;
-    }
-
-    .arrow.right {
-      right: 10px;
-    }
-
-    /* Lightbox */
-    .lightbox {
-      display: none;
+    nav {
       position: fixed;
-      top: 0; left: 0;
+      top: 0;
       width: 100%;
-      height: 100%;
-      background: rgba(0,0,0,0.9);
-      justify-content: center;
-      align-items: center;
-      z-index: 9999;
-      flex-direction: column;
-    }
-
-    .lightbox img {
-      max-width: 90%;
-      max-height: 80%;
-    }
-
-    .lightbox-controls {
+      background: #5e56c6;
       display: flex;
-      justify-content: space-between;
-      width: 100%;
-      max-width: 90%;
-      position: relative;
+      justify-content: center;
+      gap: 40px;
+      padding: 15px 0;
+      z-index: 1000;
     }
-
-    .lightbox-button {
-      background: none;
-      border: none;
-      color: white;
-      font-size: 2rem;
-      cursor: pointer;
-      padding: 0 1rem;
-    }
-
-    .close-lightbox {
-      position: absolute;
-      top: 20px;
-      right: 30px;
-      font-size: 2rem;
+    nav a {
       color: white;
       text-decoration: none;
+      font-weight: 600;
+    }
+    nav a:hover {
+      color: #25D366;
+    }
+    .theme-toggle {
+      position: fixed;
+      right: 20px;
+      top: 20px;
+      background: none;
+      border: none;
+      font-size: 20px;
+      color: white;
       cursor: pointer;
+      z-index: 1001;
+    }
+    header {
+      background-color: #5e56c6;
+      color: white;
+      text-align: center;
+      padding: 120px 20px 50px;
+    }
+    header img {
+      max-width: 180px;
+      margin-bottom: 15px;
+    }
+    h1 {
+      margin: 10px 0 5px;
+      font-size: 2.5rem;
+    }
+    section {
+      max-width: 1000px;
+      margin: 40px auto;
+      background: white;
+      padding: 40px;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    body.dark-mode section {
+      background-color: #1e1e1e;
+    }
+    section.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    h2 {
+      color: #5e56c6;
+      font-size: 1.8rem;
+      border-left: 4px solid #25D366;
+      padding-left: 10px;
+    }
+    .btn {
+      display: inline-block;
+      padding: 12px 24px;
+      border-radius: 8px;
+      font-weight: bold;
+      color: white;
+      text-decoration: none;
+      margin-top: 20px;
+    }
+    .btn-whatsapp { background-color: #25D366; }
+    .btn-pago { background-color: #007bff; }
+    .btn-whatsapp:hover { background-color: #128C7E; }
+    .btn-pago:hover { background-color: #0056b3; }
+
+    /* Galería */
+    .gallery-filter {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 20px;
+    }
+    .gallery-filter button {
+      padding: 8px 16px;
+      border: none;
+      background-color: #5e56c6;
+      color: white;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 15px;
+    }
+    .gallery img {
+      width: 100%;
+      border-radius: 10px;
+      display: none;
+    }
+    .gallery-item.active img {
+      display: block;
+    }
+
+    /* Formulario moderno */
+    form input, form textarea {
+      width: 100%;
+      padding: 14px;
+      border: 2px solid #ccc;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      font-size: 1rem;
+      transition: border-color 0.3s;
+    }
+    form input:focus, form textarea:focus {
+      border-color: #5e56c6;
+      outline: none;
+    }
+    form button {
+      background-color: #5e56c6;
+      color: white;
+      padding: 14px 28px;
+      border: none;
+      border-radius: 8px;
+      font-weight: bold;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+    .form-success {
+      color: green;
+      font-weight: bold;
+      margin-top: 10px;
+    }
+    .form-error {
+      color: red;
+      font-weight: bold;
+      margin-top: 10px;
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      background: #5e56c6;
+      color: #ccc;
+    }
+
+    /* Animación de carga */
+    #loader {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: white;
+      z-index: 2000;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      transition: opacity 0.5s;
+    }
+    #loader.hidden {
+      opacity: 0;
+      pointer-events: none;
+    }
+    .spinner {
+      border: 6px solid #eee;
+      border-top: 6px solid #5e56c6;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      animation: spin 1s linear infinite;
+    }
+    @keyframes spin {
+      to { transform: rotate(360deg); }
     }
   </style>
 </head>
 <body>
+  <div id="loader"><div class="spinner"></div></div>
 
+  <button class="theme-toggle" onclick="toggleTheme()"><i class="fas fa-moon"></i></button>
+  <nav>
+    <a href="#logistica">Logística</a>
+    <a href="#soluciones">Soluciones</a>
+    <a href="#contacto">Contacto</a>
+  </nav>
   <header>
-    <h1>Soluciones AppSheet</h1>
-    <button class="toggle-dark" onclick="toggleDarkMode()">Modo Oscuro</button>
+    <img src="https://i.imgur.com/MwG2HNZ.png" alt="Logo">
+    <h1>Soluciones Logísticas con AppSheet</h1>
+    <p>Digitaliza tu inventario, pedidos y procesos logísticos con apps personalizadas</p>
   </header>
 
-  <!-- Galería -->
-  <section>
+  <section id="logistica">
+    <h2>¿Qué ofrecemos?</h2>
+    <ul>
+      <li>Apps en AppSheet para pedidos, inventarios y logística</li>
+      <li>Formatos inteligentes según estadísticas</li>
+      <li>Asesorías, cursos y talleres prácticos</li>
+      <li>Atención directa y soporte continuo</li>
+    </ul>
+    <a href="https://wa.me/584129915255" class="btn btn-whatsapp">Contáctanos por WhatsApp</a>
+  </section>
+
+  <section id="soluciones">
     <h2>Galería de Soluciones</h2>
-    <div class="gallery-container">
-      <button class="arrow left" onclick="scrollGallery(-300)">&#10094;</button>
-      <div class="gallery" id="gallery">
-        <img src="https://via.placeholder.com/400x200?text=App+1" alt="App 1" onclick="openLightbox(0)" />
-        <img src="https://via.placeholder.com/400x200?text=App+2" alt="App 2" onclick="openLightbox(1)" />
-        <img src="https://via.placeholder.com/400x200?text=App+3" alt="App 3" onclick="openLightbox(2)" />
-        <img src="https://via.placeholder.com/400x200?text=App+4" alt="App 4" onclick="openLightbox(3)" />
-        <img src="https://via.placeholder.com/400x200?text=App+5" alt="App 5" onclick="openLightbox(4)" />
-      </div>
-      <button class="arrow right" onclick="scrollGallery(300)">&#10095;</button>
+    <div class="gallery-filter">
+      <button onclick="filterGallery('all')">Todas</button>
+      <button onclick="filterGallery('inventario')">Inventario</button>
+      <button onclick="filterGallery('pedidos')">Pedidos</button>
+      <button onclick="filterGallery('dashboard')">Dashboard</button>
+    </div>
+    <div class="gallery">
+      <div class="gallery-item inventario active"><img src="https://i.imgur.com/LjIIjE6.jpeg"></div>
+      <div class="gallery-item pedidos active"><img src="https://i.imgur.com/AM6llSu.jpeg"></div>
+      <div class="gallery-item inventario active"><img src="https://i.imgur.com/d5cA0wu.jpeg"></div>
+      <div class="gallery-item dashboard active"><img src="https://i.imgur.com/k0lLKjm.jpeg"></div>
+      <div class="gallery-item pedidos active"><img src="https://i.imgur.com/h5m43Mr.jpeg"></div>
+      <div class="gallery-item dashboard active"><img src="https://i.imgur.com/BmL48po.jpeg"></div>
     </div>
   </section>
 
-  <!-- Lightbox con navegación -->
-  <div class="lightbox" id="lightbox">
-    <a class="close-lightbox" onclick="closeLightbox()">&times;</a>
-    <div class="lightbox-controls">
-      <button class="lightbox-button" onclick="changeImage(-1)">&#10094;</button>
-      <img id="lightbox-img" src="" alt="Imagen ampliada" />
-      <button class="lightbox-button" onclick="changeImage(1)">&#10095;</button>
-    </div>
-  </div>
+  <section>
+    <h2>Pagos y Compras</h2>
+    <p>Puedes realizar pagos o compras digitales mediante el siguiente botón:</p>
+    <a href="https://www.paypal.com/paypalme/tuenlace" class="btn btn-pago">Pagar con PayPal</a>
+  </section>
+
+  <section id="contacto">
+    <h2>Contáctanos</h2>
+    <form id="form" action="https://formspree.io/f/xnndpolz" method="POST">
+      <input type="text" name="nombre" placeholder="Tu nombre" required>
+      <input type="email" name="email" placeholder="Correo electrónico" required>
+      <textarea name="mensaje" rows="5" placeholder="¿Qué tipo de servicio necesitas?" required></textarea>
+      <button type="submit">Enviar mensaje</button>
+      <div id="form-mensaje"></div>
+    </form>
+  </section>
+
+  <footer>
+    © 2025 - Servicios logísticos y AppSheet | Desarrollado por Derwin Rojas
+  </footer>
 
   <script>
-    const images = [
-      "https://via.placeholder.com/400x200?text=App+1",
-      "https://via.placeholder.com/400x200?text=App+2",
-      "https://via.placeholder.com/400x200?text=App+3",
-      "https://via.placeholder.com/400x200?text=App+4",
-      "https://via.placeholder.com/400x200?text=App+5"
-    ];
-    let currentIndex = 0;
+    // Animación de carga
+    window.addEventListener("load", () => {
+      document.getElementById("loader").classList.add("hidden");
+    });
 
-    function toggleDarkMode() {
-      document.body.classList.toggle("dark-mode");
+    // Tema oscuro
+    document.addEventListener("DOMContentLoaded", () => {
+      if (localStorage.getItem("theme") === "dark") {
+        document.body.classList.add("dark-mode");
+        document.querySelector(".theme-toggle i").classList.replace("fa-moon", "fa-sun");
+      }
+
+      const sections = document.querySelectorAll("section");
+      const observer = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) entry.target.classList.add("visible");
+        });
+      }, { threshold: 0.1 });
+      sections.forEach(sec => observer.observe(sec));
+    });
+
+    function toggleTheme() {
+      const body = document.body;
+      const icon = document.querySelector(".theme-toggle i");
+      body.classList.toggle("dark-mode");
+      if (body.classList.contains("dark-mode")) {
+        icon.classList.replace("fa-moon", "fa-sun");
+        localStorage.setItem("theme", "dark");
+      } else {
+        icon.classList.replace("fa-sun", "fa-moon");
+        localStorage.setItem("theme", "light");
+      }
     }
 
-    function openLightbox(index) {
-      currentIndex = index;
-      document.getElementById("lightbox-img").src = images[index];
-      document.getElementById("lightbox").style.display = "flex";
+    function filterGallery(category) {
+      const items = document.querySelectorAll(".gallery-item");
+      items.forEach(item => {
+        item.classList.remove("active");
+        if (category === 'all' || item.classList.contains(category)) {
+          item.classList.add("active");
+        }
+      });
     }
 
-    function closeLightbox() {
-      document.getElementById("lightbox").style.display = "none";
-    }
-
-    function changeImage(direction) {
-      currentIndex += direction;
-      if (currentIndex < 0) currentIndex = images.length - 1;
-      if (currentIndex >= images.length) currentIndex = 0;
-      document.getElementById("lightbox-img").src = images[currentIndex];
-    }
-
-    function scrollGallery(distance) {
-      const container = document.getElementById('gallery');
-      container.scrollBy({ left: distance, behavior: 'smooth' });
-    }
+    // Validación visual y feedback
+    document.getElementById("form").addEventListener("submit", function (e) {
+      const mensajeDiv = document.getElementById("form-mensaje");
+      mensajeDiv.innerHTML = "Enviando...";
+      setTimeout(() => {
+        mensajeDiv.textContent = "¡Mensaje enviado con éxito!";
+        mensajeDiv.className = "form-success";
+        this.reset();
+      }, 1500);
+      e.preventDefault(); // quitar si usas envío real
+    });
   </script>
-
 </body>
 </html>
