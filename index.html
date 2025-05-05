@@ -1,13 +1,10 @@
-<!DOCTYPE html>
-<html lang="es">
+<!DOCTYPE html><html lang="es">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Servicios Logísticos con AppSheet</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
-    /* Estilos generales */
     * {
       box-sizing: border-box;
       scroll-behavior: smooth;
@@ -30,8 +27,6 @@
       --bg: var(--bg-dark);
       --text: var(--text-dark);
     }
-
-    /* Loader */
     .loader {
       position: fixed;
       top: 0; left: 0; right: 0; bottom: 0;
@@ -50,8 +45,6 @@
       from { opacity: 0.3; }
       to { opacity: 1; }
     }
-
-    /* Navegación */
     nav {
       position: fixed;
       top: 0;
@@ -72,21 +65,18 @@
     nav a:hover {
       color: #25D366;
     }
-
-    /* Botón de modo oscuro */
     .theme-toggle {
       position: fixed;
       right: 20px;
       top: 15px;
-      background: none;
+      background: #25D366;
       border: none;
       color: white;
-      font-size: 1.5rem;
+      border-radius: 50px;
+      padding: 6px 14px;
+      font-weight: bold;
       cursor: pointer;
-      z-index: 1001;
     }
-
-    /* Encabezado */
     header {
       background-color: #5e56c6;
       color: white;
@@ -101,8 +91,6 @@
       margin: 10px 0 5px;
       font-size: 2.5rem;
     }
-
-    /* Secciones */
     section {
       max-width: 1000px;
       margin: 40px auto;
@@ -128,8 +116,6 @@
       border-left: 4px solid #25D366;
       padding-left: 10px;
     }
-
-    /* Galería */
     .filter-buttons {
       display: flex;
       flex-wrap: wrap;
@@ -163,8 +149,6 @@
       width: 100%;
       border-radius: 8px;
     }
-
-    /* Formulario */
     form {
       display: flex;
       flex-direction: column;
@@ -195,8 +179,6 @@
     form button:hover {
       background-color: #1a252f;
     }
-
-    /* Pie de página */
     footer {
       text-align: center;
       padding: 20px;
@@ -213,16 +195,12 @@
     <a href="#galeria">Soluciones</a>
     <a href="#contacto">Contacto</a>
   </nav>
-  <button class="theme-toggle" onclick="toggleTheme()">
-    <i class="fas fa-moon"></i>
-  </button>
+  <button class="theme-toggle" onclick="toggleTheme()">Modo</button>
   <header>
     <img src="https://i.imgur.com/MwG2HNZ.png" alt="Logo">
     <h1>Soluciones Logísticas con AppSheet</h1>
     <p>Digitaliza tu inventario, pedidos y procesos logísticos con apps personalizadas</p>
-  </header>
-
-  <section id="logistica">
+  </header>  <section id="logistica">
     <h2>¿Qué ofrecemos?</h2>
     <ul>
       <li>Apps en AppSheet para pedidos, inventarios y logística</li>
@@ -230,9 +208,7 @@
       <li>Asesorías, cursos y talleres prácticos</li>
       <li>Atención directa y soporte continuo</li>
     </ul>
-  </section>
-
-  <section id="galeria">
+  </section>  <section id="galeria">
     <h2>Galería de Soluciones</h2>
     <div class="filter-buttons">
       <button onclick="filterGallery('all')">Todos</button>
@@ -247,9 +223,7 @@
       <div class="gallery-item logistica active"><img src="https://i.imgur.com/d5cA0wu.jpeg" alt="Logística"></div>
       <div class="gallery-item dashboard active"><img src="https://i.imgur.com/k0lLKjm.jpeg" alt="Dashboard"></div>
     </div>
-  </section>
-
-  <section id="contacto">
+  </section>  <section id="contacto">
     <h2>Contáctanos</h2>
     <form action="https://formspree.io/f/xnndpolz" method="POST">
       <input type="text" name="nombre" placeholder="Tu nombre" required>
@@ -257,60 +231,57 @@
       <textarea name="mensaje" rows="5" placeholder="¿Qué tipo de servicio necesitas?" required></textarea>
       <button type="submit">Enviar mensaje</button>
     </form>
-  </section>
-
-  <footer>
+  </section>  <footer>
     © 2025 - Servicios logísticos y AppSheet | Desarrollado por Derwin Rojas
-  </footer>
-
-  <script>
-    // Animación de carga
+  </footer>  <script>
     window.addEventListener('DOMContentLoaded', () => {
       setTimeout(() => document.querySelector('.loader').style.display = 'none', 1000);
 
-      // Modo oscuro automático
       const savedTheme = localStorage.getItem('theme');
       if ((savedTheme === 'dark') || (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
         document.body.classList.add('dark-mode');
-        document.querySelector('.theme-toggle i').classList.replace('fa-moon', 'fa-sun');
       }
-// Mostrar secciones al hacer scroll
-      const sections = document.querySelectorAll("section");
-      const observer = new IntersectionObserver(entries => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add("visible");
-          }
-        });
-      }, { threshold: 0.1 });
-
-      sections.forEach(sec => observer.observe(sec));
     });
 
-    // Alternar modo oscuro
     function toggleTheme() {
-      const body = document.body;
-      const icon = document.querySelector(".theme-toggle i");
-      body.classList.toggle("dark-mode");
-      if (body.classList.contains("dark-mode")) {
-        icon.classList.replace("fa-moon", "fa-sun");
-        localStorage.setItem("theme", "dark");
-      } else {
-        icon.classList.replace("fa-sun", "fa-moon");
-        localStorage.setItem("theme", "light");
-      }
+      document.body.classList.toggle('dark-mode');
+      localStorage.setItem('theme', document.body.classList.contains('dark-mode') ? 'dark' : 'light');
     }
 
-    // Filtro de galería
     function filterGallery(category) {
-      const items = document.querySelectorAll(".gallery-item");
+      const items = document.querySelectorAll('.gallery-item');
       items.forEach(item => {
-        item.classList.remove("active");
+        item.classList.remove('active');
         if (category === 'all' || item.classList.contains(category)) {
-          item.classList.add("active");
+          item.classList.add('active');
         }
       });
     }
-  </script>
-</body>
+
+    const sections = document.querySelectorAll("section");
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) entry.target.classList.add("visible");
+      });
+    }, { threshold: 0.1 });
+
+    sections.forEach(sec => observer.observe(sec));
+
+    const form = document.querySelector("form");
+    form.addEventListener("submit", async function(e) {
+      e.preventDefault();
+      const formData = new FormData(form);
+      const response = await fetch(form.action, {
+        method: form.method,
+        body: formData,
+        headers: { 'Accept': 'application/json' }
+      });
+      if (response.ok) {
+        alert("Mensaje enviado correctamente.");
+        form.reset();
+      } else {
+        alert("Ocurrió un error. Intenta de nuevo.");
+      }
+    });
+  </script></body>
 </html>
