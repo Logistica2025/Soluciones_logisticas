@@ -288,7 +288,9 @@
   </section>  <footer>
     © 2025 - Servicios logísticos y AppSheet | Desarrollado por Derwin Rojas
   </footer>  <script>
-
+window.onload = () => {
+      document.getElementById("loader").style.display = "none";
+    }
 
 <div id="image-modal" class="modal">
     <span class="close" onclick="closeImageModal()">×</span>
@@ -354,11 +356,7 @@
         }
       });
     }
-    window.onload = () => {
-      document.getElementById("loader").style.display = "none";
-    }
-
-    document.querySelector("form").addEventListener("submit", async function(e) {
+     document.querySelector("form").addEventListener("submit", async function(e) {
       e.preventDefault();
       const form = e.target;
       const formData = new FormData(form);
