@@ -1,4 +1,5 @@
-<!DOCTYPE html><html lang="es"><head>
+<!DOCTYPE html><html lang="es">
+<head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Servicios Logísticos con AppSheet</title>
@@ -14,11 +15,11 @@
       padding: 0;
       background-color: #f8f9fa;
       color: #333;
-      transition: background 0.3s, color 0.3s;
+      transition: background-color 0.3s, color 0.3s;
     }
     body.dark-mode {
-      background-color: #1e1e1e;
-      color: #f0f0f0;
+      background-color: #121212;
+      color: #eee;
     }
     nav {
       position: fixed;
@@ -66,7 +67,7 @@
       transition: opacity 0.6s ease, transform 0.6s ease;
     }
     body.dark-mode section {
-      background-color: #2c2c2c;
+      background: #1e1e1e;
     }
     section.visible {
       opacity: 1;
@@ -123,6 +124,32 @@
     .carousel img:hover {
       transform: scale(1.05);
     }
+    .filter-buttons {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+    .filter-buttons button {
+      padding: 10px 18px;
+      border-radius: 8px;
+      border: none;
+      background: #5e56c6;
+      color: white;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    .filter-buttons button:hover,
+    .filter-buttons button.active {
+      background: #25D366;
+    }
+    .carousel img[data-cat] {
+      display: none;
+    }
+    .carousel img[data-cat].show {
+      display: block;
+    }
     .form-group {
       margin-bottom: 20px;
     }
@@ -137,7 +164,7 @@
       border-color: red;
     }
     input:valid, textarea:valid {
-      border-color: #25D366;
+      border-color: green;
     }
     textarea {
       resize: vertical;
@@ -163,140 +190,148 @@
       color: #ccc;
       font-size: 0.9rem;
     }
-    .filter-controls {
-      text-align: center;
-      margin-bottom: 20px;
-    }
-    .filter-controls button {
-      margin: 0 5px;
-      padding: 8px 16px;
-      border: none;
-      border-radius: 6px;
-      background-color: #5e56c6;
-      color: white;
-      cursor: pointer;
-    }
-    .filter-controls button.active {
-      background-color: #25D366;
-    }
-    .filtered-gallery {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-      gap: 15px;
-    }
-    .filtered-gallery img {
-      width: 100%;
-      border-radius: 10px;
-      cursor: pointer;
-    }
-    .filtered-gallery img[data-category] {
-      display: none;
-    }
     .loader {
       position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      background: #5e56c6;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: white;
       display: flex;
       justify-content: center;
       align-items: center;
-      color: white;
-      font-size: 1.5rem;
       z-index: 3000;
     }
-    .modal {
-      display: none;
-      position: fixed;
-      z-index: 2000;
-      left: 0;
-      top: 0;
-      width: 100%;
-      height: 100%;
-      overflow: hidden;
-      background-color: rgba(0,0,0,0.8);
-      justify-content: center;
-      align-items: center;
+    body.dark-mode .loader {
+      background: #121212;
     }
-    .modal img {
-      max-width: 90%;
-      max-height: 90%;
-      transition: transform 0.3s ease;
-      cursor: grab;
-      position: relative;
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
     }
-    .modal img.zoomed {
-      transform: scale(2);
-      cursor: grab;
-    }
-    .modal .close, .modal .prev, .modal .next {
-      position: absolute;
-      font-size: 30px;
-      color: white;
-      cursor: pointer;
-      padding: 10px;
-      user-select: none;
-      z-index: 2100;
-    }
-    .modal .close {
-      top: 20px;
-      right: 20px;
-      font-size: 40px;
-    }
-    .modal .prev {
-      left: 20px;
-      top: 50%;
-      transform: translateY(-50%);
-    }
-    .modal .next {
-      right: 20px;
-      top: 50%;
-      transform: translateY(-50%);
+    .spinner {
+      border: 6px solid #eee;
+      border-top: 6px solid #5e56c6;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      animation: spin 1s linear infinite;
     }
   </style>
 </head>
 <body>
-<div class="loader" id="loader">Cargando...</div>
-<!-- resto del contenido como header, nav, etc. -->
-<section id="soluciones">
-  <h2>Galería Filtrable</h2>
-  <div class="filter-controls">
-    <button class="active" onclick="filterGallery('all')">Todos</button>
-    <button onclick="filterGallery('inventario')">Inventario</button>
-    <button onclick="filterGallery('pedidos')">Pedidos</button>
-    <button onclick="filterGallery('dashboard')">Dashboard</button>
+  <div class="loader" id="loader">
+    <div class="spinner"></div>
   </div>
-  <div class="filtered-gallery" id="filtered-gallery">
-    <img src="https://i.imgur.com/LjIIjE6.jpeg" data-category="inventario">
-    <img src="https://i.imgur.com/AM6llSu.jpeg" data-category="pedidos">
-    <img src="https://i.imgur.com/d5cA0wu.jpeg" data-category="dashboard">
-    <img src="https://i.imgur.com/k0lLKjm.jpeg" data-category="inventario">
-    <img src="https://i.imgur.com/h5m43Mr.jpeg" data-category="dashboard">
-    <img src="https://i.imgur.com/BmL48po.jpeg" data-category="pedidos">
-  </div>
-</section>
-<script>
-  window.addEventListener('load', () => {
-    document.getElementById('loader').style.display = 'none';
-    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-      document.body.classList.add('dark-mode');
+  <nav>
+    <a href="#logistica">Logística</a>
+    <a href="#soluciones">Soluciones</a>
+    <a href="#contacto">Contacto</a>
+  </nav>
+  <header>
+    <img src="https://i.imgur.com/MwG2HNZ.png" alt="Logo">
+    <h1>Soluciones Logísticas con AppSheet</h1>
+    <p>Digitaliza tu inventario, pedidos y procesos logísticos con apps personalizadas</p>
+  </header>  <section id="logistica">
+    <h2>¿Qué ofrecemos?</h2>
+    <ul>
+      <li>Apps en AppSheet para pedidos, inventarios y logística</li>
+      <li>Formatos inteligentes según estadísticas</li>
+      <li>Asesorías, cursos y talleres prácticos</li>
+      <li>Atención directa y soporte continuo</li>
+    </ul>
+    <a href="https://wa.me/584129915255" class="btn btn-whatsapp">Contáctanos por WhatsApp</a>
+  </section>  <section id="soluciones">
+    <h2>Galería de Soluciones</h2>
+    <div class="filter-buttons">
+      <button class="active" onclick="filterImages('all')">Todos</button>
+      <button onclick="filterImages('inventario')">Inventario</button>
+      <button onclick="filterImages('pedidos')">Pedidos</button>
+      <button onclick="filterImages('dashboard')">Dashboard</button>
+    </div>
+    <div class="carousel" id="image-carousel">
+      <img src="https://i.imgur.com/LjIIjE6.jpeg" data-cat="inventario" class="show">
+      <img src="https://i.imgur.com/AM6llSu.jpeg" data-cat="inventario" class="show">
+      <img src="https://i.imgur.com/d5cA0wu.jpeg" data-cat="pedidos" class="show">
+      <img src="https://i.imgur.com/k0lLKjm.jpeg" data-cat="pedidos" class="show">
+      <img src="https://i.imgur.com/h5m43Mr.jpeg" data-cat="dashboard" class="show">
+      <img src="https://i.imgur.com/BmL48po.jpeg" data-cat="dashboard" class="show">
+    </div>
+  </section>  <section>
+    <h2>Videos</h2>
+    <div class="video-gallery">
+      <div>
+        <h3>Control logístico con AppSheet</h3>
+        <iframe src="https://www.youtube.com/embed/NoyvVXY8FFk" allowfullscreen></iframe>
+      </div>
+      <div>
+        <h3>Dashboard con gráficas interactivas</h3>
+        <iframe src="https://www.youtube.com/embed/xsAI0kGJV0A" allowfullscreen></iframe>
+      </div>
+    </div>
+  </section>  <section>
+    <h2>Pagos y Compras</h2>
+    <p>Puedes realizar pagos o compras digitales mediante el siguiente botón:</p>
+    <a href="https://www.paypal.com/paypalme/tuenlace" class="btn btn-pago">Pagar con PayPal</a>
+  </section>  <section id="contacto">
+    <h2>Contáctanos</h2>
+    <form action="https://formspree.io/f/xnndpolz" method="POST">
+      <div class="form-group">
+        <input type="text" name="nombre" placeholder="Tu nombre" required>
+      </div>
+      <div class="form-group">
+        <input type="email" name="email" placeholder="Correo electrónico" required>
+      </div>
+      <div class="form-group">
+        <textarea name="mensaje" rows="5" placeholder="¿Qué tipo de servicio necesitas?" required></textarea>
+      </div>
+      <button type="submit">Enviar mensaje</button>
+    </form>
+  </section>  <footer>
+    © 2025 - Servicios logísticos y AppSheet | Desarrollado por Derwin Rojas
+  </footer>  <script>
+    window.onload = () => {
+      document.getElementById("loader").style.display = "none";
     }
-  });
-  function filterGallery(category) {
-    const buttons = document.querySelectorAll('.filter-controls button');
-    buttons.forEach(btn => btn.classList.remove('active'));
-    event.target.classList.add('active');
-    const imgs = document.querySelectorAll('#filtered-gallery img');
-    imgs.forEach(img => {
-      if (category === 'all' || img.dataset.category === category) {
-        img.style.display = 'block';
+
+    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+      document.body.classList.add("dark-mode");
+    }
+
+    function filterImages(cat) {
+      document.querySelectorAll('.filter-buttons button').forEach(btn => btn.classList.remove('active'));
+      event.target.classList.add('active');
+      document.querySelectorAll('#image-carousel img').forEach(img => {
+        if (cat === 'all' || img.dataset.cat === cat) {
+          img.classList.add('show');
+        } else {
+          img.classList.remove('show');
+        }
+      });
+    }
+
+    document.querySelector("form").addEventListener("submit", async function(e) {
+      e.preventDefault();
+      const form = e.target;
+      const formData = new FormData(form);
+      const response = await fetch(form.action, {
+        method: form.method,
+        body: formData,
+        headers: { 'Accept': 'application/json' }
+      });
+      if (response.ok) {
+        alert("Mensaje enviado correctamente.");
+        form.reset();
       } else {
-        img.style.display = 'none';
+        alert("Ocurrió un error. Intenta de nuevo.");
       }
     });
-  }
-</script>
-<!-- demás scripts aquí -->
-</body>
+
+    const sections = document.querySelectorAll("section");
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) entry.target.classList.add("visible");
+      });
+    }, { threshold: 0.1 });
+
+    sections.forEach(sec => observer.observe(sec));
+  </script></body>
 </html>
