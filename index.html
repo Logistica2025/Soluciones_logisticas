@@ -13,37 +13,13 @@
       font-family: 'Inter', sans-serif;
       margin: 0;
       padding: 0;
-      background-color: var(--bg);
-      color: var(--text);
-      transition: background 0.3s, color 0.3s;
-    }
-    :root {
-      --bg: #f8f9fa;
-      --text: #333;
-      --bg-dark: #121212;
-      --text-dark: #f1f1f1;
+      background-color: #f8f9fa;
+      color: #333;
+      transition: background-color 0.3s, color 0.3s;
     }
     body.dark-mode {
-      --bg: var(--bg-dark);
-      --text: var(--text-dark);
-    }
-    .loader {
-      position: fixed;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background: #5e56c6;
-      z-index: 3000;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-    .loader span {
-      color: white;
-      font-size: 1.5rem;
-      animation: blink 1s infinite alternate;
-    }
-    @keyframes blink {
-      from { opacity: 0.3; }
-      to { opacity: 1; }
+      background-color: #121212;
+      color: #eee;
     }
     nav {
       position: fixed;
@@ -64,18 +40,6 @@
     }
     nav a:hover {
       color: #25D366;
-    }
-    .theme-toggle {
-      position: fixed;
-      right: 20px;
-      top: 15px;
-      background: #25D366;
-      border: none;
-      color: white;
-      border-radius: 50px;
-      padding: 6px 14px;
-      font-weight: bold;
-      cursor: pointer;
     }
     header {
       background-color: #5e56c6;
@@ -116,54 +80,94 @@
       border-left: 4px solid #25D366;
       padding-left: 10px;
     }
+    ul {
+      padding-left: 20px;
+    }
+    li {
+      margin-bottom: 10px;
+    }
+    .btn {
+      display: inline-block;
+      padding: 12px 24px;
+      border-radius: 8px;
+      font-weight: bold;
+      color: white;
+      text-decoration: none;
+      margin-top: 20px;
+      transition: all 0.3s ease;
+    }
+    .btn-whatsapp {
+      background-color: #25D366;
+    }
+    .btn-whatsapp:hover {
+      background-color: #128C7E;
+    }
+    .btn-pago {
+      background-color: #007bff;
+    }
+    .btn-pago:hover {
+      background-color: #0056b3;
+    }
+    .carousel {
+      display: flex;
+      overflow-x: auto;
+      gap: 10px;
+      scroll-snap-type: x mandatory;
+    }
+    .carousel img {
+      height: 160px;
+      border-radius: 10px;
+      cursor: pointer;
+      scroll-snap-align: center;
+      transition: transform 0.3s ease;
+    }
+    .carousel img:hover {
+      transform: scale(1.05);
+    }
     .filter-buttons {
       display: flex;
-      flex-wrap: wrap;
       gap: 10px;
       margin-bottom: 20px;
+      flex-wrap: wrap;
     }
     .filter-buttons button {
-      padding: 8px 16px;
+      padding: 10px 18px;
+      border-radius: 8px;
       border: none;
       background: #5e56c6;
       color: white;
-      border-radius: 6px;
+      font-weight: 600;
       cursor: pointer;
       transition: background 0.3s;
     }
-    .filter-buttons button:hover {
-      background: #4039a2;
+    .filter-buttons button:hover,
+    .filter-buttons button.active {
+      background: #25D366;
     }
-    .gallery {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-      gap: 16px;
-    }
-    .gallery-item {
+    .carousel img[data-cat] {
       display: none;
     }
-    .gallery-item.active {
+    .carousel img[data-cat].show {
       display: block;
     }
-    .gallery-item img {
-      width: 100%;
-      border-radius: 8px;
-    }
-    form {
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
+    .form-group {
+      margin-bottom: 20px;
     }
     input, textarea {
+      width: 100%;
       padding: 14px;
-      font-size: 1rem;
+      border: 1px solid #ccc;
       border-radius: 8px;
-      border: 2px solid #ccc;
-      transition: border-color 0.3s;
+      font-size: 1rem;
     }
-    input:focus, textarea:focus {
-      border-color: #5e56c6;
-      outline: none;
+    input:invalid, textarea:invalid {
+      border-color: red;
+    }
+    input:valid, textarea:valid {
+      border-color: green;
+    }
+    textarea {
+      resize: vertical;
     }
     form button {
       background-color: #5e56c6;
@@ -186,16 +190,42 @@
       color: #ccc;
       font-size: 0.9rem;
     }
+    .loader {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 3000;
+    }
+    body.dark-mode .loader {
+      background: #121212;
+    }
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    .spinner {
+      border: 6px solid #eee;
+      border-top: 6px solid #5e56c6;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      animation: spin 1s linear infinite;
+    }
   </style>
 </head>
 <body>
-  <div class="loader"><span>Cargando...</span></div>
+  <div class="loader" id="loader">
+    <div class="spinner"></div>
+  </div>
   <nav>
     <a href="#logistica">Logística</a>
-    <a href="#galeria">Soluciones</a>
+    <a href="#soluciones">Soluciones</a>
     <a href="#contacto">Contacto</a>
   </nav>
-  <button class="theme-toggle" onclick="toggleTheme()">Modo</button>
   <header>
     <img src="https://i.imgur.com/MwG2HNZ.png" alt="Logo">
     <h1>Soluciones Logísticas con AppSheet</h1>
@@ -208,68 +238,79 @@
       <li>Asesorías, cursos y talleres prácticos</li>
       <li>Atención directa y soporte continuo</li>
     </ul>
-  </section>  <section id="galeria">
+    <a href="https://wa.me/584129915255" class="btn btn-whatsapp">Contáctanos por WhatsApp</a>
+  </section>  <section id="soluciones">
     <h2>Galería de Soluciones</h2>
     <div class="filter-buttons">
-      <button onclick="filterGallery('all')">Todos</button>
-      <button onclick="filterGallery('pedidos')">Pedidos</button>
-      <button onclick="filterGallery('inventarios')">Inventarios</button>
-      <button onclick="filterGallery('logistica')">Logística</button>
-      <button onclick="filterGallery('dashboard')">Dashboard</button>
+      <button class="active" onclick="filterImages('all')">Todos</button>
+      <button onclick="filterImages('inventario')">Inventario</button>
+      <button onclick="filterImages('pedidos')">Pedidos</button>
+      <button onclick="filterImages('dashboard')">Dashboard</button>
     </div>
-    <div class="gallery">
-      <div class="gallery-item pedidos active"><img src="https://i.imgur.com/LjIIjE6.jpeg" alt="Pedidos"></div>
-      <div class="gallery-item inventarios active"><img src="https://i.imgur.com/AM6llSu.jpeg" alt="Inventarios"></div>
-      <div class="gallery-item logistica active"><img src="https://i.imgur.com/d5cA0wu.jpeg" alt="Logística"></div>
-      <div class="gallery-item dashboard active"><img src="https://i.imgur.com/k0lLKjm.jpeg" alt="Dashboard"></div>
+    <div class="carousel" id="image-carousel">
+      <img src="https://i.imgur.com/LjIIjE6.jpeg" data-cat="inventario" class="show">
+      <img src="https://i.imgur.com/AM6llSu.jpeg" data-cat="inventario" class="show">
+      <img src="https://i.imgur.com/d5cA0wu.jpeg" data-cat="pedidos" class="show">
+      <img src="https://i.imgur.com/k0lLKjm.jpeg" data-cat="pedidos" class="show">
+      <img src="https://i.imgur.com/h5m43Mr.jpeg" data-cat="dashboard" class="show">
+      <img src="https://i.imgur.com/BmL48po.jpeg" data-cat="dashboard" class="show">
     </div>
+  </section>  <section>
+    <h2>Videos</h2>
+    <div class="video-gallery">
+      <div>
+        <h3>Control logístico con AppSheet</h3>
+        <iframe src="https://www.youtube.com/embed/NoyvVXY8FFk" allowfullscreen></iframe>
+      </div>
+      <div>
+        <h3>Dashboard con gráficas interactivas</h3>
+        <iframe src="https://www.youtube.com/embed/xsAI0kGJV0A" allowfullscreen></iframe>
+      </div>
+    </div>
+  </section>  <section>
+    <h2>Pagos y Compras</h2>
+    <p>Puedes realizar pagos o compras digitales mediante el siguiente botón:</p>
+    <a href="https://www.paypal.com/paypalme/tuenlace" class="btn btn-pago">Pagar con PayPal</a>
   </section>  <section id="contacto">
     <h2>Contáctanos</h2>
     <form action="https://formspree.io/f/xnndpolz" method="POST">
-      <input type="text" name="nombre" placeholder="Tu nombre" required>
-      <input type="email" name="email" placeholder="Correo electrónico" required>
-      <textarea name="mensaje" rows="5" placeholder="¿Qué tipo de servicio necesitas?" required></textarea>
+      <div class="form-group">
+        <input type="text" name="nombre" placeholder="Tu nombre" required>
+      </div>
+      <div class="form-group">
+        <input type="email" name="email" placeholder="Correo electrónico" required>
+      </div>
+      <div class="form-group">
+        <textarea name="mensaje" rows="5" placeholder="¿Qué tipo de servicio necesitas?" required></textarea>
+      </div>
       <button type="submit">Enviar mensaje</button>
     </form>
   </section>  <footer>
     © 2025 - Servicios logísticos y AppSheet | Desarrollado por Derwin Rojas
   </footer>  <script>
-    window.addEventListener('DOMContentLoaded', () => {
-      setTimeout(() => document.querySelector('.loader').style.display = 'none', 1000);
-
-      const savedTheme = localStorage.getItem('theme');
-      if ((savedTheme === 'dark') || (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-        document.body.classList.add('dark-mode');
-      }
-    });
-
-    function toggleTheme() {
-      document.body.classList.toggle('dark-mode');
-      localStorage.setItem('theme', document.body.classList.contains('dark-mode') ? 'dark' : 'light');
+    window.onload = () => {
+      document.getElementById("loader").style.display = "none";
     }
 
-    function filterGallery(category) {
-      const items = document.querySelectorAll('.gallery-item');
-      items.forEach(item => {
-        item.classList.remove('active');
-        if (category === 'all' || item.classList.contains(category)) {
-          item.classList.add('active');
+    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+      document.body.classList.add("dark-mode");
+    }
+
+    function filterImages(cat) {
+      document.querySelectorAll('.filter-buttons button').forEach(btn => btn.classList.remove('active'));
+      event.target.classList.add('active');
+      document.querySelectorAll('#image-carousel img').forEach(img => {
+        if (cat === 'all' || img.dataset.cat === cat) {
+          img.classList.add('show');
+        } else {
+          img.classList.remove('show');
         }
       });
     }
 
-    const sections = document.querySelectorAll("section");
-    const observer = new IntersectionObserver(entries => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) entry.target.classList.add("visible");
-      });
-    }, { threshold: 0.1 });
-
-    sections.forEach(sec => observer.observe(sec));
-
-    const form = document.querySelector("form");
-    form.addEventListener("submit", async function(e) {
+    document.querySelector("form").addEventListener("submit", async function(e) {
       e.preventDefault();
+      const form = e.target;
       const formData = new FormData(form);
       const response = await fetch(form.action, {
         method: form.method,
@@ -283,5 +324,14 @@
         alert("Ocurrió un error. Intenta de nuevo.");
       }
     });
+
+    const sections = document.querySelectorAll("section");
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) entry.target.classList.add("visible");
+      });
+    }, { threshold: 0.1 });
+
+    sections.forEach(sec => observer.observe(sec));
   </script></body>
 </html>
