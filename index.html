@@ -244,7 +244,7 @@
     <div class="filter-buttons">
       <button class="active" onclick="filterImages('all')">Todos</button>
       <button onclick="filterImages('inventario')">Inventario</button>
-      <button onclick="filterImages('pedidos')">Pedidos</button>
+      <button onclick="filterImages('pedidos')">Flujo de materiales</button>
       <button onclick="filterImages('dashboard')">Dashboard</button>
     </div>
     <div class="carousel" id="image-carousel">
@@ -275,7 +275,7 @@
     <h2>Contáctanos</h2>
     <form action="https://formspree.io/f/xnndpolz" method="POST">
       <div class="form-group">
-        <input type="text" name="nombre" placeholder="Tu nombre" required>
+        <input type="text" name="nombre" placeholder="Nombre" required>
       </div>
       <div class="form-group">
         <input type="email" name="email" placeholder="Correo electrónico" required>
@@ -353,8 +353,7 @@ window.onload = () => {
           img.classList.add('show');
         } else {
           img.classList.remove('show');
-        }
-      });
+        });
     }
      document.querySelector("form").addEventListener("submit", async function(e) {
       e.preventDefault();
