@@ -15,6 +15,7 @@
       padding: 0;
       background-color: #f8f9fa;
       color: #333;
+      transition: background 0.3s, color 0.3s;
     }
     nav {
       position: fixed;
@@ -211,6 +212,60 @@
       border: none;
       border-radius: 10px;
     }
+    .dark-mode {
+      background-color: #1a1a1a;
+      color: #eee;
+    }
+    .dark-mode section {
+      background-color: #2a2a2a;
+      color: #eee;
+    }
+    .dark-mode input, .dark-mode textarea {
+      background-color: #333;
+      color: white;
+      border-color: #555;
+    }
+    #mode-toggle {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      z-index: 3000;
+      background: #5e56c6;
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      font-size: 20px;
+      cursor: pointer;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    }
+    #loader {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: white;
+      z-index: 5000;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      transition: opacity 0.5s ease;
+    }
+    #loader.hidden {
+      opacity: 0;
+      pointer-events: none;
+    }
+    #loader::after {
+      content: '';
+      width: 50px;
+      height: 50px;
+      border: 5px solid #5e56c6;
+      border-top: 5px solid transparent;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
     @media(max-width: 768px) {
       header h1 {
         font-size: 1.8rem;
@@ -224,6 +279,9 @@
   </style>
 </head>
 <body>
+  <div id="loader"></div>
+  <button id="mode-toggle">☾</button>
+
   <nav>
     <a href="#logistica">Logística</a>
     <a href="#soluciones">Soluciones</a>
@@ -377,6 +435,17 @@
     }, { threshold: 0.1 });
 
     sections.forEach(sec => observer.observe(sec));
+
+    // Dark mode toggle
+    const toggleBtn = document.getElementById("mode-toggle");
+    toggleBtn.addEventListener("click", () => {
+      document.body.classList.toggle("dark-mode");
+    });
+
+    // Loader
+    window.addEventListener("load", () => {
+      document.getElementById("loader").classList.add("hidden");
+    });
   </script>
 </body>
-  </html>
+</html>
