@@ -1,10 +1,13 @@
-<!DOCTYPE html><html lang="es">
+<!DOCTYPE html>
+<html lang="es">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Servicios Logísticos con AppSheet</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <style>
+    /* Estilos CSS */
     * {
       box-sizing: border-box;
       scroll-behavior: smooth;
@@ -21,7 +24,7 @@
       position: fixed;
       top: 0;
       width: 100%;
-      background: #5e56c6;
+      background: #7570c9; /* Ligeramente más claro */
       display: flex;
       justify-content: center;
       gap: 40px;
@@ -38,7 +41,7 @@
       color: #25D366;
     }
     header {
-      background-color: #5e56c6;
+      background-color: #7570c9; /* Ligeramente más claro */
       color: white;
       text-align: center;
       padding: 120px 20px 50px;
@@ -78,6 +81,12 @@
     }
     li {
       margin-bottom: 10px;
+      display: flex; /* Para alinear icono y texto */
+      align-items: center;
+      gap: 10px;
+    }
+    li i {
+      color: #5e56c6; /* Color del icono */
     }
     .btn {
       display: inline-block;
@@ -88,6 +97,11 @@
       text-decoration: none;
       margin-top: 20px;
       transition: all 0.3s ease;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1); /* Sombra sutil */
+    }
+    .btn:hover {
+      transform: translateY(-2px); /* Ligeramente hacia arriba al pasar el cursor */
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
     }
     .btn-whatsapp {
       background-color: #25D366;
@@ -209,7 +223,7 @@
       width: 100%;
       max-width: 480px;
       height: 270px;
-      border: none;
+      border: 1px solid #ccc; /* Enmarcado sutil */
       border-radius: 10px;
     }
     .dark-mode {
@@ -239,6 +253,9 @@
       font-size: 20px;
       cursor: pointer;
       box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
     #loader {
       position: fixed;
@@ -275,6 +292,10 @@
         gap: 10px;
         padding: 10px;
       }
+      .video-gallery iframe {
+        max-width: 100%;
+        height: auto;
+      }
     }
   </style>
 </head>
@@ -296,10 +317,10 @@
   <section id="logistica">
     <h2>¿Qué ofrecemos?</h2>
     <ul>
-      <li>Apps en AppSheet para pedidos, inventarios y logística</li>
-      <li>Formatos inteligentes según estadísticas</li>
-      <li>Asesorías, cursos y talleres prácticos</li>
-      <li>Atención directa y soporte continuo</li>
+      <li><i class="fas fa-box"></i> Apps en AppSheet para pedidos, inventarios y logística</li>
+      <li><i class="fas fa-chart-bar"></i> Formatos inteligentes según estadísticas</li>
+      <li><i class="fas fa-handshake"></i> Asesorías, cursos y talleres prácticos</li>
+      <li><i class="fas fa-headset"></i> Atención directa y soporte continuo</li>
     </ul>
     <a href="https://wa.me/584129915255" class="btn btn-whatsapp">Contáctanos por WhatsApp</a>
   </section>
@@ -372,6 +393,8 @@
     const images = Array.from(document.querySelectorAll("#image-carousel img"));
     const modal = document.getElementById("image-modal");
     const modalImage = document.getElementById("modal-image");
+    const toggleBtn = document.getElementById("mode-toggle");
+    const darkModeClass = "dark-mode";
 
     function openImageModal(index) {
       currentImageIndex = index;
@@ -405,7 +428,8 @@
     document.addEventListener('keydown', function(e) {
       if (modal.style.display === 'flex') {
         if (e.key === 'ArrowLeft') changeImage(-1);
-        if (e.key === 'ArrowRight') changeImage(1);
+        if (e.key === 'ArrowRight') changeImage(1
+);
         if (e.key === 'Escape') closeImageModal();
       }
     });
@@ -436,10 +460,32 @@
 
     sections.forEach(sec => observer.observe(sec));
 
-    // Dark mode toggle
-    const toggleBtn = document.getElementById("mode-toggle");
+    // Dark mode toggle functionality
+    function enableDarkMode() {
+      document.body.classList.add(darkModeClass);
+      toggleBtn.innerHTML = '🔆';
+      localStorage.setItem('darkMode', 'enabled');
+    }
+
+    function disableDarkMode() {
+      document.body.classList.remove(darkModeClass);
+      toggleBtn.innerHTML = '☾';
+      localStorage.setItem('darkMode', 'disabled');
+    }
+
+    const savedDarkMode = localStorage.getItem('darkMode');
+    if (savedDarkMode === 'enabled') {
+      enableDarkMode();
+    } else {
+      disableDarkMode();
+    }
+
     toggleBtn.addEventListener("click", () => {
-      document.body.classList.toggle("dark-mode");
+      if (document.body.classList.contains(darkModeClass)) {
+        disableDarkMode();
+      } else {
+        enableDarkMode();
+      }
     });
 
     // Loader
