@@ -297,6 +297,47 @@
         height: auto;
       }
     }
+    .btn-zinli {
+  display: inline-block;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-weight: bold;
+  color: white;
+  text-decoration: none;
+  margin-top: 20px;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  background-color: #5e56c6; /* Usa el color principal de tu sitio */
+}
+
+.btn-zinli:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+  background-color: #1a252f; /* Un tono más oscuro al pasar el cursor */
+}
+    .datos-pago {
+  display: none;
+  margin-top: 20px;
+  padding: 20px;
+  background-color: white; /* O un tono muy claro de tu color principal */
+  border-radius: 12px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.05); /* Sombra sutil */
+}
+
+.datos-pago h3 {
+  color: #5e56c6;
+  margin-top: 0;
+  margin-bottom: 10px;
+  font-size: 1.5rem;
+}
+
+.datos-pago ul {
+  padding-left: 20px;
+}
+
+.datos-pago li {
+  margin-bottom: 8px;
+}
   </style>
 </head>
 <body>
@@ -355,10 +396,10 @@
   </section>
 
  <section>
-  <h2>Pagos y Compras <img src="ruta/del/logo/zinli.png" alt="Logo de Zinli" style="width: 50px; height: auto; vertical-align: middle;"></h2>
+  <h2>Pagos y Compras <img src="https://i.imgur.com/hYnD705.jpeg" alt="Logo de Zinli" style="width: 50px; height: auto; vertical-align: middle;"></h2>
   <p>Puedes realizar pagos o compras digitales mediante Zinli:</p>
-  <button id="mostrarDatosZinli" class="btn btn-pago">Pagar con Zinli</button>
-  <div id="datosZinli" style="display: none; margin-top: 10px; padding: 15px; border: 1px solid #ccc; border-radius: 5px;">
+  <button id="mostrarDatosZinli" class="btn btn-zinli">Pagar con Zinli</button>
+   <div id="datosZinli" class="datos-pago">
     <h3>Datos para pago con Zinli</h3>
     <ul>
       <li>Correo electrónico: <span id="correoZinli">tu_correo_zinli@ejemplo.com</span></li>
