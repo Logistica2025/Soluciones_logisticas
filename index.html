@@ -348,6 +348,19 @@
 .datos-pago li {
   margin-bottom: 8px;
 }
+    datos-pago h3 {
+    text-align: left; /* Asegura que los títulos también estén alineados a la izquierda */
+}
+
+.datos-pago ul {
+    padding-left: 20px;
+    text-align: left; /* Asegura que los ítems dentro de la lista estén alineados */
+}
+
+.datos-pago li {
+    text-align: left;
+    display: block; /* Asegura que cada ítem tome el ancho completo */
+}
     .dark-mode .datos-pago {
     background-color: #2a2a2a; /* Fondo oscuro */
 }
@@ -361,7 +374,14 @@
 .dark-mode .datos-pago li {
     color: #ddd;
 }
+.dark-mode .datos-pago {
+    text-align: left;
+}
 
+.dark-mode .datos-pago h3, 
+.dark-mode .datos-pago li {
+    text-align: left;
+}
    }
   </style>
 </head>
