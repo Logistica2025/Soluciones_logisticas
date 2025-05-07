@@ -322,6 +322,7 @@
   background-color: white; /* O un tono muy claro de tu color principal */
   border-radius: 12px;
   box-shadow: 0 2px 5px rgba(0,0,0,0.05); /* Sombra sutil */
+  text-align: left; /* Añade esta línea para alinear el texto a la izquierda */
 }
 
 .datos-pago h3 {
@@ -337,20 +338,8 @@
 
 .datos-pago li {
   margin-bottom: 8px;
+  text-align: left; /* Añade esta línea para alinear el texto a la izquierda dentro de los ítems de la lista */
 }
-    @media (max-width: 600px) {
-  .datos-pago {
-    padding: 15px;
-  }
-  .datos-pago h3 {
-    font-size: 1.3rem;
-  }
-  .datos-pago ul {
-    padding-left: 15px;
-  }
-  .datos-pago li {
-    font-size: 0.9rem; /* Reduce el tamaño de la fuente si es necesario */
-  }
     }
     
   </style>
@@ -559,7 +548,7 @@
     const botonMostrar = document.getElementById('mostrarDatosZinli');
     const datosDiv = document.getElementById('datosZinli');
 
-    botonMostrar.addEventListener('click', function() {
+        botonMostrar.addEventListener('click', function() {
       datosDiv.style.display = (datosDiv.style.display === 'none' || datosDiv.style.display === '') ? 'block' : 'none';
       botonMostrar.textContent = (datosDiv.style.display === 'block') ? 'Ocultar datos de Zinli' : 'Pagar con Zinli';
     });
