@@ -325,9 +325,10 @@
   text-align: left; /* Añade esta línea para alinear el texto a la izquierda */
 }
 
-.datos-pago.visible {
-    max-height: 500px; /* Ajusta según el contenido */
-    padding: 1rem;
+.datos-pago {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.5s ease;
   }
 
   .btn-zinli {
@@ -343,7 +344,8 @@
 
   .btn-zinli:hover {
     background-color: #5b21b6;
-   }
+  }
+</style>
   </style>
 </head>
 <body>
@@ -408,15 +410,18 @@
   <p>Puedes realizar tus pagos o compras digitales con nosotros mediante Zinli:</p>
   <button id="mostrarDatosZinli" class="btn-zinli">Pagar con Zinli</button>
   <div id="datosZinli" class="datos-pago">
-    <h3>Datos para pago Zinli:</h3>
-    <ul>
-      <li><strong>Usuario:</strong> +58 412-9915255</li>
-      <li><strong>Nombre:</strong> Johan A. López</li>
-      <li><strong>Correo:</strong> johanlopezzinli@gmail.com</li>
-      <li><strong>Concepto:</strong> App personalizada / Curso / Asesoría</li>
-    </ul>
+    <div style="padding: 1rem;">
+      <h3>Datos para pago Zinli:</h3>
+      <ul>
+        <li><strong>Usuario:</strong> +58 412-9915255</li>
+        <li><strong>Nombre:</strong> Johan A. López</li>
+        <li><strong>Correo:</strong> johanlopezzinli@gmail.com</li>
+        <li><strong>Concepto:</strong> App personalizada / Curso / Asesoría</li>
+      </ul>
+    </div>
   </div>
 </section>
+  
    <section id="contacto">
     <h2>Contáctanos</h2>
     <form action="https://formspree.io/f/xnndpolz" method="POST">
