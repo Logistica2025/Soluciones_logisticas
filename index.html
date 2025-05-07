@@ -12,10 +12,6 @@
       box-sizing: border-box;
       scroll-behavior: smooth;
     }
-    :root {
-    --color-primario: #5e56c6;
-    --color-secundario: #25D366;
-}
     body {
       font-family: 'Inter', sans-serif;
       margin: 0;
@@ -119,12 +115,6 @@
     .btn-pago:hover {
       background-color: #0056b3;
     }
-    .btn {
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-}
-    .btn:hover {
-    transform: scale(1.05);
-}
     .carousel {
       display: flex;
       overflow-x: auto;
@@ -296,11 +286,7 @@
     @media(max-width: 768px) {
       header h1 {
         font-size: 1.8rem;
-         }
-      @media(max-width: 480px) { 
-    .datos-pago {
-        padding: 15px;
-    }
+      }
       nav {
         flex-direction: column;
         gap: 10px;
@@ -396,18 +382,13 @@
 .dark-mode .datos-pago li {
     text-align: left;
 }
-    body {
-    font-size: 1rem; /* Mejor adaptación a distintos dispositivos */
-}
-      datos-pago {
-    transition: opacity 0.4s ease-in-out, transform 0.3s ease-in-out;
-}
    }
   </style>
 </head>
 <body>
   <div id="loader"></div>
-    <button id="mode-toggle">☾</button>
+  <button id="mode-toggle">☾</button>
+
   <nav>
     <a href="#logistica">Logística</a>
     <a href="#soluciones">Soluciones</a>
