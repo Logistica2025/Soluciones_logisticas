@@ -551,9 +551,17 @@
   const btnZinli = document.getElementById("mostrarDatosZinli");
   const datosZinli = document.getElementById("datosZinli");
 
+  let visible = false;
+
   btnZinli.addEventListener("click", () => {
-    datosZinli.classList.toggle("visible");
+    visible = !visible;
+    if (visible) {
+      datosZinli.style.maxHeight = datosZinli.scrollHeight + "px";
+    } else {
+      datosZinli.style.maxHeight = "0";
   });
+    });
+</script
     
   </script>
 </body>
