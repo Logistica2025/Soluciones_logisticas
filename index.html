@@ -8,102 +8,296 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <style>
     /* Estilos CSS */
-
-* {
-  box-sizing: border-box;
-  scroll-behavior: smooth;
-}
-
-body {
-  font-family: 'Inter', sans-serif;
-  margin: 0;
-  padding: 0;
-  background-color: #f8f9fa;
-  color: #333;
-  transition: background 0.3s, color 0.3s;
-}
-
-nav {
-  position: fixed;
-  top: 0;
-  width: 100%;
-  background: #7570c9;
-  display: flex;
-  justify-content: center;
-  gap: 40px;
-  padding: 15px 0;
-  z-index: 1000;
-}
-
-nav a {
-  color: white;
-  text-decoration: none;
-  font-weight: 600;
-  transition: color 0.3s;
-}
-
-nav a:hover {
-  color: #25D366;
-}
-
-header {
-  background-color: #7570c9;
-  color: white;
-  text-align: center;
-  padding: 120px 20px 50px;
-}
-
-header img {
-  max-width: 180px;
-  margin-bottom: 15px;
-}
-
-h1 {
-  margin: 10px 0 5px;
-  font-size: 2.5rem;
-}
-
-section {
-  max-width: 1000px;
-  margin: 40px auto;
-  background: white;
-  padding: 40px;
-  border-radius: 12px;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.05);
-  opacity: 0;
-  transform: translateY(30px);
-  transition: opacity 0.6s ease, transform 0.6s ease;
-}
-
-section.visible {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-h2 {
-  margin-top: 0;
-  color: #5e56c6;
-  font-size: 1.8rem;
-  border-left: 4px solid #25D366;
-  padding-left: 10px;
-}
-
-ul {
-  padding-left: 20px;
-}
-
-li {
-  margin-bottom: 10px;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-li i {
-  color: #5e56c6;
-}
-
-.btn {
+    * {
+      box-sizing: border-box;
+      scroll-behavior: smooth;
+    }
+    body {
+      font-family: 'Inter', sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f8f9fa;
+      color: #333;
+      transition: background 0.3s, color 0.3s;
+    }
+    nav {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      background: #7570c9; /* Ligeramente más claro */
+      display: flex;
+      justify-content: center;
+      gap: 40px;
+      padding: 15px 0;
+      z-index: 1000;
+    }
+    nav a {
+      color: white;
+      text-decoration: none;
+      font-weight: 600;
+      transition: color 0.3s;
+    }
+    nav a:hover {
+      color: #25D366;
+    }
+    header {
+      background-color: #7570c9; /* Ligeramente más claro */
+      color: white;
+      text-align: center;
+      padding: 120px 20px 50px;
+    }
+    header img {
+      max-width: 180px;
+      margin-bottom: 15px;
+    }
+    h1 {
+      margin: 10px 0 5px;
+      font-size: 2.5rem;
+    }
+    section {
+      max-width: 1000px;
+      margin: 40px auto;
+      background: white;
+      padding: 40px;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    section.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    h2 {
+      margin-top: 0;
+      color: #5e56c6;
+      font-size: 1.8rem;
+      border-left: 4px solid #25D366;
+      padding-left: 10px;
+    }
+    ul {
+      padding-left: 20px;
+    }
+    li {
+      margin-bottom: 10px;
+      display: flex; /* Para alinear icono y texto */
+      align-items: center;
+      gap: 10px;
+    }
+    li i {
+      color: #5e56c6; /* Color del icono */
+    }
+    .btn {
+      display: inline-block;
+      padding: 12px 24px;
+      border-radius: 8px;
+      font-weight: bold;
+      color: white;
+      text-decoration: none;
+      margin-top: 20px;
+      transition: all 0.3s ease;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1); /* Sombra sutil */
+    }
+    .btn:hover {
+      transform: translateY(-2px); /* Ligeramente hacia arriba al pasar el cursor */
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    }
+    .btn-whatsapp {
+      background-color: #25D366;
+    }
+    .btn-whatsapp:hover {
+      background-color: #128C7E;
+    }
+    .btn-pago {
+      background-color: #007bff;
+    }
+    .btn-pago:hover {
+      background-color: #0056b3;
+    }
+    .carousel {
+      display: flex;
+      overflow-x: auto;
+      gap: 10px;
+      scroll-snap-type: x mandatory;
+    }
+    .carousel img {
+      height: 160px;
+      border-radius: 10px;
+      cursor: pointer;
+      scroll-snap-align: center;
+      transition: transform 0.3s ease;
+    }
+    .carousel img:hover {
+      transform: scale(1.05);
+    }
+    .form-group {
+      margin-bottom: 20px;
+    }
+    input, textarea {
+      width: 100%;
+      padding: 14px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 1rem;
+    }
+    textarea {
+      resize: vertical;
+    }
+    form button {
+      background-color: #5e56c6;
+      color: white;
+      padding: 14px 28px;
+      border: none;
+      border-radius: 8px;
+      font-weight: bold;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    form button:hover {
+      background-color: #1a252f;
+    }
+    footer {
+      text-align: center;
+      padding: 20px;
+      background: #5e56c6;
+      color: #ccc;
+      font-size: 0.9rem;
+    }
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 2000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background-color: rgba(0,0,0,0.8);
+      justify-content: center;
+      align-items: center;
+    }
+    .modal img {
+      max-width: 90%;
+      max-height: 90%;
+      transition: transform 0.3s ease;
+      cursor: grab;
+      position: relative;
+    }
+    .modal img.zoomed {
+      transform: scale(2);
+      cursor: grab;
+    }
+    .modal .close, .modal .prev, .modal .next {
+      position: absolute;
+      font-size: 30px;
+      color: white;
+      cursor: pointer;
+      padding: 10px;
+      user-select: none;
+      z-index: 2100;
+    }
+    .modal .close {
+      top: 20px;
+      right: 20px;
+      font-size: 40px;
+    }
+    .modal .prev {
+      left: 20px;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+    .modal .next {
+      right: 20px;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+    .video-gallery {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-around;
+      gap: 20px;
+    }
+    .video-gallery iframe {
+      width: 100%;
+      max-width: 480px;
+      height: 270px;
+      border: 1px solid #ccc; /* Enmarcado sutil */
+      border-radius: 10px;
+    }
+    .dark-mode {
+      background-color: #1a1a1a;
+      color: #eee;
+    }
+    .dark-mode section {
+      background-color: #2a2a2a;
+      color: #eee;
+    }
+    .dark-mode input, .dark-mode textarea {
+      background-color: #333;
+      color: white;
+      border-color: #555;
+    }
+    #mode-toggle {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      z-index: 3000;
+      background: #5e56c6;
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      font-size: 20px;
+      cursor: pointer;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    #loader {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: white;
+      z-index: 5000;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      transition: opacity 0.5s ease;
+    }
+    #loader.hidden {
+      opacity: 0;
+      pointer-events: none;
+    }
+    #loader::after {
+      content: '';
+      width: 50px;
+      height: 50px;
+      border: 5px solid #5e56c6;
+      border-top: 5px solid transparent;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+    @media(max-width: 768px) {
+      header h1 {
+        font-size: 1.8rem;
+      }
+      nav {
+        flex-direction: column;
+        gap: 10px;
+        padding: 10px;
+      }
+      .video-gallery iframe {
+        max-width: 100%;
+        height: auto;
+      }
+    }
+    .btn-zinli {
   display: inline-block;
   padding: 12px 24px;
   border-radius: 8px;
@@ -113,149 +307,48 @@ li i {
   margin-top: 20px;
   transition: all 0.3s ease;
   box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-}
-
-.btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-}
-
-.btn-whatsapp {
-  background-color: #25D366;
-}
-
-.btn-whatsapp:hover {
-  background-color: #128C7E;
-}
-
-.btn-pago {
-  background-color: #007bff;
-}
-
-.btn-pago:hover {
-  background-color: #0056b3;
-}
-
-.carousel {
-  display: flex;
-  overflow-x: auto;
-  gap: 10px;
-  scroll-snap-type: x mandatory;
-}
-
-.carousel img {
-  height: 160px;
-  border-radius: 10px;
-  cursor: pointer;
-  scroll-snap-align: center;
-  transition: transform 0.3s ease;
-}
-
-.carousel img:hover {
-  transform: scale(1.05);
-}
-
-.form-group {
-  margin-bottom: 20px;
-}
-
-input, textarea {
-  width: 100%;
-  padding: 14px;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  font-size: 1rem;
-}
-
-textarea {
-  resize: vertical;
-}
-
-form button {
-  background-color: #5e56c6;
-  color: white;
-  padding: 14px 28px;
-  border: none;
-  border-radius: 8px;
-  font-weight: bold;
-  font-size: 1rem;
-  cursor: pointer;
-  transition: background 0.3s;
-}
-
-form button:hover {
-  background-color: #1a252f;
-}
-
-footer {
-  text-align: center;
-  padding: 20px;
-  background: #5e56c6;
-  color: #ccc;
-  font-size: 0.9rem;
-}
-
-.dark-mode {
-  background-color: #1a1a1a;
-  color: #eee;
-}
-
-.dark-mode section {
-  background-color: #2a2a2a;
-  color: #eee;
-}
-
-.dark-mode input, .dark-mode textarea {
-  background-color: #333;
-  color: white;
-  border-color: #555;
-}
-
-/* Botón de pago con Zinli */
-.btn-zinli {
-  display: inline-block;
-  padding: 12px 24px;
-  border-radius: 8px;
-  font-weight: bold;
-  color: white;
-  text-decoration: none;
-  margin-top: 20px;
-  transition: all 0.3s ease;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-  background-color: #5e56c6;
+  background-color: #5e56c6; /* Usa el color principal de tu sitio */
 }
 
 .btn-zinli:hover {
   transform: translateY(-2px);
   box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-  background-color: #1a252f;
+  background-color: #1a252f; /* Un tono más oscuro al pasar el cursor */
+}
+    .datos-pago {
+  display: none;
+  margin-top: 20px;
+  padding: 20px;
+  background-color: white; /* O un tono muy claro de tu color principal */
+  border-radius: 12px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.05); /* Sombra sutil */
+  text-align: left; /* Añade esta línea para alinear el texto a la izquierda */
 }
 
-/* Estilos de la sección de pago */
 .datos-pago {
   display: none;
   margin-top: 20px;
   padding: 20px;
-  background-color: white;
+  background-color: white; /* O un tono muy claro de tu color principal */
   border-radius: 12px;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+  box-shadow: 0 2px 5px rgba(0,0,0,0.05); /* Sombra sutil */
 }
 
-/* Correcciones para modo oscuro */
-.dark-mode .datos-pago {
-  background-color: #2a2a2a;
-  color: #eee;
-  border: 1px solid #444;
+.datos-pago h3 {
+  color: #5e56c6;
+  margin-top: 0;
+  margin-bottom: 10px;
+  font-size: 1.5rem;
 }
 
-.dark-mode .datos-pago h3 {
-  color: #fff;
+.datos-pago ul {
+  padding-left: 20px;
 }
 
-.dark-mode .datos-pago li {
-  color: #ddd;
+.datos-pago li {
+  margin-bottom: 8px;
 }
-    }
+   }
   </style>
 </head>
 <body>
