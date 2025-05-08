@@ -382,7 +382,7 @@
 .dark-mode .datos-pago li {
     text-align: left;
 }
-    .reseñas-grid {
+   /* .reseñas-grid {
   display: flex;
   flex-direction: column;
   gap: 20px;
@@ -404,7 +404,7 @@
   border-radius: 10px;
   margin-top: 10px;
 }
-   }
+  */ }
   </style>
 </head>
 <body>
@@ -481,16 +481,16 @@
     <p>Puedes solicitar el código QR al momento de la transacción.</p>
   </div>
 </section>
-  <section id="testimonios">
+ <!-- <section id="testimonios">
   <h2>Testimonios de nuestros usuarios</h2>
   
   <!-- Contenedor para mostrar reseñas -->
-  <div id="reseñasContainer" class="reseñas-grid">
+  <!-- <div id="reseñasContainer" class="reseñas-grid">
     <p>Cargando testimonios...</p>
   </div>
 
   <!-- Formulario para enviar testimonios -->
-  <h3>Comparte tu experiencia</h3>
+  <!-- <h3>Comparte tu experiencia</h3>
   <form id="reviewForm">
     <div class="form-group">
       <input type="text" name="nombre" placeholder="Tu nombre" required>
@@ -506,7 +506,7 @@
         <option value="3">★★★☆☆ - Bueno</option>
         <option value="2">★★☆☆☆ - Regular</option>
         <option value="1">★☆☆☆☆ - Malo</option>
-      </select>
+      </select> 
     </div>
     <div class="form-group">
       <label for="archivo">Subir imagen/video (opcional):</label>
@@ -514,7 +514,7 @@
     </div>
     <button type="submit">Enviar testimonio</button>
   </form>
-  </section>
+  </section> -->
 
   <section id="contacto">
     <h2>Contáctanos</h2>
@@ -656,89 +656,89 @@
       botonMostrar.textContent = (datosDiv.style.display === 'block') ? 'Ocultar datos de Zinli' : 'Pagar con Zinli';
     });
     
-const reviewForm = document.getElementById('reviewForm');
-const reseñasContainer = document.getElementById('reseñasContainer');
-const webAppUrl = 'https://script.google.com/macros/s/AKfycbxJCxI1vT_B0qlTaxYgzbECVLgEGBDuPzVoOpQP0NEr5lDMgCdYwrPG1PtCT8QFE1zC/exec';
+//const reviewForm = document.getElementById('reviewForm');
+//const reseñasContainer = document.getElementById('reseñasContainer');
+//const webAppUrl = 'https://script.google.com/macros/s/AKfycbxJCxI1vT_B0qlTaxYgzbECVLgEGBDuPzVoOpQP0NEr5lDMgCdYwrPG1PtCT8QFE1zC/exec';
 
 // Cargar testimonios existentes
-async function cargarReseñas() {
-  try {
-    const response = await fetch(webAppUrl);
-    const reseñas = await response.json();
+//async function cargarReseñas() {
+//  try {
+  //  const response = await fetch(webAppUrl);
+   // const reseñas = await response.json();
 
-    reseñasContainer.innerHTML = '';
-    if (reseñas.length === 0) {
-      reseñasContainer.innerHTML = '<p>Aún no hay testimonios.</p>';
-    } else {
-      reseñas.reverse().forEach(r => {
-        const tarjeta = document.createElement('div');
-        tarjeta.className = 'tarjeta-reseña';
+   // reseñasContainer.innerHTML = '';
+   // if (reseñas.length === 0) {
+  //    reseñasContainer.innerHTML = '<p>Aún no hay testimonios.</p>';
+  //  } else {
+  //    reseñas.reverse().forEach(r => {
+   //     const tarjeta = document.createElement('div');
+    //    tarjeta.className = 'tarjeta-reseña';
 
-        tarjeta.innerHTML = `
-          <strong>${r.Nombre}</strong> - ${r.Calificación} estrellas<br>
-          <small>${new Date(r.Fecha).toLocaleString()}</small>
-          <p>${r.Comentario}</p>
-          ${
-            r.Archivo_URL
-              ? (r.Archivo_URL.includes('.mp4') || r.Archivo_URL.includes('video')
-                  ? `<video src="${r.Archivo_URL}" controls style="max-width:100%;"></video>`
-                  : `<img src="${r.Archivo_URL}" alt="Media subida" style="max-width:100%;">`)
-              : ''
-          }
-        `;
-        reseñasContainer.appendChild(tarjeta);
+     //   tarjeta.innerHTML = `
+      //    <strong>${r.Nombre}</strong> - ${r.Calificación} estrellas<br>
+      //    <small>${new Date(r.Fecha).toLocaleString()}</small>
+      //    <p>${r.Comentario}</p>
+       //   ${
+         //   r.Archivo_URL
+         //     ? (r.Archivo_URL.includes('.mp4') || r.Archivo_URL.includes('video')
+         //         ? `<video src="${r.Archivo_URL}" controls style="max-width:100%;"></video>`
+          //        : `<img src="${r.Archivo_URL}" alt="Media subida" style="max-width:100%;">`)
+         //     : ''
+       //   }
+       // `;
+      //  reseñasContainer.appendChild(tarjeta);
       });
     }
-  } catch (error) {
-    reseñasContainer.innerHTML = '<p>Error al cargar testimonios.</p>';
+ // } catch (error) {
+ //   reseñasContainer.innerHTML = '<p>Error al cargar testimonios.</p>';
   }
 }
 
-cargarReseñas();
+//cargarReseñas();
 
 // Enviar nuevo testimonio
-reviewForm.addEventListener('submit', async (e) => {
-  e.preventDefault();
+//reviewForm.addEventListener('submit', async (e) => {
+ // e.preventDefault();
 
-  const archivo = reviewForm.archivo.files[0];
-  const reader = new FileReader();
+ // const archivo = reviewForm.archivo.files[0];
+//  const reader = new FileReader();
 
-  reader.onloadend = async () => {
-    const data = {
-      nombre: reviewForm.nombre.value.trim(),
-      comentario: reviewForm.comentario.value.trim(),
-      calificacion: reviewForm.calificacion.value,
-      fileName: archivo ? archivo.name : '',
-      mimeType: archivo ? archivo.type : '',
-      fileData: archivo ? reader.result.split(',')[1] : ''
+//  reader.onloadend = async () => {
+  //  const data = {
+//      nombre: reviewForm.nombre.value.trim(),
+    //  comentario: reviewForm.comentario.value.trim(),
+    //  calificacion: reviewForm.calificacion.value,
+    //  fileName: archivo ? archivo.name : '',
+    //  mimeType: archivo ? archivo.type : '',
+    //  fileData: archivo ? reader.result.split(',')[1] : ''
     };
 
-    try {
-      const response = await fetch(webAppUrl, {
-        method: 'POST',
-        body: JSON.stringify(data),
-        headers: {
-          'Content-Type': 'application/json'
+  //  try {
+    //  const response = await fetch(webAppUrl, {
+    //    method: 'POST',
+    //    body: JSON.stringify(data),
+    //    headers: {
+    //      'Content-Type': 'application/json'
         }
       });
 
-      const result = await response.json();
-      if (result.status === "OK") {
-        alert('¡Testimonio enviado con éxito!');
-        reviewForm.reset();
-        cargarReseñas();
-      } else {
-        alert('Error: ' + result.message);
+   //   const result = await response.json();
+    //  if (result.status === "OK") {
+    //    alert('¡Testimonio enviado con éxito!');
+      //  reviewForm.reset();
+     //   cargarReseñas();
+   //   } else {
+   //     alert('Error: ' + result.message);
       }
-    } catch (err) {
-      alert('Error al enviar testimonio.');
+ //   } catch (err) {
+  //    alert('Error al enviar testimonio.');
     }
   };
 
-  if (archivo) {
-    reader.readAsDataURL(archivo);
-  } else {
-    reader.onloadend();
+ // if (archivo) {
+   // reader.readAsDataURL(archivo);
+//  } else {
+//    reader.onloadend();
   }
 });
   });
