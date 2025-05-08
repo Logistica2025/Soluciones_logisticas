@@ -680,41 +680,34 @@
       datosDiv.style.display = (datosDiv.style.display === 'none' || datosDiv.style.display === '') ? 'block' : 'none';
       botonMostrar.textContent = (datosDiv.style.display === 'block') ? 'Ocultar datos de Zinli' : 'Pagar con Zinli';
     });
-    
-<script type="module">
-  // Import the functions you need from the SDKs you need
+    <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/11.7.1/firebase-app.js";
-  import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.7.1/firebase-analytics.js";
-  // TODO: Add SDKs for Firebase products that you want to use
-  // https://firebase.google.com/docs/web/setup#available-libraries
+  import { getDatabase, ref, push, onValue } from "https://www.gstatic.com/firebasejs/11.7.1/firebase-database.js";
 
-  // Your web app's Firebase configuration
-  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
   const firebaseConfig = {
     apiKey: "AIzaSyBu_9cGHd6AzRZEYAa8kfXkR66FR-efW5M",
     authDomain: "almacenar-testimonios.firebaseapp.com",
     databaseURL: "https://almacenar-testimonios-default-rtdb.firebaseio.com",
     projectId: "almacenar-testimonios",
-    storageBucket: "almacenar-testimonios.firebasestorage.app",
+    storageBucket: "almacenar-testimonios.appspot.com",
     messagingSenderId: "862229502139",
     appId: "1:862229502139:web:a19ef6ad9e96ff8f51f19e",
     measurementId: "G-QDG0TZW4Q1"
   };
 
-  // Initialize Firebase
   const app = initializeApp(firebaseConfig);
-  const analytics = getAnalytics(app);
+  const database = getDatabase(app);
 
-});
-    
   const reviewForm = document.getElementById('reviewForm');
   const reseñasContainer = document.getElementById('reseñasContainer');
 
   // Mostrar reseñas guardadas
   function cargarReseñas() {
     reseñasContainer.innerHTML = '';
-    firebase.database().ref('reseñas').once('value', (snapshot) => {
+    const reseñasRef = ref(database, 'reseñas');
+    onValue(reseñasRef, (snapshot) => {
       const datos = snapshot.val();
+      reseñasContainer.innerHTML = '';
       if (!datos) {
         reseñasContainer.innerHTML = '<p>Aún no hay testimonios.</p>';
         return;
@@ -744,18 +737,17 @@
       calificacion: reviewForm.calificacion.value,
       fecha: Date.now()
     };
-    firebase.database().ref('reseñas').push(nuevaReseña)
+    const reseñasRef = ref(database, 'reseñas');
+    push(reseñasRef, nuevaReseña)
       .then(() => {
         alert('¡Testimonio enviado con éxito!');
         reviewForm.reset();
-        cargarReseñas();
       })
       .catch(() => {
         alert('Error al enviar testimonio.');
       });
-
   });
-    
-  </script>
+</script>
+
 </body>
 </html>
