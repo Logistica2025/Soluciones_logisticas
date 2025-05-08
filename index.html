@@ -658,9 +658,9 @@
     
 const reviewForm = document.getElementById('reviewForm');
 const reseñasContainer = document.getElementById('reseñasContainer');
-const webAppUrl = 'https://script.google.com/macros/s/AKfycbxJCxI1vT_B0qlTaxYgzbECVLgEGBDuPzVoOpQP0NEr5lDMgCdYwrPG1PtCT8QFE1zC/exec'; // Reemplaza con tu URL de Apps Script
+const webAppUrl = 'https://script.google.com/macros/s/AKfycbxJCxI1vT_B0qlTaxYgzbECVLgEGBDuPzVoOpQP0NEr5lDMgCdYwrPG1PtCT8QFE1zC/exec'; // Tu URL de Apps Script
 
-// Cargar reseñas existentes
+// Cargar testimonios existentes
 async function cargarReseñas() {
   try {
     const response = await fetch(webAppUrl);
@@ -679,9 +679,9 @@ async function cargarReseñas() {
           <small>${new Date(r.Fecha).toLocaleString()}</small>
           <p>${r.Comentario}</p>
           ${r.Archivo_URL
-            ? (r.Archivo_URL.includes('video') 
-                ? `<video src="${r.Archivo_URL}" controls></video>` 
-                : `<img src="${r.Archivo_URL}" alt="Media subida">`)
+            ? (r.Archivo_URL.includes('.mp4') || r.Archivo_URL.includes('video') 
+                ? <video src="${r.Archivo_URL}" controls style="max-width:100%;"></video> 
+                : <img src="${r.Archivo_URL}" alt="Media subida" style="max-width:100%;">)
             : ''}
         `;
         reseñasContainer.appendChild(tarjeta);
@@ -694,40 +694,49 @@ async function cargarReseñas() {
 
 cargarReseñas();
 
-// Enviar nueva reseña
+// Enviar nuevo testimonio
 reviewForm.addEventListener('submit', async (e) => {
   e.preventDefault();
+
   const archivo = reviewForm.archivo.files[0];
   const reader = new FileReader();
 
   reader.onloadend = async () => {
     const data = {
-      nombre: reviewForm.nombre.value,
-      comentario: reviewForm.comentario.value,
+      nombre: reviewForm.nombre.value.trim(),
+      comentario: reviewForm.comentario.value.trim(),
       calificacion: reviewForm.calificacion.value,
       fileName: archivo ? archivo.name : '',
       mimeType: archivo ? archivo.type : '',
       fileData: archivo ? reader.result.split(',')[1] : ''
     };
 
-    const response = await fetch(webAppUrl, {
-      method: 'POST',
-      body: JSON.stringify(data)
-    });
+    try {
+      const response = await fetch(webAppUrl, {
+        method: 'POST',
+        body: JSON.stringify(data),
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
 
-    const result = await response.json();
-    if (result.status === "OK") {
-      alert('¡Testimonio enviado con éxito!');
-      reviewForm.reset();
-      cargarReseñas();
-    } else {
-      alert('Error: ' + result.message);
+      const result = await response.json();
+      if (result.status === "OK") {
+        alert('¡Testimonio enviado con éxito!');
+        reviewForm.reset();
+        cargarReseñas();
+      } else {
+        alert('Error: ' + result.message);
+      }
+    } catch (err) {
+      alert('Error al enviar testimonio.');
     }
   };
 
   if (archivo) {
     reader.readAsDataURL(archivo);
   } else {
+    // Dispara manualmente el onloadend para continuar sin archivo
     reader.onloadend();
   }
 });
