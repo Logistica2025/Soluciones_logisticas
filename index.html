@@ -658,7 +658,7 @@
     
 const reviewForm = document.getElementById('reviewForm');
 const reseñasContainer = document.getElementById('reseñasContainer');
-const webAppUrl = 'https://script.google.com/macros/s/AKfycbxJCxI1vT_B0qlTaxYgzbECVLgEGBDuPzVoOpQP0NEr5lDMgCdYwrPG1PtCT8QFE1zC/exec'; // Tu URL de Apps Script
+const webAppUrl = 'https://script.google.com/macros/s/AKfycbxJCxI1vT_B0qlTaxYgzbECVLgEGBDuPzVoOpQP0NEr5lDMgCdYwrPG1PtCT8QFE1zC/exec';
 
 // Cargar testimonios existentes
 async function cargarReseñas() {
@@ -678,11 +678,13 @@ async function cargarReseñas() {
           <strong>${r.Nombre}</strong> - ${r.Calificación} estrellas<br>
           <small>${new Date(r.Fecha).toLocaleString()}</small>
           <p>${r.Comentario}</p>
-          ${r.Archivo_URL
-            ? (r.Archivo_URL.includes('.mp4') || r.Archivo_URL.includes('video') 
-                ? <video src="${r.Archivo_URL}" controls style="max-width:100%;"></video> 
-                : <img src="${r.Archivo_URL}" alt="Media subida" style="max-width:100%;">)
-            : ''}
+          ${
+            r.Archivo_URL
+              ? (r.Archivo_URL.includes('.mp4') || r.Archivo_URL.includes('video')
+                  ? `<video src="${r.Archivo_URL}" controls style="max-width:100%;"></video>`
+                  : `<img src="${r.Archivo_URL}" alt="Media subida" style="max-width:100%;">`)
+              : ''
+          }
         `;
         reseñasContainer.appendChild(tarjeta);
       });
@@ -736,10 +738,9 @@ reviewForm.addEventListener('submit', async (e) => {
   if (archivo) {
     reader.readAsDataURL(archivo);
   } else {
-    // Dispara manualmente el onloadend para continuar sin archivo
     reader.onloadend();
   }
-});
+
   });
     
   </script>
