@@ -348,7 +348,7 @@
 .datos-pago li {
   margin-bottom: 8px;
 }
-    datos-pago h3 {
+    .datos-pago h3 {
     text-align: left; /* Asegura que los títulos también estén alineados a la izquierda */
 }
 
@@ -381,6 +381,28 @@
 .dark-mode .datos-pago h3, 
 .dark-mode .datos-pago li {
     text-align: left;
+}
+    .reseñas-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.tarjeta-reseña {
+  background: #f9f9f9;
+  border-radius: 12px;
+  padding: 16px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.tarjeta-reseña small {
+  color: gray;
+}
+
+.tarjeta-reseña img, .tarjeta-reseña video {
+  max-width: 100%;
+  border-radius: 10px;
+  margin-top: 10px;
 }
    }
   </style>
@@ -459,6 +481,40 @@
     <p>Puedes solicitar el código QR al momento de la transacción.</p>
   </div>
 </section>
+  <section id="testimonios">
+  <h2>Testimonios de nuestros usuarios</h2>
+  
+  <!-- Contenedor para mostrar reseñas -->
+  <div id="reseñasContainer" class="reseñas-grid">
+    <p>Cargando testimonios...</p>
+  </div>
+
+  <!-- Formulario para enviar testimonios -->
+  <h3>Comparte tu experiencia</h3>
+  <form id="reviewForm">
+    <div class="form-group">
+      <input type="text" name="nombre" placeholder="Tu nombre" required>
+    </div>
+    <div class="form-group">
+      <textarea name="comentario" rows="4" placeholder="Tu reseña" required></textarea>
+    </div>
+    <div class="form-group">
+      <label>Calificación:</label>
+      <select name="calificacion" required>
+        <option value="5">★★★★★ - Excelente</option>
+        <option value="4">★★★★☆ - Muy bueno</option>
+        <option value="3">★★★☆☆ - Bueno</option>
+        <option value="2">★★☆☆☆ - Regular</option>
+        <option value="1">★☆☆☆☆ - Malo</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="archivo">Subir imagen/video (opcional):</label>
+      <input type="file" name="archivo" accept="image/*,video/*">
+    </div>
+    <button type="submit">Enviar testimonio</button>
+  </form>
+  </section>
 
   <section id="contacto">
     <h2>Contáctanos</h2>
@@ -599,6 +655,82 @@
       datosDiv.style.display = (datosDiv.style.display === 'none' || datosDiv.style.display === '') ? 'block' : 'none';
       botonMostrar.textContent = (datosDiv.style.display === 'block') ? 'Ocultar datos de Zinli' : 'Pagar con Zinli';
     });
+    
+const reviewForm = document.getElementById('reviewForm');
+const reseñasContainer = document.getElementById('reseñasContainer');
+const webAppUrl = 'URL_DEL_WEB_APP_AQUÍ'; // Reemplaza con tu URL de Apps Script
+
+// Cargar reseñas existentes
+async function cargarReseñas() {
+  try {
+    const response = await fetch(webAppUrl);
+    const reseñas = await response.json();
+
+    reseñasContainer.innerHTML = '';
+    if (reseñas.length === 0) {
+      reseñasContainer.innerHTML = '<p>Aún no hay testimonios.</p>';
+    } else {
+      reseñas.reverse().forEach(r => {
+        const tarjeta = document.createElement('div');
+        tarjeta.className = 'tarjeta-reseña';
+
+        tarjeta.innerHTML = `
+          <strong>${r.Nombre}</strong> - ${r.Calificación} estrellas<br>
+          <small>${new Date(r.Fecha).toLocaleString()}</small>
+          <p>${r.Comentario}</p>
+          ${r.Archivo_URL
+            ? (r.Archivo_URL.includes('video') 
+                ? `<video src="${r.Archivo_URL}" controls></video>` 
+                : `<img src="${r.Archivo_URL}" alt="Media subida">`)
+            : ''}
+        `;
+        reseñasContainer.appendChild(tarjeta);
+      });
+    }
+  } catch (error) {
+    reseñasContainer.innerHTML = '<p>Error al cargar testimonios.</p>';
+  }
+}
+
+cargarReseñas();
+
+// Enviar nueva reseña
+reviewForm.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const archivo = reviewForm.archivo.files[0];
+  const reader = new FileReader();
+
+  reader.onloadend = async () => {
+    const data = {
+      nombre: reviewForm.nombre.value,
+      comentario: reviewForm.comentario.value,
+      calificacion: reviewForm.calificacion.value,
+      fileName: archivo ? archivo.name : '',
+      mimeType: archivo ? archivo.type : '',
+      fileData: archivo ? reader.result.split(',')[1] : ''
+    };
+
+    const response = await fetch(webAppUrl, {
+      method: 'POST',
+      body: JSON.stringify(data)
+    });
+
+    const result = await response.json();
+    if (result.status === "OK") {
+      alert('¡Testimonio enviado con éxito!');
+      reviewForm.reset();
+      cargarReseñas();
+    } else {
+      alert('Error: ' + result.message);
+    }
+  };
+
+  if (archivo) {
+    reader.readAsDataURL(archivo);
+  } else {
+    reader.onloadend();
+  }
+});
   });
     
   </script>
