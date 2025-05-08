@@ -475,7 +475,22 @@
       <button type="submit">Enviar mensaje</button>
     </form>
   </section>
+<section id="testimonios" class="px-4 py-8 bg-gray-100 dark:bg-gray-900">
+  <h2 class="text-2xl font-bold mb-4 text-center text-gray-800 dark:text-white">Testimonios de Clientes</h2>
+  <div id="testimonio-lista" class="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+    <!-- Las tarjetas se insertarán dinámicamente aquí -->
+  </div>
 
+  <!-- Formulario para agregar testimonios -->
+  <div class="mt-8 max-w-xl mx-auto bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-md">
+    <h3 class="text-xl font-semibold text-gray-800 dark:text-white mb-4">Comparte tu experiencia</h3>
+    <form id="testimonio-form" class="space-y-4">
+      <input type="text" id="nombre" placeholder="Tu nombre" required class="w-full p-2 rounded border border-gray-300 dark:border-gray-700 dark:bg-gray-700 dark:text-white" />
+      <textarea id="comentario" placeholder="Tu testimonio" required class="w-full p-2 rounded border border-gray-300 dark:border-gray-700 dark:bg-gray-700 dark:text-white"></textarea>
+      <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">Enviar</button>
+    </form>
+  </div>
+        </section>
   <footer>
     © 2025 - Servicios logísticos y AppSheet | Desarrollado por Derwin Rojas
   </footer>
@@ -486,7 +501,13 @@
     <img id="modal-image" src="" onclick="toggleZoom(this)">
     <span class="next" onclick="changeImage(1)">❯</span>
   </div>
-
+<div id="modal" class="fixed inset-0 bg-black bg-opacity-60 hidden items-center justify-center z-50">
+  <div class="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-lg w-full max-w-md relative">
+    <button id="modal-close" class="absolute top-2 right-2 text-gray-500 dark:text-gray-300 hover:text-black">&times;</button>
+    <h3 class="text-xl font-semibold mb-2 text-gray-900 dark:text-white" id="modal-nombre"></h3>
+    <p class="text-gray-700 dark:text-gray-200" id="modal-comentario"></p>
+  </div>
+</div>
   <script>
     let currentImageIndex = 0;
     const images = Array.from(document.querySelectorAll("#image-carousel img"));
@@ -599,6 +620,59 @@
       datosDiv.style.display = (datosDiv.style.display === 'none' || datosDiv.style.display === '') ? 'block' : 'none';
       botonMostrar.textContent = (datosDiv.style.display === 'block') ? 'Ocultar datos de Zinli' : 'Pagar con Zinli';
     });
+
+  const testimonios = [];
+
+  const form = document.getElementById('testimonio-form');
+  const lista = document.getElementById('testimonio-lista');
+  const modal = document.getElementById('modal');
+  const modalNombre = document.getElementById('modal-nombre');
+  const modalComentario = document.getElementById('modal-comentario');
+  const modalClose = document.getElementById('modal-close');
+
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const nombre = document.getElementById('nombre').value;
+    const comentario = document.getElementById('comentario').value;
+
+    const nuevo = { nombre, comentario };
+    testimonios.push(nuevo);
+    renderTestimonios();
+
+    form.reset();
+  });
+
+  function renderTestimonios() {
+    lista.innerHTML = '';
+    testimonios.forEach((t, i) => {
+      const card = document.createElement('div');
+      card.className = 'bg-white dark:bg-gray-700 p-4 rounded-2xl shadow cursor-pointer hover:shadow-lg';
+      card.innerHTML = `
+        <h4 class="font-semibold text-lg text-gray-800 dark:text-white">${t.nombre}</h4>
+        <p class="text-gray-600 dark:text-gray-200 truncate">${t.comentario}</p>
+        <button class="text-sm text-red-500 hover:text-red-700 mt-2" onclick="eliminarTestimonio(${i})">Eliminar</button>
+      `;
+      card.onclick = () => {
+        modal.classList.remove('hidden');
+        modalNombre.textContent = t.nombre;
+        modalComentario.textContent = t.comentario;
+      };
+      lista.appendChild(card);
+    });
+  }
+
+  function eliminarTestimonio(i) {
+    testimonios.splice(i, 1);
+    renderTestimonios();
+  }
+
+  modalClose.addEventListener('click', () => {
+    modal.classList.add('hidden');
+  });
+
+  modal.addEventListener('click', (e) => {
+    if (e.target === modal) modal.classList.add('hidden');
+   });
   });
     
   </script>
