@@ -384,7 +384,16 @@
 }
    }
   </style>
-  
+</head>
+<body>
+  <div id="loader"></div>
+  <button id="mode-toggle">☾</button>
+
+  <nav>
+    <a href="#logistica">Logística</a>
+    <a href="#soluciones">Soluciones</a>
+    <a href="#contacto">Contacto</a>
+  </nav>
   <header>
     <img src="https://i.imgur.com/MwG2HNZ.png" alt="Logo">
     <h1>Soluciones Logísticas con AppSheet</h1>
@@ -465,28 +474,6 @@
       </div>
       <button type="submit">Enviar mensaje</button>
     </form>
-  </section>
-  <section id="testimonios">
-  <h2>Testimonios de Clientes</h2>
-  <form id="testimonio-form">
-    <div class="form-group">
-      <input type="text" id="nombre" placeholder="Tu nombre" required>
-    </div>
-    <div class="form-group">
-      <textarea id="comentario" placeholder="Tu comentario" required></textarea>
-    </div>
-    <button type="submit">Enviar Testimonio</button>
-  </form>
-
-  <div id="testimonio-lista" style="margin-top: 30px;"></div>
-
-  <!-- Modal para mostrar detalles del testimonio -->
-  <div id="modal" class="modal hidden" onclick="this.classList.add('hidden')">
-    <div style="background:white; padding: 30px; border-radius: 12px; max-width: 500px;">
-      <h3 id="modalNombre" style="margin-top: 0;"></h3>
-      <p id="modalComentario"></p>
-    </div>
-  </div>
   </section>
 
   <footer>
@@ -610,70 +597,8 @@
 
         botonMostrar.addEventListener('click', function() {
       datosDiv.style.display = (datosDiv.style.display === 'none' || datosDiv.style.display === '') ? 'block' : 'none';
-  botonMostrar.textContent = (datosDiv.style.display === 'block') ? 'Ocultar datos de Zinli' : 'Pagar con Zinli';
-    
-        });
-  
-
-
-<script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js"></script>
-
-<script>
-  const firebaseConfig = {
-    apiKey: "AIzaSyBu_9cGHd6AzRZEYAa8kfXkR66FR-efW5M",
-    projectId: "almacenar-testimonios",
-    appId: "1:862229502139:web:5441d3fd354440f851f19e"
-  };
-
-  const app = firebase.initializeApp(firebaseConfig);
-  const db = firebase.firestore();
-
-  const form = document.getElementById('testimonio-form');
-  const lista = document.getElementById('testimonio-lista');
-  const modal = document.getElementById('modal');
-  const modalNombre = document.getElementById('modalNombre');
-  const modalComentario = document.getElementById('modalComentario');
-
-  form.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const nombre = document.getElementById('nombre').value;
-    const comentario = document.getElementById('comentario').value;
-
-    await db.collection("testimonios").add({ nombre, comentario, fecha: new Date() });
-    form.reset();
-    cargarTestimonios();
-  });
-
-  async function cargarTestimonios() {
-    const snapshot = await db.collection("testimonios").orderBy("fecha", "desc").get();
-    lista.innerHTML = "";
-    snapshot.forEach((doc) => {
-      const t = doc.data();
-      const card = document.createElement('div');
-      card.className = 'bg-white dark:bg-gray-700 p-4 rounded-2xl shadow cursor-pointer hover:shadow-lg mb-2';
-      card.innerHTML = `
-        <h4 class="font-semibold text-lg text-gray-800 dark:text-white">${t.nombre}</h4>
-        <p class="text-gray-600 dark:text-gray-200 truncate">${t.comentario}</p>
-        <button class="text-sm text-red-500 hover:text-red-700 mt-2" onclick="eliminarTestimonio('${doc.id}')">Eliminar</button>
-      `;
-      card.onclick = () => {
-        modal.classList.remove('hidden');
-        modalNombre.textContent = t.nombre;
-        modalComentario.textContent = t.comentario;
-      };
-      lista.appendChild(card);
+      botonMostrar.textContent = (datosDiv.style.display === 'block') ? 'Ocultar datos de Zinli' : 'Pagar con Zinli';
     });
-  }
-
-  async function eliminarTestimonio(id) {
-    await db.collection("testimonios").doc(id).delete();
-    cargarTestimonios();
-  }
-
-  window.addEventListener('DOMContentLoaded', cargarTestimonios);
-
-});
   });
     
   </script>
