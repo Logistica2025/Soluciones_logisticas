@@ -348,7 +348,7 @@
 .datos-pago li {
   margin-bottom: 8px;
 }
-    .datos-pago h3 {
+    datos-pago h3 {
     text-align: left; /* Asegura que los títulos también estén alineados a la izquierda */
 }
 
@@ -382,37 +382,7 @@
 .dark-mode .datos-pago li {
     text-align: left;
 }
-   /* .reseñas-grid {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
-
-.tarjeta-reseña {
-  background: #f9f9f9;
-  border-radius: 12px;
-  padding: 16px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-}
-
-.tarjeta-reseña small {
-  color: gray;
-}
-
-.tarjeta-reseña img, .tarjeta-reseña video {
-  max-width: 100%;
-  border-radius: 10px;
-  margin-top: 10px;
-}
-  */
-    .tarjeta-reseña {
-  border: 1px solid #ccc;
-  border-radius: 10px;
-  padding: 10px;
-  margin-bottom: 10px;
-  background-color: #f9f9f9;
-    }
-    }
+   }
   </style>
 </head>
 <body>
@@ -489,58 +459,7 @@
     <p>Puedes solicitar el código QR al momento de la transacción.</p>
   </div>
 </section>
- <!-- <section id="testimonios">
-  <h2>Testimonios de nuestros usuarios</h2>
-  
-  <!-- Contenedor para mostrar reseñas -->
-  <!-- <div id="reseñasContainer" class="reseñas-grid">
-    <p>Cargando testimonios...</p>
-  </div>
 
-  <!-- Formulario para enviar testimonios -->
-  <!-- <h3>Comparte tu experiencia</h3>
-  <form id="reviewForm">
-    <div class="form-group">
-      <input type="text" name="nombre" placeholder="Tu nombre" required>
-    </div>
-    <div class="form-group">
-      <textarea name="comentario" rows="4" placeholder="Tu reseña" required></textarea>
-    </div>
-    <div class="form-group">
-      <label>Calificación:</label>
-      <select name="calificacion" required>
-        <option value="5">★★★★★ - Excelente</option>
-        <option value="4">★★★★☆ - Muy bueno</option>
-        <option value="3">★★★☆☆ - Bueno</option>
-        <option value="2">★★☆☆☆ - Regular</option>
-        <option value="1">★☆☆☆☆ - Malo</option>
-      </select> 
-    </div>
-    <div class="form-group">
-      <label for="archivo">Subir imagen/video (opcional):</label>
-      <input type="file" name="archivo" accept="image/*,video/*">
-    </div>
-    <button type="submit">Enviar testimonio</button>
-  </form>
-  </section> -->
-</section>
-<h2>Envía tu reseña</h2>
-<form id="reviewForm">
-  <input type="text" name="nombre" placeholder="Tu nombre" required /><br><br>
-  <textarea name="comentario" placeholder="Comentario" required></textarea><br><br>
-  <select name="calificacion" required>
-    <option value="">Calificación</option>
-    <option value="5">5 estrellas</option>
-    <option value="4">4 estrellas</option>
-    <option value="3">3 estrellas</option>
-    <option value="2">2 estrellas</option>
-    <option value="1">1 estrella</option>
-  </select><br><br>
-  <button type="submit">Enviar</button>
-</form>
-
-<h2>Reseñas anteriores</h2>
-<div id="reseñasContainer">Cargando...</div>
   <section id="contacto">
     <h2>Contáctanos</h2>
     <form action="https://formspree.io/f/xnndpolz" method="POST">
@@ -680,74 +599,8 @@
       datosDiv.style.display = (datosDiv.style.display === 'none' || datosDiv.style.display === '') ? 'block' : 'none';
       botonMostrar.textContent = (datosDiv.style.display === 'block') ? 'Ocultar datos de Zinli' : 'Pagar con Zinli';
     });
-    
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/11.7.1/firebase-app.js";
-  import { getDatabase, ref, push, onValue } from "https://www.gstatic.com/firebasejs/11.7.1/firebase-database.js";
-
-  const firebaseConfig = {
-    apiKey: "AIzaSyBu_9cGHd6AzRZEYAa8kfXkR66FR-efW5M",
-    authDomain: "almacenar-testimonios.firebaseapp.com",
-    databaseURL: "https://almacenar-testimonios-default-rtdb.firebaseio.com",
-    projectId: "almacenar-testimonios",
-    storageBucket: "almacenar-testimonios.appspot.com",
-    messagingSenderId: "862229502139",
-    appId: "1:862229502139:web:a19ef6ad9e96ff8f51f19e",
-    measurementId: "G-QDG0TZW4Q1"
-  };
-
-  const app = initializeApp(firebaseConfig);
-  const database = getDatabase(app);
-
-  const reviewForm = document.getElementById('reviewForm');
-  const reseñasContainer = document.getElementById('reseñasContainer');
-
-  // Mostrar reseñas guardadas
-  function cargarReseñas() {
-    reseñasContainer.innerHTML = '';
-    const reseñasRef = ref(database, 'reseñas');
-    onValue(reseñasRef, (snapshot) => {
-      const datos = snapshot.val();
-      reseñasContainer.innerHTML = '';
-      if (!datos) {
-        reseñasContainer.innerHTML = '<p>Aún no hay testimonios.</p>';
-        return;
-      }
-      const reseñasArray = Object.values(datos).reverse();
-      reseñasArray.forEach(r => {
-        const tarjeta = document.createElement('div');
-        tarjeta.className = 'tarjeta-reseña';
-        tarjeta.innerHTML = `
-          <strong>${r.nombre}</strong> - ${r.calificacion} estrellas<br>
-          <small>${new Date(r.fecha).toLocaleString()}</small>
-          <p>${r.comentario}</p>
-        `;
-        reseñasContainer.appendChild(tarjeta);
-      });
-    });
-  }
-
-  cargarReseñas();
-
-  // Guardar nueva reseña
-  reviewForm.addEventListener('submit', (e) => {
-    e.preventDefault();
-    const nuevaReseña = {
-      nombre: reviewForm.nombre.value.trim(),
-      comentario: reviewForm.comentario.value.trim(),
-      calificacion: reviewForm.calificacion.value,
-      fecha: Date.now()
-    };
-    const reseñasRef = ref(database, 'reseñas');
-    push(reseñasRef, nuevaReseña)
-      .then(() => {
-        alert('¡Testimonio enviado con éxito!');
-        reviewForm.reset();
-      })
-      .catch(() => {
-        alert('Error al enviar testimonio.');
-      });
   });
-</script>
-
+    
+  </script>
 </body>
-</html>
+        </html>
