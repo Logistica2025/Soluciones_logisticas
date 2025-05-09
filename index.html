@@ -511,7 +511,7 @@
     <span class="next" onclick="changeImage(1)">❯</span>
   </div>
 
-  <script type="module">
+  <script>
     let currentImageIndex = 0;
     const images = Array.from(document.querySelectorAll("#image-carousel img"));
     const modal = document.getElementById("image-modal");
@@ -689,7 +689,7 @@
                                         <p class="text-sm text-white">${data.mensaje}</p>`;
             testimonialList.appendChild(newTestimonial);
         });
-    }
+    
 </script>
 
 </body>
