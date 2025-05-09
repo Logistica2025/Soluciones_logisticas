@@ -511,7 +511,7 @@
     <span class="next" onclick="changeImage(1)">❯</span>
   </div>
 
-  <script>
+  <script type="module">
     let currentImageIndex = 0;
     const images = Array.from(document.querySelectorAll("#image-carousel img"));
     const modal = document.getElementById("image-modal");
@@ -624,6 +624,8 @@
       botonMostrar.textContent = (datosDiv.style.display === 'block') ? 'Ocultar datos de Zinli' : 'Pagar con Zinli';
   });
     
+    
+  
     // Importar Firebase
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-app.js";
     import { getFirestore, collection, addDoc, getDocs, orderBy, query } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-firestore.js";
@@ -644,7 +646,7 @@
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
 
-    // Esperar que el DOM cargue
+    // Capturar reseña y guardarla en Firebase
     document.addEventListener("DOMContentLoaded", () => {
         document.getElementById("testimonialForm").addEventListener("submit", async function(event) {
             event.preventDefault();
@@ -687,10 +689,8 @@
                                         <p class="text-sm text-white">${data.mensaje}</p>`;
             testimonialList.appendChild(newTestimonial);
         });
-  
+    }
+</script>
 
-  });
-    
-  </script>
 </body>
         </html>
