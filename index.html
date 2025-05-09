@@ -655,34 +655,31 @@
       botonMostrar.textContent = (datosDiv.style.display === 'block') ? 'Ocultar datos de Zinli' : 'Pagar con Zinli';
   });
 
-    function mostrarCursoSeleccionado() {
-  const selector = document.getElementById("selector-curso");
-  const contenido = document.getElementById("contenido-curso");
-  const seleccion = selector.value;
+    
+  document.addEventListener('DOMContentLoaded', function () {
+    const selectorCurso = document.getElementById('selector-curso');
+    const contenidoCurso = document.querySelectorAll('.contenido-curso');
+    const mensajeCurso = document.getElementById('mensaje-curso');
 
-  // Aquí defines cuáles cursos ya están disponibles
-  const cursosDisponibles = {
-    // Agrega aquí los cursos disponibles con su contenido
-    // "cursoGratis": '<iframe src="URL_DEL_VIDEO" ...></iframe>',
-    // "tallerGratis": '<iframe src="URL_DEL_VIDEO" ...></iframe>'
-  };
+    selectorCurso.addEventListener('change', function () {
+      const seleccionado = selectorCurso.value;
 
-  if (seleccion === "") {
-    contenido.innerHTML = "";
-  } else if (cursosDisponibles[seleccion]) {
-    contenido.innerHTML = cursosDisponibles[seleccion];
-  } else {
-    contenido.innerHTML = `
-      <div style="padding: 15px; background-color: #f3e5f5; color: #6a1b9a; border: 1px solid #ba68c8; border-radius: 8px;">
-        Por los momentos no contamos con Cursos o Talleres gratuitos. <br>
-        Pronto estarán disponibles para que disfrutes de ellos. <br>
-        Para cualquier información <a href="#contacto" style="color: #4a148c; text-decoration: underline;">comunícate con nosotros</a>.
-      </div>
-    `;
-  }
-    }
+      contenidoCurso.forEach(el => el.style.display = 'none');
 
+      if (seleccionado) {
+        document.getElementById(seleccionado).style.display = 'block';
+
+        // Mostrar mensaje solo si es un curso gratuito
+        if (seleccionado === 'curso1' || seleccionado === 'taller1') {
+          mensajeCurso.style.display = 'block';
+        } else {
+          mensajeCurso.style.display = 'none';
+        }
+      } else {
+        mensajeCurso.style.display = 'none';
+      
     });
+  });
     
   </script>
 </body>
