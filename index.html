@@ -654,46 +654,29 @@
       datosDiv.style.display = (datosDiv.style.display === 'none' || datosDiv.style.display === '') ? 'block' : 'none';
       botonMostrar.textContent = (datosDiv.style.display === 'block') ? 'Ocultar datos de Zinli' : 'Pagar con Zinli';
   });
-    .cursos-talleres {
-  padding: 60px 20px;
-  background: #f4f0fa;
-  color: #3e1f59;
-  text-align: center;
-}
+    
+function mostrarCursoSeleccionado() {
+  const selector = document.getElementById("selector-curso");
+  const contenedor = document.getElementById("contenido-curso");
+  const valor = selector.value;
 
-.contenedor-cursos {
-  max-width: 800px;
-  margin: auto;
+  if (valor === "cursoGratis") {
+    contenedor.innerHTML = `
+      <h3>Curso Gratuito: Introducción a AppSheet</h3>
+      <iframe src="https://www.youtube.com/embed/VIDEO_ID_CURSO" allowfullscreen></iframe>
+    `;
+    contenedor.style.display = "block";
+  } else if (valor === "tallerGratis") {
+    contenedor.innerHTML = `
+      <h3>Taller Gratuito: Control de Inventario</h3>
+      <iframe src="https://www.youtube.com/embed/VIDEO_ID_TALLER" allowfullscreen></iframe>
+    `;
+    contenedor.style.display = "block";
+  } else {
+    contenedor.innerHTML = "";
+    contenedor.style.display = "none";
+  }
 }
-
-.contenedor-cursos h2 {
-  font-size: 2.2rem;
-  margin-bottom: 10px;
-}
-
-.contenedor-cursos select {
-  margin-top: 20px;
-  padding: 12px;
-  font-size: 1rem;
-  border-radius: 8px;
-  border: 1px solid #ccc;
-  width: 100%;
-  max-width: 400px;
-}
-
-.contenido-curso {
-  margin-top: 30px;
-  display: none;
-}
-
-.contenido-curso iframe {
-  width: 100%;
-  height: 400px;
-  border-radius: 12px;
-  border: none;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-                            
-  });
     });
     
   </script>
