@@ -491,11 +491,14 @@
     <p>Capacítate con nuestros contenidos sobre logística, inventarios y AppSheet</p>
 
     <select id="selector-curso" onchange="mostrarCursoSeleccionado()">
-      <option value="">Selecciona un curso o taller</option>
-      <option value="cursoGratis">Curso Gratuito: Introducción a AppSheet</option>
-      <option value="tallerGratis">Taller Gratuito: Control de Inventario</option>
-      <!-- Puedes añadir más opciones aquí -->
-    </select>
+  <option value="">Selecciona un curso o taller</option>
+  <option value="cursoGratis">Curso Gratuito: Introducción a AppSheet</option>
+  <option value="tallerGratis">Taller Gratuito: Control de Inventario</option>
+</select>
+
+<div id="contenido-curso" class="contenido-curso">
+  <!-- Aquí se mostrará el mensaje o contenido -->
+</div>
 
     <div id="contenido-curso" class="contenido-curso">
       <!-- Aquí aparecerá el video o contenido -->
@@ -656,28 +659,45 @@
       botonMostrar.textContent = (datosDiv.style.display === 'block') ? 'Ocultar datos de Zinli' : 'Pagar con Zinli';
   });
     
-function mostrarCursoSeleccionado() {
-  const selector = document.getElementById("selector-curso");
-  const contenedor = document.getElementById("contenido-curso");
-  const valor = selector.value;
 
-  if (valor === "cursoGratis") {
-    contenedor.innerHTML = `
-      <h3>Curso Gratuito: Introducción a AppSheet</h3>
-      <iframe src="https://www.youtube.com/embed/VIDEO_ID_CURSO" allowfullscreen></iframe>
-    `;
-    contenedor.style.display = "block";
-  } else if (valor === "tallerGratis") {
-    contenedor.innerHTML = `
-      <h3>Taller Gratuito: Control de Inventario</h3>
-      <iframe src="https://www.youtube.com/embed/VIDEO_ID_TALLER" allowfullscreen></iframe>
-    `;
-    contenedor.style.display = "block";
-  } else {
+  const cursosActivos = {
+    cursoGratis: false,  // Cambia a true cuando tengas contenido
+    tallerGratis: false  // Cambia a true cuando tengas contenido
+  };
+
+  function mostrarCursoSeleccionado() {
+    const selector = document.getElementById("selector-curso");
+    const contenedor = document.getElementById("contenido-curso");
+    const valor = selector.value;
+
     contenedor.innerHTML = "";
     contenedor.style.display = "none";
+
+    if (!valor) return;
+
+    if (cursosActivos[valor]) {
+      // Si está activo, muestra contenido real
+      const contenido = valor === "cursoGratis"
+        ? `<h3>Curso Gratuito: Introducción a AppSheet</h3>
+           <iframe src="https://www.youtube.com/embed/VIDEO_ID_CURSO" allowfullscreen></iframe>`
+        : `<h3>Taller Gratuito: Control de Inventario</h3>
+           <iframe src="https://www.youtube.com/embed/VIDEO_ID_TALLER" allowfullscreen></iframe>`;
+      
+      contenedor.innerHTML = contenido;
+    } else {
+      // Mensaje por defecto si el curso no está disponible
+      contenedor.innerHTML = `
+        <p style="font-size: 1.1rem; color: #5a3b8c; margin-top: 20px;">
+          Por los momentos no contamos con Cursos o Talleres gratuitos.<br>
+          Pronto estarán disponibles para que disfrutes de ello.<br>
+          Para cualquier información, <a href="#contacto" style="color: #7e4ae8;">comunícate con nosotros</a>.
+        </p>
+      `;
+    }
+
+    contenedor.style.display = "block";
   }
-}
+
     });
     
   </script>
