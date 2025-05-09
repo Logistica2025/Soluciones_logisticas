@@ -643,9 +643,8 @@
     // Inicializar Firebase
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
-</script>
-  <script type="module">
-    // Capturar reseña y guardarla en Firebase
+
+    // Esperar que el DOM cargue
     document.addEventListener("DOMContentLoaded", () => {
         document.getElementById("testimonialForm").addEventListener("submit", async function(event) {
             event.preventDefault();
@@ -689,7 +688,7 @@
             testimonialList.appendChild(newTestimonial);
         });
     }
-  </script>
+</script>
   });
     
   </script>
