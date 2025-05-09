@@ -459,6 +459,30 @@
     <p>Puedes solicitar el código QR al momento de la transacción.</p>
   </div>
 </section>
+  <section id="testimonios" class="py-16 bg-[#1f1b2e] text-white">
+  <div class="max-w-5xl mx-auto px-4">
+    <h2 class="text-3xl font-bold text-center mb-8 text-purple-300">Testimonios</h2>
+
+    <!-- Formulario -->
+    <form id="testimonialForm" class="bg-[#2a243d] p-6 rounded-xl shadow-xl mb-12 space-y-4">
+      <div>
+        <label for="nombre" class="block text-sm mb-1">Nombre:</label>
+        <input type="text" id="nombre" required class="w-full px-4 py-2 rounded-lg bg-[#352d4f] text-white focus:outline-none focus:ring-2 focus:ring-purple-500">
+      </div>
+      <div>
+        <label for="mensaje" class="block text-sm mb-1">Mensaje:</label>
+        <textarea id="mensaje" rows="4" required class="w-full px-4 py-2 rounded-lg bg-[#352d4f] text-white focus:outline-none focus:ring-2 focus:ring-purple-500"></textarea>
+      </div>
+      <button type="submit" class="bg-purple-600 hover:bg-purple-700 transition px-6 py-2 rounded-lg font-semibold text-white">
+        Enviar Testimonio
+      </button>
+      <p id="feedback" class="text-sm mt-2"></p>
+    </form>
+
+    <!-- Lista de testimonios -->
+    <div id="testimonialList" class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3"></div>
+  </div>
+  </section>
 
   <section id="contacto">
     <h2>Contáctanos</h2>
@@ -598,7 +622,72 @@
         botonMostrar.addEventListener('click', function() {
       datosDiv.style.display = (datosDiv.style.display === 'none' || datosDiv.style.display === '') ? 'block' : 'none';
       botonMostrar.textContent = (datosDiv.style.display === 'block') ? 'Ocultar datos de Zinli' : 'Pagar con Zinli';
+  });
+          <script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/11.7.1/firebase-app.js";
+  import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.7.1/firebase-analytics.js";
+  import { getFirestore, collection, addDoc, getDocs, serverTimestamp, query, orderBy } from "https://www.gstatic.com/firebasejs/11.7.1/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyBu_9cGHd6AzRZEYAa8kfXkR66FR-efW5M",
+    authDomain: "almacenar-testimonios.firebaseapp.com",
+    databaseURL: "https://almacenar-testimonios-default-rtdb.firebaseio.com",
+    projectId: "almacenar-testimonios",
+    storageBucket: "almacenar-testimonios.firebasestorage.app",
+    messagingSenderId: "862229502139",
+    appId: "1:862229502139:web:dce62e53eb9d576e51f19e",
+    measurementId: "G-HGBXC15ZZQ"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const analytics = getAnalytics(app);
+  const db = getFirestore(app);
+
+  const form = document.getElementById('testimonialForm');
+  const feedback = document.getElementById('feedback');
+  const testimonialList = document.getElementById('testimonialList');
+
+  async function cargarTestimonios() {
+    testimonialList.innerHTML = '';
+    const q = query(collection(db, "testimonios"), orderBy("fecha", "desc"));
+    const querySnapshot = await getDocs(q);
+    querySnapshot.forEach((doc) => {
+      const data = doc.data();
+      const card = document.createElement('div');
+      card.className = "bg-[#2a243d] p-4 rounded-lg shadow text-white";
+      card.innerHTML = `
+        <h3 class="font-bold text-purple-400">${data.nombre}</h3>
+        <p class="text-sm mt-2">${data.mensaje}</p>
+      `;
+      testimonialList.appendChild(card);
     });
+  }
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const nombre = document.getElementById('nombre').value.trim();
+    const mensaje = document.getElementById('mensaje').value.trim();
+
+    if (nombre && mensaje) {
+      try {
+        await addDoc(collection(db, "testimonios"), {
+          nombre,
+          mensaje,
+          fecha: serverTimestamp()
+        });
+        feedback.textContent = "¡Gracias por tu testimonio!";
+        feedback.className = "text-green-400";
+        form.reset();
+        cargarTestimonios();
+      } catch (err) {
+        feedback.textContent = "Error al enviar. Intenta de nuevo.";
+        feedback.className = "text-red-400";
+      }
+    }
+  });
+
+  cargarTestimonios();
+</script>
   });
     
   </script>
