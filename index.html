@@ -623,7 +623,73 @@
       datosDiv.style.display = (datosDiv.style.display === 'none' || datosDiv.style.display === '') ? 'block' : 'none';
       botonMostrar.textContent = (datosDiv.style.display === 'block') ? 'Ocultar datos de Zinli' : 'Pagar con Zinli';
   });
-    
+    <script type="module">
+    // Importar Firebase
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-app.js";
+    import { getFirestore, collection, addDoc, getDocs, orderBy, query } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-firestore.js";
+
+    // Configuración de Firebase
+    const firebaseConfig = {
+        apiKey: "AIzaSyBu_9cGHd6AzRZEYAa8kfXkR66FR-efW5M",
+        authDomain: "almacenar-testimonios.firebaseapp.com",
+        databaseURL: "https://almacenar-testimonios-default-rtdb.firebaseio.com",
+        projectId: "almacenar-testimonios",
+        storageBucket: "almacenar-testimonios.firebasestorage.app",
+        messagingSenderId: "862229502139",
+        appId: "1:862229502139:web:dce62e53eb9d576e51f19e",
+        measurementId: "G-HGBXC15ZZQ"
+    };
+
+    // Inicializar Firebase
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+</script>
+  <script type="module">
+    // Capturar reseña y guardarla en Firebase
+    document.addEventListener("DOMContentLoaded", () => {
+        document.getElementById("testimonialForm").addEventListener("submit", async function(event) {
+            event.preventDefault();
+
+            let nombre = document.getElementById("nombre").value;
+            let mensaje = document.getElementById("mensaje").value;
+
+            try {
+                await addDoc(collection(db, "reseñas"), {
+                    nombre: nombre,
+                    mensaje: mensaje,
+                    fecha: new Date()
+                });
+
+                document.getElementById("feedback").textContent = "¡Reseña guardada exitosamente!";
+                document.getElementById("testimonialForm").reset();
+
+                mostrarReseñas();
+            } catch (error) {
+                console.error("Error al guardar la reseña: ", error);
+            }
+        });
+
+        mostrarReseñas();
+    });
+
+    // Función para mostrar reseñas guardadas
+    async function mostrarReseñas() {
+        let testimonialList = document.getElementById("testimonialList");
+        testimonialList.innerHTML = "";
+
+        const q = query(collection(db, "reseñas"), orderBy("fecha", "desc"));
+        const querySnapshot = await getDocs(q);
+
+        querySnapshot.forEach((doc) => {
+            let data = doc.data();
+            let newTestimonial = document.createElement("div");
+            newTestimonial.classList.add("bg-[#2a243d]", "p-4", "rounded-lg", "shadow-md");
+            newTestimonial.innerHTML = `<h3 class="text-lg font-semibold text-purple-300">${data.nombre}</h3>
+                                        <p class="text-sm text-white">${data.mensaje}</p>`;
+            testimonialList.appendChild(newTestimonial);
+        });
+    }
+  </script>
   });
     
   </script>
