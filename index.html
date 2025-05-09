@@ -485,21 +485,41 @@
       </div>
     </div>
   </section>
-<section class="cursos-talleres" id="cursos-talleres">
-  <div class="contenedor-cursos">
-    <h2>Cursos y Talleres</h2>
-    <p>Capacítate con nuestros contenidos sobre logística, inventarios y AppSheet</p>
+<section id="cursos" class="py-12 bg-purple-50 dark:bg-gray-900">
+  <div class="max-w-5xl mx-auto px-4">
+    <h2 class="text-3xl font-bold text-center text-purple-800 dark:text-white mb-6">Cursos y Talleres</h2>
 
-    <select id="selector-curso" onchange="mostrarCursoSeleccionado()">
-  <option value="">Selecciona un curso o taller</option>
-  <option value="cursoGratis">Curso Gratuito: Introducción a AppSheet</option>
-  <option value="tallerGratis">Taller Gratuito: Control de Inventario</option>
-</select>
+    <!-- Selector de cursos -->
+    <div id="selector-cursos" class="mb-6">
+      <label for="cursoSelect" class="block text-purple-700 dark:text-gray-200 mb-2">Selecciona un curso o taller:</label>
+      <select id="cursoSelect" class="w-full p-2 rounded border border-purple-300 dark:border-gray-700 dark:bg-gray-800 dark:text-white">
+        <option value="" disabled selected>Selecciona una opción</option>
+        <option value="curso1">Curso Gratuito: Introducción a AppSheet para Logística</option>
+        <option value="taller1">Taller Gratuito: Control de Inventario con AppSheet</option>
+      </select>
+    </div>
 
-<div id="contenido-curso" class="contenido-curso">
-  <!-- Aquí se mostrará el mensaje o contenido -->
-</div>
-    
+    <!-- Contenedor de videos -->
+    <div id="videos-cursos" class="space-y-8">
+      <div id="curso1" class="video-curso hidden">
+        <h3 class="text-xl font-semibold text-purple-700 dark:text-white mb-2">Curso Gratuito: Introducción a AppSheet para Logística</h3>
+        <div class="aspect-w-16 aspect-h-9">
+          <iframe class="w-full rounded shadow" src="https://www.youtube.com/embed/" frameborder="0" allowfullscreen></iframe>
+        </div>
+      </div>
+      <div id="taller1" class="video-curso hidden">
+        <h3 class="text-xl font-semibold text-purple-700 dark:text-white mb-2">Taller Gratuito: Control de Inventario con AppSheet</h3>
+        <div class="aspect-w-16 aspect-h-9">
+          <iframe class="w-full rounded shadow" src="https://www.youtube.com/embed/" frameborder="0" allowfullscreen></iframe>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mensaje si no hay cursos -->
+    <div id="mensaje-no-cursos" class="text-center text-gray-600 dark:text-gray-300 mt-6 hidden">
+      <p>Pronto estaremos publicando nuevos cursos y talleres gratuitos. ¡Mantente atento!</p>
+    </div>
+  </div>
 </section>
  <section>
   <h2>Pagos y Compras <img src="https://i.imgur.com/hYnD705.jpeg" alt="Logo de Zinli" style="width: 50px; height: auto; vertical-align: middle;"></h2>
@@ -654,30 +674,28 @@
       datosDiv.style.display = (datosDiv.style.display === 'none' || datosDiv.style.display === '') ? 'block' : 'none';
       botonMostrar.textContent = (datosDiv.style.display === 'block') ? 'Ocultar datos de Zinli' : 'Pagar con Zinli';
   });
-function mostrarCursoSeleccionado() {
-  const selector = document.getElementById("selector-curso");
-  const contenido = document.getElementById("contenido-curso");
-  const seleccion = selector.value;
+// Cursos y talleres
+const cursosDisponibles = ['curso1', 'taller1']; // IDs de cursos con video
+const selector = document.getElementById('cursoSelect');
+const videos = document.querySelectorAll('.video-curso');
+const mensaje = document.getElementById('mensaje-no-cursos');
+const selectorWrapper = document.getElementById('selector-cursos');
 
-  const cursosDisponibles = {
-    // Aquí puedes activar uno si deseas mostrar contenido real más adelante
-    // "cursoGratis": '<iframe src="TU_VIDEO_URL" width="100%" height="315" frameborder="0" allowfullscreen></iframe>',
-    // "tallerGratis": '<iframe src="TU_VIDEO_URL" width="100%" height="315" frameborder="0" allowfullscreen></iframe>'
-  };
+videos.forEach(video => video.classList.add('hidden'));
 
-  if (seleccion === "") {
-    contenido.innerHTML = "";
-  } else if (cursosDisponibles[seleccion]) {
-    contenido.innerHTML = cursosDisponibles[seleccion];
-  } else {
-    contenido.innerHTML = `
-      <div style="padding: 15px; background-color: #f3e5f5; color: #6a1b9a; border: 1px solid #ba68c8; border-radius: 8px;">
-        Por los momentos no contamos con Cursos o Talleres gratuitos.<br>
-        Pronto estarán disponibles para que disfrutes de ellos.<br>
-        Para cualquier información <a href="#contacto" style="color: #4a148c; text-decoration: underline;">comunícate con nosotros</a>.
-      </div>
-    `;
-  }
+if (cursosDisponibles.length === 0) {
+  selectorWrapper.style.display = 'none';
+  mensaje.style.display = 'block';
+} else {
+  selectorWrapper.style.display = 'block';
+  mensaje.style.display = 'none';
+
+  selector.addEventListener('change', function () {
+    const seleccion = this.value;
+    videos.forEach(video => {
+      video.classList.toggle('hidden', video.id !== seleccion);
+    });
+  });
 }
   
   });
