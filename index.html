@@ -661,28 +661,6 @@
       `;
       testimonialList.appendChild(card);
     });
-  }
-
-  form.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const nombre = document.getElementById('nombre').value.trim();
-    const mensaje = document.getElementById('mensaje').value.trim();
-
-    if (nombre && mensaje) {
-      try {
-        await addDoc(collection(db, "testimonios"), {
-          nombre,
-          mensaje,
-          fecha: serverTimestamp()
-        });
-        feedback.textContent = "¡Gracias por tu testimonio!";
-        feedback.className = "text-green-400";
-        form.reset();
-        cargarTestimonios();
-      } catch (err) {
-        feedback.textContent = "Error al enviar. Intenta de nuevo.";
-        feedback.className = "text-red-400";
-      }
     
   });
   
