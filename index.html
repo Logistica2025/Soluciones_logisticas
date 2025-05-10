@@ -432,7 +432,7 @@
     }
 
     .contenido-modal {
-      background-color: #2a2a2a;
+      background-color: #fff;
       padding: 2rem;
       border-radius: 10px;
       max-width: 600px;
@@ -477,10 +477,34 @@
       transform: translateY(-2px);
       box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
       background-color: #1a252f;
+
 }
-    .dark-mode .modal-curso .contenido-modal p {
-  color: #fff; /* Un color de texto claro para el modo oscuro */
-    }
+  /* Estilos generales para el contenido del modal */
+.modal-curso .contenido-modal {
+  background-color: #fff; /* Fondo blanco para modo claro */
+  padding: 2rem;
+  border-radius: 10px;
+  max-width: 600px;
+  width: 90%;
+  position: relative;
+  color: #333; /* Color de texto oscuro para modo claro */
+}
+
+/* Estilos para el texto dentro del contenido del modal */
+.modal-curso .contenido-modal p {
+  color: #333; /* Asegura que el texto sea oscuro en modo claro */
+}
+
+/* Estilos para el modo oscuro */
+.dark-mode .modal-curso .contenido-modal {
+  background-color: #2a2a2a; /* Fondo oscuro para modo oscuro (similar al Zinli) */
+  color: #eee; /* Color de texto claro para modo oscuro (similar al Zinli) */
+}
+
+.dark-mode .modal-curso .contenido-modal p {
+  color: #eee; /* Asegura que el texto sea claro en modo oscuro */
+}
+    
    }
   </style>
 </head>
