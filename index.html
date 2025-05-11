@@ -688,22 +688,25 @@
       }
     });
 
-    const form = document.querySelector("form");
-    form.addEventListener("submit", async function(e) {
-      e.preventDefault();
-      const formData = new FormData(form);
-      const response = await fetch(form.action, {
-        method: form.method,
-        body: formData,
-        headers: { 'Accept': 'application/json' }
-      });
-      if (response.ok) {
-        alert("Mensaje enviado correctamente.");
-        form.reset();
-      } else {
-        alert("Ocurrió un error. Intenta de nuevo.");
-      }
-    });
+    // ========== FORMULARIO GENERAL (ELIMINADO) ==========
+    // const form = document.querySelector("form");
+    // if (form) {
+    //   form.addEventListener("submit", async function(e) {
+    //     e.preventDefault();
+    //     const formData = new FormData(form);
+    //     const response = await fetch(form.action, {
+    //       method: form.method,
+    //       body: formData,
+    //       headers: { 'Accept': 'application/json' }
+    //     });
+    //     if (response.ok) {
+    //       alert("Mensaje enviado correctamente.");
+    //       form.reset();
+    //     } else {
+    //       alert("Ocurrió un error. Intenta de nuevo.");
+    //     }
+    //   });
+    // }
 
     const sections = document.querySelectorAll("section");
     const observer = new IntersectionObserver(entries => {
@@ -821,6 +824,6 @@
       // *** FIN DEL CÓDIGO MOVIDO ***
     });
   </script>
-    
+
 </body>
 </html>
