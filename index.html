@@ -505,7 +505,147 @@
 .dark-mode .modal-curso .contenido-modal p {
   color: #eee; /* Asegura que el texto sea claro en modo oscuro */
 }
-    
+    .testimonios-container {
+  background-color: #f8f3ff;
+  padding: 60px 20px;
+  text-align: center;
+}
+
+.testimonios-header h2 {
+  font-size: 2.5rem;
+  color: #5e2ca5;
+  margin-bottom: 10px;
+}
+
+.testimonios-header p {
+  font-size: 1rem;
+  color: #7a5ab3;
+  margin-bottom: 40px;
+}
+
+.review-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  max-width: 500px;
+  margin: 0 auto 40px;
+}
+
+.review-form input,
+.review-form textarea {
+  padding: 12px;
+  border: 2px solid #ccc;
+  border-radius: 10px;
+  font-size: 1rem;
+  transition: 0.3s;
+}
+
+.review-form input:focus,
+.review-form textarea:focus {
+  border-color: #5e2ca5;
+  outline: none;
+}
+
+.review-form button {
+  background-color: #5e2ca5;
+  color: white;
+  padding: 12px;
+  border: none;
+  border-radius: 10px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.review-form button:hover {
+  background-color: #471c84;
+}
+
+.form-feedback {
+  font-size: 0.9rem;
+  margin-top: 10px;
+  color: green;
+}
+
+.testimonios-list {
+  display: grid;
+  gap: 20px;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.testimonio-card {
+  background-color: white;
+  padding: 20px;
+  border-radius: 15px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+  text-align: left;
+  transition: transform 0.3s ease;
+}
+
+.testimonio-card:hover {
+  transform: translateY(-5px);
+}
+
+.testimonio-nombre {
+  font-weight: bold;
+  color: #5e2ca5;
+  margin-bottom: 5px;
+}
+
+.testimonio-mensaje {
+  color: #555;
+  font-size: 0.95rem;
+}
+  .review-form select {
+  padding: 12px;
+  border: 2px solid #ccc;
+  border-radius: 10px;
+  font-size: 1rem;
+  transition: 0.3s;
+}
+
+.review-form select:focus {
+  border-color: #5e2ca5;
+  outline: none;
+}
+  
+  .galeria-testimonios {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1rem;
+  padding: 1rem;
+}
+
+.testimonio {
+  background-color: #f5f3ff;
+  border: 2px solid #c4b5fd;
+  border-radius: 1rem;
+  padding: 1rem;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+  transition: transform 0.2s ease;
+}
+
+.testimonio:hover {
+  transform: translateY(-4px);
+}
+
+.testimonio h3 {
+  margin: 0;
+  font-size: 1.2rem;
+  color: #5b21b6;
+}
+
+.testimonio p {
+  margin: 0.5rem 0;
+  color: #4b5563;
+}
+
+.testimonio small {
+  color: #6b7280;
+  font-size: 0.8rem;
+}
    }
   </style>
 </head>
@@ -564,6 +704,10 @@
         <h3>Control logístico con AppSheet</h3>
         <iframe src="https://www.youtube.com/embed/NoyvVXY8FFk" allowfullscreen></iframe>
       </div>
+      <div>
+        <h3>Dashboard con graficas interactivas</h3>
+        <iframe src="https://www.youtube.com/embed/xsAI0kGJV0A" allowfullscreen></iframe>
+      </div>
     </div>
   </section>
 <section id="cursos-talleres" class="contenedor-seccion">
@@ -593,6 +737,34 @@
   </div>
 </div>
 
+</section>
+  <section id="testimonios" class="testimonios-container">
+  <div class="testimonios-header">
+    <h2>Testimonios de Clientes</h2>
+    <p>Observa lo que opinan sobre nuestras soluciones</p>
+  </div>
+
+  <form id="reviewForm" class="review-form">
+    <input type="text" name="nombre" placeholder="Tu nombre" required />
+
+    <textarea name="mensaje" placeholder="Tu testimonio" required></textarea>
+
+    <label for="calificacion">Calificación:</label>
+    <select name="calificacion" id="calificacion" required>
+      <option value="">Selecciona una calificación</option>
+      <option value="5">⭐⭐⭐⭐⭐ - Excelente</option>
+      <option value="4">⭐⭐⭐⭐ - Muy bueno</option>
+      <option value="3">⭐⭐⭐ - Bueno</option>
+      <option value="2">⭐⭐ - Regular</option>
+      <option value="1">⭐ - Malo</option>
+    </select>
+
+    <button type="submit">Enviar Testimonio</button>
+    <div class="form-feedback" id="formFeedback"></div>
+  </form>
+
+  <div class="testimonios-list" id="testimoniosList"></div>
+    <div id="contenedor-testimonios" class="galeria-testimonios"></div>
 </section>
 
  <section>
@@ -624,6 +796,7 @@
       <button type="submit">Enviar mensaje</button>
       <div id="mensaje-enviado-contacto" class="oculto" style="color: green;">¡Gracias por tu mensaje, pronto nos pondremos en contacto contigo!</div>
       <div id="mensaje-error-contacto" class="oculto" style="color: red;">Ocurrió un error al enviar el mensaje.</div>
+      
     </form>
   </section>
 
@@ -804,7 +977,7 @@
             formularioContacto.reset();
             setTimeout(() => {
               mensajeEnviadoContacto.classList.add('oculto');
-            }, 7000);
+            }, 5000);
           } else {
             const errorData = await response.json();
             console.error('Error al enviar a Formspree:', errorData);
@@ -819,6 +992,57 @@
       });
       // *** FIN DEL CÓDIGO MOVIDO ***
     });
+  
+  
+  const scriptURL = 'https://script.google.com/macros/s/AKfycbzCsj1R-kRa_4I9uqZypc9BYDOaLPCCgNR4_A_FGfuz6c5XkLfyDQVXFPa6gPuco6SeEw/exec';
+  const form = document.getElementById('reviewForm');
+  const feedback = document.getElementById('formFeedback');
+
+  form.addEventListener('submit', e => {
+    e.preventDefault();
+    feedback.textContent = 'Enviando...';
+    feedback.style.color = '#5e2ca5';
+
+    fetch(scriptURL, {
+      method: 'POST',
+      body: new FormData(form)
+    })
+    .then(response => {
+      form.reset();
+      feedback.textContent = '¡Gracias por tu testimonio!';
+      feedback.style.color = 'green';
+    })
+    .catch(error => {
+      console.error('Error:', error);
+      feedback.textContent = 'Hubo un problema. Intenta de nuevo.';
+      feedback.style.color = 'red';
+    });
+  });
+  async function cargarTestimonios() {
+    const contenedor = document.getElementById("contenedor-testimonios");
+
+    try {
+      const respuesta = await fetch("https://script.google.com/macros/s/AKfycbzCsj1R-kRa_4I9uqZypc9BYDOaLPCCgNR4_A_FGfuz6c5XkLfyDQVXFPa6gPuco6SeEw/exec"); // Usa el mismo URL que para el doPost
+      const testimonios = await respuesta.json();
+
+      testimonios.forEach(t => {
+        const tarjeta = document.createElement("div");
+        tarjeta.className = "testimonio";
+        tarjeta.innerHTML = `
+          <h3>${t.nombre}</h3>
+          <p>"${t.mensaje}"</p>
+          <p>⭐ Calificación: ${t.calificacion}</p>
+          <small>${new Date(t.fecha).toLocaleDateString()}</small>
+        `;
+        contenedor.appendChild(tarjeta);
+      });
+    } catch (err) {
+      console.error("Error cargando testimonios", err);
+    }
+  }
+
+  cargarTestimonios();
+
   </script>
 
 </body>
