@@ -794,6 +794,13 @@
       <img src="https://i.imgur.com/r4Z1L7C.jpeg" onclick="openImageModal(13)">
   
     </div>
+<div id="image-modal" class="modal">
+    <span class="close" onclick="closeImageModal()">×</span>
+    <span class="prev" onclick="changeImage(-1)">❮</span>
+    <img id="modal-image" src="" onclick="toggleZoom(this)">
+    <span class="next" onclick="changeImage(1)">❯</span>
+</div>
+    
   </section>
 
   <section>
@@ -888,13 +895,6 @@
     © 2025 - Servicios logísticos y AppSheet | Desarrollado por Derwin Rojas
   </footer>
 
-  <div id="image-modal" class="modal">
-    <span class="close" onclick="closeImageModal()">×</span>
-    <span class="prev" onclick="changeImage(-1)">❮</span>
-    <img id="modal-image" src="" onclick="toggleZoom(this)">
-    <span class="next" onclick="changeImage(1)">❯</span>
-  </div>
-  
 <script>
     let currentImageIndex = 0;
     const images = Array.from(document.querySelectorAll("#image-carousel img"));
