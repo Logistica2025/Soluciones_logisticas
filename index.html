@@ -44,7 +44,7 @@
       background-color: #7570c9; /* Ligeramente más claro */
       color: white;
       text-align: center;
-      padding: px 100px 50px;
+      padding: 120px 20px 50px;
     }
     header img {
       max-width: 180px;
@@ -165,7 +165,54 @@
       color: #ccc;
       font-size: 0.9rem;
     }
-    
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 2000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background-color: rgba(0,0,0,0.8);
+      justify-content: center;
+      align-items: center;
+    }
+    .modal img {
+      max-width: 90%;
+      max-height: 90%;
+      transition: transform 0.3s ease;
+      cursor: grab;
+      position: relative;
+    }
+    .modal img.zoomed {
+      transform: scale(2);
+      cursor: grab;
+    }
+    .modal .close, .modal .prev, .modal .next {
+      position: absolute;
+      font-size: 30px;
+      color: white;
+      cursor: pointer;
+      padding: 10px;
+      user-select: none;
+      z-index: 2100;
+    }
+    .modal .close {
+      top: 20px;
+      right: 20px;
+      font-size: 40px;
+    }
+    .modal .prev {
+      left: 20px;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+    .modal .next {
+      right: 20px;
+      top: 50%;
+      transform: translateY(-50%);
+    }
     .video-gallery {
       display: flex;
       flex-wrap: wrap;
@@ -245,94 +292,7 @@
         gap: 10px;
         padding: 10px;
       }
-      .modal {
-  display: none;
-  position: fixed;
-  z-index: 2000;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  overflow: auto; /* Para permitir scroll en la página detrás del modal */
-  background-color: rgba(0,0,0,0.8);
-  justify-content: center;
-  align-items: center;
-}
-
-
-.modal-content {
-  pointer-events: auto; /* Solo esta parte puede recibir clics */
-  position: relative;
-  margin: 0 auto;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-wrap: nowrap;
-  max-width: 90vw;
-}
-
-.modal img {
-  max-width: 90%;
-  max-height: 90vh;
-  transition: transform 0.3s ease;
-  cursor: grab;
-  position: relative;
-  border-radius: 10px;
-}
-
-.modal img.zoomed {
-  transform: scale(2);
-}
-
-.modal .close,
-.modal .prev,
-.modal .next {
-  position: absolute;
-  font-size: 30px;
-  color: white;
-  cursor: pointer;
-  padding: 10px;
-  user-select: none;
-  z-index: 10000;
-}
-.modal .close {
-  position: fixed;  /* Cambié a fixed para que quede en la ventana, no relativo al modal-content */
-  top: 10px;
-  right: 10px;
-  font-size: 40px;
-  color: white;
-  cursor: pointer;
-  z-index: 2100;
-  user-select: none;
-  padding: 5px 10px;
-  background-color: rgba(0,0,0,0.5);
-  border-radius: 5px;
-  transition: background-color 0.3s ease;
-}
-
-.modal .close:hover {
-  background-color: rgba(255, 255, 255, 0.2);
-}
-
-.modal .prev {
-  left: -50px;
-  top: 50%;
-  transform: translateY(-50%);
-}
-
-.modal .next {
-  right: -50px;
-  top: 50%;
-  transform: translateY(-50%);
-}
-      @media screen and (min-width: 1024px) {
-  .modal img {
-    max-width: 80vw;
-    max-height: 80vh;
-  }
-}
-
-    .video-gallery iframe {
+      .video-gallery iframe {
         max-width: 100%;
         height: auto;
       }
@@ -783,20 +743,20 @@
   transition: transform 0.3s;
   cursor: pointer;
 }
-  
    }
   </style>
 </head>
 <body>
+  <div id="loader"></div>
+  <button id="mode-toggle">☾</button>
 
   <nav>
-     
     <a href="#logistica">Logística</a>
     <a href="#soluciones">Soluciones</a>
     <a href="#contacto">Contacto</a>
     <a href="#cursos-talleres">Cursos y Talleres</a>
     <a href="#testimonios">Reseñas y Testimonios</a>
-     
+  
   </nav>
   <header>
     <img src="https://i.imgur.com/6ltfYt6.jpeg" alt="Logo">
@@ -811,9 +771,6 @@
       <li><i class="fas fa-chart-bar"></i> Formatos inteligentes según estadísticas</li>
       <li><i class="fas fa-handshake"></i> Asesorías, cursos y talleres prácticos</li>
       <li><i class="fas fa-headset"></i> Atención directa y soporte continuo</li>
-      <div class="logo-animado">
-  <img src="ruta-del-logo.svg" alt="Soluciones Logísticas" />
-</div>
     </ul>
     <a href="https://wa.me/584129915255" class="btn btn-whatsapp">Contáctanos por WhatsApp</a>
   </section>
@@ -836,13 +793,12 @@
       <img src="https://i.imgur.com/lyyB3LT.jpeg" onclick="openImageModal(12)">
       <img src="https://i.imgur.com/r4Z1L7C.jpeg" onclick="openImageModal(13)">
   
-    <div id="image-modal" class="modal">
-  <div class="modal-content">
+    </div>
+<div id="image-modal" class="modal">
     <span class="close" onclick="closeImageModal()">×</span>
     <span class="prev" onclick="changeImage(-1)">❮</span>
     <img id="modal-image" src="" onclick="toggleZoom(this)">
     <span class="next" onclick="changeImage(1)">❯</span>
-  </div>
 </div>
     
   </section>
@@ -939,54 +895,50 @@
     © 2025 - Servicios logísticos y AppSheet | Desarrollado por Derwin Rojas
   </footer>
 <script>
-  let currentImageIndex = 0;
-  const images = Array.from(document.querySelectorAll("#image-carousel img"));
-  const modal = document.getElementById("image-modal");
-  const modalImage = document.getElementById("modal-image");
+    let currentImageIndex = 0;
+    const images = Array.from(document.querySelectorAll("#image-carousel img"));
+    const modal = document.getElementById("image-modal");
+    const modalImage = document.getElementById("modal-image");
+    const toggleBtn = document.getElementById("mode-toggle");
+    const darkModeClass = "dark-mode";
 
-  function openImageModal(index) {
-    currentImageIndex = index;
-    updateModalImage();
-    modal.style.display = "flex";
-  }
-
-  function closeImageModal() {
-    modal.style.display = "none";
-    modalImage.classList.remove("zoomed");
-    modalImage.style.left = "0px";
-    modalImage.style.top = "0px";
-  }
-
-  function changeImage(step) {
-    currentImageIndex = (currentImageIndex + step + images.length) % images.length;
-    updateModalImage();
-  }
-
-  function updateModalImage() {
-    modalImage.src = images[currentImageIndex].src;
-    modalImage.classList.remove("zoomed");
-  }
-
-  function toggleZoom(img) {
-    img.classList.toggle("zoomed");
-  }
-
-  // Navegación y cierre con teclado
-  document.addEventListener("keydown", function (e) {
-    if (modal.style.display === "flex") {
-      if (e.key === "ArrowLeft") changeImage(-1);
-      if (e.key === "ArrowRight") changeImage(1);
-      if (e.key === "Escape") closeImageModal();
+    function openImageModal(index) {
+      currentImageIndex = index;
+      updateModalImage();
+      modal.style.display = "flex";
+      document.body.style.overflow = 'hidden';
     }
-  });
 
-  // Cierre haciendo clic fuera del modal-content
-  modal.addEventListener("click", function (e) {
-    if (!e.target.closest(".modal-content")) {
-      closeImageModal();
+    function closeImageModal() {
+      modal.style.display = "none";
+      document.body.style.overflow = 'auto';
+      modalImage.classList.remove('zoomed');
+      modalImage.style.left = '0px';
+      modalImage.style.top = '0px';
     }
-  });
-    
+
+    function changeImage(step) {
+      currentImageIndex = (currentImageIndex + step + images.length) % images.length;
+      updateModalImage();
+    }
+
+    function updateModalImage() {
+      modalImage.src = images[currentImageIndex].src;
+      modalImage.classList.remove('zoomed');
+    }
+
+    function toggleZoom(img) {
+      img.classList.toggle('zoomed');
+    }
+
+    document.addEventListener('keydown', function(e) {
+      if (modal.style.display === 'flex') {
+        if (e.key === 'ArrowLeft') changeImage(-1);
+        if (e.key === 'ArrowRight') changeImage(1);
+        if (e.key === 'Escape') closeImageModal();
+      }
+    });
+
     // ========== FORMULARIO GENERAL (ELIMINADO) ==========
     // const form = document.querySelector("form");
     // if (form) {
