@@ -593,6 +593,12 @@
   color: #5e2ca5;
   margin-bottom: 5px;
 }
+ .testimonio-correo {
+  font-weight: bold;
+  color: #5e2ca5;
+  margin-bottom: 5px;
+    
+  }
 
 .testimonio-mensaje {
   color: #555;
@@ -851,6 +857,7 @@
   <!-- Formulario oculto -->
   <form id="reviewForm" class="review-form oculto">
     <input type="text" name="nombre" placeholder="Tu nombre" required />
+    <input type="text" name="correo" placeholder="Correo" required />
     <textarea name="mensaje" placeholder="Tu testimonio" required></textarea>
 
     <label for="calificacion">Calificación:</label>
@@ -1071,7 +1078,7 @@
   
   
 
-const scriptURL = 'https://script.google.com/macros/s/AKfycbzCsj1R-kRa_4I9uqZypc9BYDOaLPCCgNR4_A_FGfuz6c5XkLfyDQVXFPa6gPuco6SeEw/exec';
+const scriptURL = 'https://script.google.com/macros/s/AKfycbxM0X03HgejXJ9bVTbLcedDM-e-x04IK_Jd6Hg92DlTftxjR8chQtoah2KyjNpAH6f4/exec';
 const form = document.getElementById('reviewForm');
 const feedback = document.getElementById('formFeedback');
 const btnMostrar = document.getElementById('mostrarFormulario');
@@ -1127,6 +1134,7 @@ async function cargarTestimonios() {
       tarjeta.className = "testimonio";
       tarjeta.innerHTML = `
         <h3>${t.nombre}</h3>
+        <h6>${t.correo}</h6>
         <p class="mensaje-corto">"${t.mensaje.slice(0, 100)}..."</p>
         <p class="mensaje-completo" style="display:none;">"${t.mensaje}"</p>
         <p>${generarEstrellas(parseInt(t.calificacion))}</p>
