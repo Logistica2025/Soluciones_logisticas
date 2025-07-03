@@ -760,23 +760,26 @@
             transition: transform 0.3s;
             cursor: pointer;
         }
-         .modal-taller oculto {
-            display: flex; /* Añadido para que los videos estén uno al lado del otro */
-            flex-wrap: wrap; /* Permite que los videos salten de línea si no hay espacio */
-            justify-content: center; /* Centra los videos horizontalmente */
-            gap: 20px; /* Espacio entre los videos */
+
+        /* Styles for the video gallery within modals (cursos and talleres) */
+        .modal-taller .contenido-modal .video-gallery-cursos-talleres {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
         }
-        /* Nuevo estilo para el contenedor de cada video */
-        .modal-taller oculto > div {
-            flex: 1 1 auto; /* Permite que el contenedor crezca y se encoja */
-            min-width:300px; /* Ancho mínimo para cada video */
-            max-width: 480px; /* Ancho máximo para cada video */
-            text-align: center; /* Centra el título del video */
+
+        .modal-taller .contenido-modal .video-gallery-cursos-talleres > div {
+            flex: 1 1 auto;
+            min-width: 300px;
+            max-width: 480px;
+            text-align: center;
         }
-        .modal-taller oculto iframe {
-            width: 200%; /* El iframe ocupa todo el ancho de su contenedor */
-            height: 370px;
-            border: 1px solid #ccc; /* Enmarcado sutil */
+
+        .modal-taller .contenido-modal .video-gallery-cursos-talleres iframe {
+            width: 100%;
+            height: 270px; /* Consistent height with video-gallery */
+            border: 1px solid #ccc;
             border-radius: 10px;
         }
     </style>
@@ -870,11 +873,18 @@
         <div id="modal-talleres" class="modal-taller oculto">
             <div class="contenido-modal">
                 <button class="cerrar-modal" onclick="cerrarModal('modal-talleres')">×</button>
-              <div id="contenido-talleres">
-  <iframe src="https://www.youtube.com/embed/n5-XObWH_jE" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-</div> 
-      </div>
+                <div id="contenido-talleres" class="video-gallery-cursos-talleres">
+                    <div>
+                        <h3>Introducción a AppSheet</h3>
+                        <iframe src="https://www.youtube.com/embed/n5-XObWH_jE" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+                     <div>
+                        <h3>AppSheet para Logística</h3>
+                        <iframe src="http://googleusercontent.com/youtube.com/3" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+                </div>
             </div>
+        </div>
 
         <section id="testimonios" class="testimonios-container">
             <div class="testimonios-header">
@@ -929,6 +939,298 @@
         <footer>
             © 2025 - Servicios logísticos y AppSheet | Desarrollado por Derwin Rojas
         </footer>
+    <script>
+        // Funcionalidad de loader
+        window.addEventListener('load', () => {
+            const loader = document.getElementById('loader');
+            loader.classList.add('hidden');
+            setTimeout(() => {
+                loader.style.display = 'none';
+            }, 500); // Coincide con la duración de la transición
+        });
+
+        // Funcionalidad de aparición de secciones
+        document.addEventListener('DOMContentLoaded', () => {
+            const sections = document.querySelectorAll('section');
+
+            const observer = new IntersectionObserver(entries => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, { threshold: 0.1 }); // La sección se considera visible cuando el 10% de ella está en el viewport
+
+            sections.forEach(section => {
+                observer.observe(section);
+            });
+        });
+
+        // Funcionalidad del modo oscuro
+        const modeToggle = document.getElementById('mode-toggle');
+        modeToggle.addEventListener('click', () => {
+            document.body.classList.toggle('dark-mode');
+            const isDarkMode = document.body.classList.contains('dark-mode');
+            modeToggle.textContent = isDarkMode ? '☀️' : '☾';
+            localStorage.setItem('darkMode', isDarkMode);
+        });
+
+        // Cargar preferencia de modo oscuro al iniciar
+        if (localStorage.getItem('darkMode') === 'true') {
+            document.body.classList.add('dark-mode');
+            modeToggle.textContent = '☀️';
+        } else {
+            modeToggle.textContent = '☾';
+        }
+
+        // Funcionalidad de la galería de imágenes (modal)
+        const images = document.querySelectorAll('#image-carousel img');
+        const modal = document.getElementById('image-modal');
+        const modalImage = document.getElementById('modal-image');
+        let currentImageIndex = 0;
+
+        function openImageModal(index) {
+            currentImageIndex = index;
+            modalImage.src = images[currentImageIndex].src;
+            modal.style.display = 'flex';
+        }
+
+        function closeImageModal() {
+            modal.style.display = 'none';
+            modalImage.classList.remove('zoomed'); // Asegura que no quede "zoomed" al cerrar
+            modalImage.style.transformOrigin = 'center center'; // Restablece el origen del zoom
+        }
+
+        function changeImage(direction) {
+            currentImageIndex += direction;
+            if (currentImageIndex < 0) {
+                currentImageIndex = images.length - 1;
+            } else if (currentImageIndex >= images.length) {
+                currentImageIndex = 0;
+            }
+            modalImage.src = images[currentImageIndex].src;
+            modalImage.classList.remove('zoomed'); // Quita el zoom al cambiar de imagen
+            modalImage.style.transformOrigin = 'center center'; // Restablece el origen del zoom
+        }
+
+        function toggleZoom(img) {
+            img.classList.toggle('zoomed');
+            if (img.classList.contains('zoomed')) {
+                // Si está ampliada, permite arrastrar
+                let isDragging = false;
+                let startX, startY, scrollLeft, scrollTop;
+
+                img.style.cursor = 'grab';
+
+                img.onmousedown = (e) => {
+                    isDragging = true;
+                    startX = e.pageX - img.offsetLeft;
+                    startY = e.pageY - img.offsetTop;
+                    scrollLeft = modal.scrollLeft;
+                    scrollTop = modal.scrollTop;
+                    img.style.cursor = 'grabbing';
+                };
+
+                img.onmouseup = () => {
+                    isDragging = false;
+                    img.style.cursor = 'grab';
+                };
+
+                img.onmousemove = (e) => {
+                    if (!isDragging) return;
+                    e.preventDefault();
+                    const x = e.pageX - img.offsetLeft;
+                    const y = e.pageY - img.offsetTop;
+                    const walkX = (x - startX) * 2; // Factor de velocidad de arrastre
+                    const walkY = (y - startY) * 2;
+                    modal.scrollLeft = scrollLeft - walkX;
+                    modal.scrollTop = scrollTop - walkY;
+                };
+
+                // Centrar la imagen ampliada
+                img.onload = () => {
+                    if (img.classList.contains('zoomed')) {
+                        centerImageInModal();
+                    }
+                };
+
+                function centerImageInModal() {
+                    const imgRect = img.getBoundingClientRect();
+                    const modalRect = modal.getBoundingClientRect();
+
+                    modal.scrollLeft = (imgRect.width - modalRect.width) / 2;
+                    modal.scrollTop = (imgRect.height - modalRect.height) / 2;
+                }
+
+            } else {
+                img.style.cursor = 'zoom-in';
+                // Restablece los eventos de arrastre si no está ampliada
+                img.onmousedown = null;
+                img.onmouseup = null;
+                img.onmousemove = null;
+            }
+        }
+        modalImage.addEventListener('wheel', (e) => {
+            e.preventDefault();
+            const currentScale = modalImage.classList.contains('zoomed') ? 2 : 1;
+            const newScale = e.deltaY < 0 ? currentScale * 1.1 : currentScale / 1.1; // Zoom in/out
+
+            if (newScale >= 1 && newScale <= 3) { // Limita el zoom entre 1x y 3x
+                if (newScale > 1) {
+                    modalImage.classList.add('zoomed');
+                    modalImage.style.transform = `scale(${newScale})`;
+
+                    const rect = modalImage.getBoundingClientRect();
+                    const x = e.clientX - rect.left;
+                    const y = e.clientY - rect.top;
+                    modalImage.style.transformOrigin = `${x}px ${y}px`;
+                } else {
+                    modalImage.classList.remove('zoomed');
+                    modalImage.style.transform = 'scale(1)';
+                    modalImage.style.transformOrigin = 'center center';
+                }
+            }
+        });
+
+        // Scripts para los modales de cursos y talleres
+        function abrirModal(idModal) {
+            document.getElementById(idModal).classList.remove('oculto');
+        }
+
+        function cerrarModal(idModal) {
+            document.getElementById(idModal).classList.add('oculto');
+        }
+        // Funcionalidad de testimonios
+        document.addEventListener('DOMContentLoaded', async () => {
+            const scriptURL = 'https://script.google.com/macros/s/AKfycbzzW4pWj_f_yL7o89y93XQ9fLqJv2t2qF0_g_F_x/exec'; // Reemplaza con tu URL de Google Apps Script
+            const form = document.getElementById('reviewForm');
+            const formFeedback = document.getElementById('formFeedback');
+            const contenedorTestimonios = document.getElementById('contenedor-testimonios');
+            const mostrarFormularioBtn = document.getElementById('mostrarFormulario');
+
+            // Función para generar estrellas
+            function generarEstrellas(calificacion) {
+                let estrellasHtml = '';
+                for (let i = 0; i < calificacion; i++) {
+                    estrellasHtml += '⭐';
+                }
+                return estrellasHtml;
+            }
+
+            // Cargar testimonios existentes
+            async function cargarTestimonios() {
+                try {
+                    const response = await fetch(`${scriptURL}?action=getReviews`);
+                    const data = await response.json();
+                    contenedorTestimonios.innerHTML = '';
+                    if (data && data.length > 0) {
+                        data.forEach(t => {
+                            const tarjeta = document.createElement('div');
+                            tarjeta.classList.add('testimonio');
+                            tarjeta.innerHTML = `
+                                <h3>${t.nombre}</h3>
+                                <p>"${t.mensaje}"</p>
+                                <div class="estrellas">${generarEstrellas(parseInt(t.Calificación))}</div>
+                                <small>${new Date(t.fecha).toLocaleDateString()}</small>
+                            `;
+                            contenedorTestimonios.prepend(tarjeta); // Añadir los más recientes al principio
+                        });
+                    } else {
+                        contenedorTestimonios.innerHTML = '<p>Aún no hay testimonios. ¡Sé el primero en dejar uno!</p>';
+                    }
+                } catch (error) {
+                    console.error('Error al cargar testimonios:', error);
+                    contenedorTestimonios.innerHTML = '<p>Error al cargar los testimonios.</p>';
+                }
+            }
+
+            // Enviar nuevo testimonio
+            form.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                formFeedback.textContent = 'Enviando...';
+                formFeedback.style.color = 'blue';
+
+                const formData = new FormData(form);
+                formData.append('action', 'submitReview');
+
+                try {
+                    const response = await fetch(scriptURL, {
+                        method: 'POST',
+                        body: formData
+                    });
+
+                    const result = await response.json();
+
+                    if (result.success) {
+                        formFeedback.textContent = '¡Gracias por tu testimonio!';
+                        formFeedback.style.color = 'green';
+                        form.reset();
+                        form.classList.add('oculto'); // Ocultar el formulario después de enviar
+                        mostrarFormularioBtn.textContent = 'Calificar';
+                        await cargarTestimonios(); // Recargar testimonios para mostrar el nuevo
+                    } else {
+                        formFeedback.textContent = 'Error: ' + (result.message || 'No se pudo enviar el testimonio.');
+                        formFeedback.style.color = 'red';
+                    }
+                } catch (error) {
+                    console.error('Error al enviar el formulario:', error);
+                    formFeedback.textContent = 'Ocurrió un error al enviar el testimonio.';
+                    formFeedback.style.color = 'red';
+                }
+            });
+
+            // Mostrar/ocultar formulario de testimonio
+            mostrarFormularioBtn.addEventListener('click', () => {
+                form.classList.toggle('oculto');
+                if (form.classList.contains('oculto')) {
+                    mostrarFormularioBtn.textContent = 'Calificar';
+                } else {
+                    mostrarFormularioBtn.textContent = 'Ocultar Formulario';
+                }
+                formFeedback.textContent = ''; // Limpiar mensaje de feedback al mostrar/ocultar
+            });
+
+            // Cargar testimonios al cargar la página
+            cargarTestimonios();
+        });
+
+        // Funcionalidad para el formulario de contacto
+        document.addEventListener('DOMContentLoaded', () => {
+            const contactForm = document.getElementById('formulario-contacto');
+            const contactFormSuccess = document.getElementById('mensaje-enviado-contacto');
+            const contactFormError = document.getElementById('mensaje-error-contacto');
+
+            contactForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                contactFormSuccess.classList.add('oculto');
+                contactFormError.classList.add('oculto');
+
+                const formData = new FormData(contactForm);
+
+                try {
+                    const response = await fetch(contactForm.action, {
+                        method: 'POST',
+                        body: formData,
+                        headers: {
+                            'Accept': 'application/json'
+                        }
+                    });
+
+                    if (response.ok) {
+                        contactFormSuccess.classList.remove('oculto');
+                        contactForm.reset();
+                    } else {
+                        contactFormError.classList.remove('oculto');
+                    }
+                } catch (error) {
+                    console.error('Error al enviar el formulario de contacto:', error);
+                    contactFormError.classList.remove('oculto');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
         <script>
             let currentImageIndex = 0;
             const images = Array.from(document.querySelectorAll("#image-carousel img"));
