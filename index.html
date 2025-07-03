@@ -760,6 +760,25 @@
             transition: transform 0.3s;
             cursor: pointer;
         }
+         .modal-taller oculto {
+            display: flex; /* Añadido para que los videos estén uno al lado del otro */
+            flex-wrap: wrap; /* Permite que los videos salten de línea si no hay espacio */
+            justify-content: center; /* Centra los videos horizontalmente */
+            gap: 20px; /* Espacio entre los videos */
+        }
+        /* Nuevo estilo para el contenedor de cada video */
+        .modal-taller oculto > div {
+            flex: 1 1 auto; /* Permite que el contenedor crezca y se encoja */
+            min-width: 300px; /* Ancho mínimo para cada video */
+            max-width: 480px; /* Ancho máximo para cada video */
+            text-align: center; /* Centra el título del video */
+        }
+        .modal-taller oculto iframe {
+            width: 100%; /* El iframe ocupa todo el ancho de su contenedor */
+            height: 270px;
+            border: 1px solid #ccc; /* Enmarcado sutil */
+            border-radius: 10px;
+        }
     </style>
 </head>
 <body>
